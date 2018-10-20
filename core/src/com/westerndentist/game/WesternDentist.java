@@ -27,13 +27,7 @@ public class WesternDentist extends Game {
 
 	@Override
 	public void render () {
-	    /*Main Menu
-		batch.begin(); //Stage
-		batch.draw(img, 0, 0);
-		batch.end(); //Stage
-		*/
-
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+	    Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         currentStage.act(Gdx.graphics.getDeltaTime());
         currentStage.draw();
