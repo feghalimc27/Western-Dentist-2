@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class Player extends Actor {
 
@@ -20,14 +21,18 @@ public class Player extends Actor {
 
     Player() {
         setPosition(0, 0);
+        setBounds(0, 0, texture.getWidth() / 2, texture.getWidth() / 2);
     }
 
     Player(Vector2 position) {
         setPosition(position.x, position.y);
+        setBounds(position.x, position.y, texture.getWidth() / 2, texture.getWidth() / 2);
     }
 
     Player(float x, float y) {
         setPosition(x, y);
+        setBounds(x, y, texture.getWidth() / 2, texture.getWidth() / 2);
+
     }
 
     @Override

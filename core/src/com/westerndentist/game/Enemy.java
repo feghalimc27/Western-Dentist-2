@@ -12,7 +12,7 @@ public abstract class Enemy extends Actor {
     protected float speed;
     protected float fireRate;
     protected float health;
-    
+
     Enemy() {
 
     }
