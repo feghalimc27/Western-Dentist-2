@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class WesternDentist extends Game {
     public BitmapFont font;
     public Stage currentStage;
-	
+
 	@Override
 	public void create () {
 	    font = new BitmapFont();
