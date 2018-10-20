@@ -15,26 +15,19 @@ public class Player extends Actor {
 
     private Texture texture = new Texture("Images/tempMerrySeoul.png");
     private Vector2 movement = new Vector2(0, 0);
-    private CircleShape bounds;
 
-    private float speed;
+    private float speed = 200;
 
     Player() {
         setPosition(0, 0);
-        bounds = new CircleShape();
-        bounds.setRadius(texture.getWidth() / 4);
     }
 
     Player(Vector2 position) {
         setPosition(position.x, position.y);
-        bounds = new CircleShape();
-        bounds.setRadius(texture.getWidth() / 4);
     }
 
     Player(float x, float y) {
         setPosition(x, y);
-        bounds = new CircleShape();
-        bounds.setRadius(texture.getWidth() / 4);
     }
 
     @Override
@@ -46,7 +39,6 @@ public class Player extends Actor {
     public void act(float delta) {
         move();
         applyMovement(delta);
-        updateBoundsPos();
     }
 
     private void move() {
@@ -71,11 +63,8 @@ public class Player extends Actor {
         movement.x *= delta;
         movement.y *= delta;
         moveBy(movement.x, movement.y);
+        setPosition(getX() + movement.x, getY() + movement.y);
 
         movement = new Vector2(0, 0);
-    }
-
-    private void updateBoundsPos() {
-        bounds.setPosition(new Vector2(getX(), getY()));
     }
 }

@@ -12,12 +12,9 @@ public abstract class Enemy extends Actor {
     protected float speed;
     protected float fireRate;
     protected float health;
-
-    private CircleShape bounds;
-
+    
     Enemy() {
-        bounds = new CircleShape();
-        bounds.setRadius(texture.getWidth() / 2);
+
     }
 
     @Override
