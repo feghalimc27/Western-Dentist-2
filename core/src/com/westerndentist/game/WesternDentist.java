@@ -21,7 +21,7 @@ public class WesternDentist extends Game {
 	@Override
 	public void create () {
 	    font = new BitmapFont();
-        currentStage = new MainMenu(new FitViewport(800, 600));
+        currentStage = new ExampleLevel(new FitViewport(800, 600));
         Gdx.input.setInputProcessor(currentStage);
 	}
 

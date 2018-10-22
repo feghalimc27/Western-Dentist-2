@@ -18,21 +18,25 @@ public class Player extends Actor {
     private Vector2 movement = new Vector2(0, 0);
 
     private float speed = 200;
+    private float fireRate = 600;
+    private int rateCounter = 0;
 
     Player() {
         setPosition(0, 0);
         setBounds(0, 0, texture.getWidth() / 2, texture.getWidth() / 2);
+        setName("Player");
     }
 
     Player(Vector2 position) {
         setPosition(position.x, position.y);
         setBounds(position.x, position.y, texture.getWidth() / 2, texture.getWidth() / 2);
+        setName("Player");
     }
 
     Player(float x, float y) {
         setPosition(x, y);
         setBounds(x, y, texture.getWidth() / 2, texture.getWidth() / 2);
-
+        setName("Player");
     }
 
     @Override
@@ -44,6 +48,7 @@ public class Player extends Actor {
     public void act(float delta) {
         move();
         applyMovement(delta);
+        fire(delta);
     }
 
     private void move() {
@@ -71,5 +76,22 @@ public class Player extends Actor {
         setPosition(getX() + movement.x, getY() + movement.y);
 
         movement = new Vector2(0, 0);
+    }
+
+    private void fire(float delta) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            if (rateCounter == 0) {
+                getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerBurst.png"), 800, getX() - texture.getWidth() / 2, getY()));
+                rateCounter += fireRate * delta * 10;
+            }
+        }
+
+        if (rateCounter != 0) {
+            rateCounter += fireRate * delta * 10;
+        }
+
+        if (rateCounter >= fireRate) {
+            rateCounter = 0;
+        }
     }
 }
