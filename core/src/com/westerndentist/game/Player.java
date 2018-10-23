@@ -81,7 +81,7 @@ public class Player extends Actor {
     private void fire(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             if (rateCounter == 0) {
-                getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerBurst.png"), 800, getX() - texture.getWidth() / 2, getY()));
+                getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerBurst.png"), 800, getX(), getY()));
                 rateCounter += fireRate * delta * 10;
             }
         }

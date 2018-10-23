@@ -18,17 +18,12 @@ public class Projectile extends Actor{
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(texture, getX(), getY());
+        batch.draw(texture, getX(), getY(), texture.getWidth() / 2, texture.getHeight() / 2);
     }
 
     @Override
     public void act(float delta) {
-        Gdx.app.log("Projectile Z axis", "" + getZIndex());
         moveBy(0,  (speed * delta));
-
-        if (hasParent()) {
-            Gdx.app.log("Parent", getParent().getName());
-        }
 
         if (getY() > 1000 || getY() < -100) {
             remove();
