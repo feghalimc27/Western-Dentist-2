@@ -4,18 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2D;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.utils.Align;
 
 public class Player extends Actor {
 
     private Texture texture = new Texture("Images/tempMerrySeoul.png");
     private Vector2 movement = new Vector2(0, 0);
+    private Rectangle bounds = new Rectangle();
 
     private float speed = 200;
     private float fireRate = 600;
@@ -34,8 +33,10 @@ public class Player extends Actor {
     }
 
     Player(float x, float y) {
-        setPosition(x, y);
-        setBounds(x, y, texture.getWidth() / 2, texture.getWidth() / 2);
+        setPosition(x, y, Align.center);
+        bounds.set(x, y, texture.getWidth() / 4, texture.getWidth() / 4);
+        bounds.setCenter(x + texture.getWidth() / 4, y - texture.getHeight() / 4);
+        setDebug(true);
         setName("Player");
     }
 
@@ -45,10 +46,19 @@ public class Player extends Actor {
     }
 
     @Override
+    public void drawDebug(ShapeRenderer shapes) {
+        shapes.rect(bounds.x, bounds.y, bounds.width, bounds.height);
+        super.drawDebug(shapes);
+    }
+
+    @Override
     public void act(float delta) {
         move();
         applyMovement(delta);
         fire(delta);
+
+        updateBounds();
+        checkCollision();
     }
 
     private void move() {
@@ -81,7 +91,7 @@ public class Player extends Actor {
     private void fire(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             if (rateCounter == 0) {
-                getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerBurst.png"), 800, getX(), getY()));
+                getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerBurst.png"), 800, getX(), getY(), "Player"));
                 rateCounter += fireRate * delta * 10;
             }
         }
@@ -93,5 +103,27 @@ public class Player extends Actor {
         if (rateCounter >= fireRate) {
             rateCounter = 0;
         }
+    }
+
+    private void updateBounds() {
+        float x = getX() + (texture.getWidth() / 2) - bounds.getWidth() / 2;
+        float y = getY() + (texture.getHeight() / 2) - bounds.getHeight() / 2;
+
+        bounds.setPosition(x, y);
+    }
+
+    private void checkCollision() {
+        for (Actor actor : getStage().getActors()) {
+            if (Projectile.class.isInstance(actor)) {
+                if (bounds.overlaps(((Projectile)actor).getBounds())) {
+                    Gdx.app.log("Collided with Projectile ", actor.getName());
+                    // Collided with projectile, check name to see if friendly or enemy
+                }
+            }
+        }
+    }
+
+    public Rectangle getBounds() {
+        return bounds;
     }
 }

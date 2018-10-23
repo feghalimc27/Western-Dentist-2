@@ -9,11 +9,15 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class ExampleLevel extends Stage {
     ExampleLevel (Viewport viewport) {
         super(viewport);
+        // Load level
+        // Load UI and Background
         Image ui = new Image(new Texture("Images/WesternDentist_UI.png"));
         Image background = new Image(new Texture("Images/WesternDentist_Background.png"));
+        // Set Z axis for UI and set background name
         ui.setName("UI_FRAME");
         ui.setZIndex(300000);
         background.setName("BACKGROUND");
+        // Add background, player, UI
         addActor(background);
         addActor(new Player(300, 300));
         addActor(ui);
