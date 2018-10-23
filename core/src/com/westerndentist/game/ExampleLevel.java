@@ -5,9 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+
 
 public class ExampleLevel extends Stage {
+
+    private WesternDentist game;
+
     ExampleLevel (final WesternDentist game, final FitViewport viewport) {
         super(viewport);
         // Load level
@@ -22,6 +25,8 @@ public class ExampleLevel extends Stage {
         addActor(background);
         addActor(new Player(300, 300));
         addActor(ui);
+
+        this.game = game;
     }
 
     @Override
