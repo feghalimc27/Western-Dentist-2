@@ -128,8 +128,8 @@ public class Player extends Actor {
         // Check side checks
         checkRight = (getX() + 30 < 520);
         checkLeft = (getX() - 20 > 20);
-        checkTop = (getY() - 20 > 20);
-        checkBottom = (getY() + 30 < getStage().getViewport().getScreenHeight() - 20);
+        checkBottom = (getY() - 20 > 20);
+        checkTop = (getY() + 30 < getStage().getViewport().getScreenHeight() - 20);
     }
 
     public Rectangle getBounds() {

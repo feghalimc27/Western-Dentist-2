@@ -4,10 +4,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class ExampleLevel extends Stage {
-    ExampleLevel (Viewport viewport) {
+    ExampleLevel (final WesternDentist game, final FitViewport viewport) {
         super(viewport);
         // Load level
         // Load UI and Background
