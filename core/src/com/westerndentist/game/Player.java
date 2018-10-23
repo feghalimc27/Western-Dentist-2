@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
 
+import java.awt.*;
+
 public class Player extends Actor {
 
     private Texture texture = new Texture("Images/tempMerrySeoul.png");
@@ -19,6 +21,8 @@ public class Player extends Actor {
     private float speed = 200;
     private float fireRate = 600;
     private int rateCounter = 0;
+
+    private boolean checkLeft = true, checkRight = true, checkTop = true, checkBottom = true;
 
     Player() {
         setPosition(0, 0);
@@ -36,7 +40,6 @@ public class Player extends Actor {
         setPosition(x, y, Align.center);
         bounds.set(x, y, texture.getWidth() / 4, texture.getWidth() / 4);
         bounds.setCenter(x + texture.getWidth() / 4, y - texture.getHeight() / 4);
-        setDebug(true);
         setName("Player");
     }
 
@@ -62,19 +65,19 @@ public class Player extends Actor {
     }
 
     private void move() {
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && checkTop) {
             movement.y += speed;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.S) && checkBottom) {
             movement.y -= speed;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && checkLeft) {
             movement.x -= speed;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && checkRight) {
             movement.x += speed;
         }
     }
@@ -121,6 +124,12 @@ public class Player extends Actor {
                 }
             }
         }
+
+        // Check side checks
+        checkRight = (getX() + 30 < 520);
+        checkLeft = (getX() - 20 > 20);
+        checkTop = (getY() - 20 > 20);
+        checkBottom = (getY() + 30 < getStage().getViewport().getScreenHeight() - 20);
     }
 
     public Rectangle getBounds() {
