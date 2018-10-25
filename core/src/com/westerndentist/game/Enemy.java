@@ -2,6 +2,8 @@ package com.westerndentist.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -12,6 +14,8 @@ public abstract class Enemy extends Actor {
     protected float speed;
     protected float fireRate;
     protected float health;
+
+    protected Rectangle bounds = new Rectangle();
 
     Enemy() {
 
@@ -27,4 +31,11 @@ public abstract class Enemy extends Actor {
 
     }
 
+    private void updateBounds() {
+        bounds.setPosition(getX(), getY());
+    }
+
+    public Rectangle getBounds() {
+        return bounds;
+    }
 }

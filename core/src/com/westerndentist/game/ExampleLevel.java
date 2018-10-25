@@ -1,10 +1,14 @@
 package com.westerndentist.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+
+import java.util.Random;
 
 
 public class ExampleLevel extends Stage {
@@ -35,6 +39,13 @@ public class ExampleLevel extends Stage {
         super.draw();
     }
 
+    @Override
+    public void act(float delta) {
+        // Update
+        spawnEnemies();
+        super.act(delta);
+    }
+
     private void sortActors() {
         for (Actor actor : this.getActors()) {
             int z = actor.getZIndex();
@@ -55,6 +66,15 @@ public class ExampleLevel extends Stage {
             else {
                 actor.setZIndex(1);
             }
+        }
+    }
+
+    private void spawnEnemies() {
+        double decider = Math.random() * (1000 - 0);
+
+        if (decider > 900) {
+            Gdx.app.log("Example Level", "Spawned Enemy");
+            addActor(new BasicEnemy(new Texture("Images/JEGA.jpg"), 10000, 10, 100, new Vector2((float)Math.random() * (520-20), 800)));
         }
     }
 }
