@@ -3,18 +3,15 @@ package com.westerndentist.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class WesternDentist extends Game {
-    private BitmapFont font;
     private Stage currentStage;
     private FitViewport viewport;
 
 	@Override
 	public void create () {
-	    font = new BitmapFont();
 	    viewport = new FitViewport(800, 600);
         currentStage = new SplashScreen(this, viewport);
         Gdx.input.setInputProcessor(currentStage);

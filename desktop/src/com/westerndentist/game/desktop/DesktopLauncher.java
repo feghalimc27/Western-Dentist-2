@@ -9,6 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 800;
 		config.height = 600;
+		config.forceExit = true;
 		new LwjglApplication(new WesternDentist(), config);
 	}
 }

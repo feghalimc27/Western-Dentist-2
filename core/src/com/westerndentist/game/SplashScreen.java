@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 public class SplashScreen extends Stage {
     SplashScreen(final WesternDentist game, final FitViewport viewport) {
         super(viewport);
-        Image splash = new Image(new Texture("images/JEGA.jpg"));
+        Image splash = new Image(new Texture("images/JEGA.png"));
         SequenceAction sequence = Actions.sequence();
         sequence.addAction(Actions.alpha(0));
         sequence.addAction(Actions.delay(1));
