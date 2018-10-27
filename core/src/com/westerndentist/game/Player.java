@@ -119,8 +119,13 @@ public class Player extends Actor {
         for (Actor actor : getStage().getActors()) {
             if (Projectile.class.isInstance(actor)) {
                 if (bounds.overlaps(((Projectile)actor).getBounds())) {
-                    Gdx.app.log("Collided with Projectile ", actor.getName());
                     // Collided with projectile, check name to see if friendly or enemy
+                }
+            }
+
+            if (Enemy.class.isInstance(actor)) {
+                if (bounds.overlaps(((Enemy)actor).getBounds())) {
+                    Gdx.app.log("Collided with Enemy", actor.getName());
                 }
             }
         }

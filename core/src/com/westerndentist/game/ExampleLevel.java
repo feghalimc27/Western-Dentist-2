@@ -74,7 +74,7 @@ public class ExampleLevel extends Stage {
 
         if (decider > 900) {
             Gdx.app.log("Example Level", "Spawned Enemy");
-            addActor(new BasicEnemy(new Texture("Images/JEGA.jpg"), 10000, 10, 100, new Vector2((float)Math.random() * (520-20), 800)));
+            addActor(new BasicEnemy(new Texture("Images/tempRedCircle.png"), 1000, 10, 100, new Vector2((float)Math.random() * (520-20), 800)));
         }
     }
 }

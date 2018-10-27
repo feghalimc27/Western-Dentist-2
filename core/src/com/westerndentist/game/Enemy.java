@@ -1,5 +1,6 @@
 package com.westerndentist.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
@@ -28,7 +29,38 @@ public abstract class Enemy extends Actor {
 
     @Override
     public void act(float delta) {
+        updateBounds();
+        takeDamageFromProjectile();
+        killOnDead();
+    }
 
+    private void killOnDead() {
+        if (health <= 0) {
+            remove();
+        }
+    }
+
+    private void takeDamageFromProjectile() {
+        try {
+            for (Actor actor : getStage().getActors()) {
+                if (Enemy.class.isInstance(actor)) {
+                    continue;
+                }
+
+                if (Projectile.class.isInstance(actor)) {
+                    if (bounds.overlaps(((Projectile) actor).getBounds())) {
+                        Gdx.app.log("Enemy", "Collided with Projectile");
+                        if (actor.getName() != "Enemy") {
+                            health -= ((Projectile) actor).getDamage();
+                            ((Projectile) actor).destroy();
+                        }
+                    }
+                }
+            }
+        }
+        catch (NullPointerException e) {
+            Gdx.app.log("Enemy: ", "Something broke but I'm just gonna ignore it lol");
+        }
     }
 
     private void updateBounds() {

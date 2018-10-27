@@ -10,6 +10,7 @@ public class Projectile extends Actor{
 
     private Texture texture;
     private float speed = 0;
+    private float damage = 10;
     private Rectangle bounds = new Rectangle();
 
     Projectile(Texture texture, float initialSpeed, float x, float y, String tag) {
@@ -33,6 +34,14 @@ public class Projectile extends Actor{
         if (getY() > 1000 || getY() < -100) {
             remove();
         }
+    }
+
+    public float getDamage() {
+        return damage;
+    }
+
+    public void destroy() {
+        remove();
     }
 
     private void updateBounds() {
