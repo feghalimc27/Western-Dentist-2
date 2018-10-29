@@ -41,7 +41,7 @@ public class MainMenu extends Stage {
                 return true;
             }
         });
-        TextButton quitButton = new TextButton("Play Game", textButtonStyle);
+        TextButton quitButton = new TextButton("Quit Game", textButtonStyle);
         quitButton.addListener(new InputListener(){
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
