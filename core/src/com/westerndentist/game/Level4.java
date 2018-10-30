@@ -13,8 +13,18 @@ public class Level4 extends Stage {
 
     private Sequencer sequencer;
 
+    private Image background = new Image(new Texture("Images/WesternDentist_Background.png")), background2 = new Image(new Texture("Images/WesternDentist_Background.png"));
+
+
+
     Level4(final WesternDentist game, FitViewport viewport) {
         super(viewport);
+
+        background.setPosition(0, 2500);
+        background2.setPosition(0, -2500);
+
+        addActor(background);
+        addActor(background2);
 
         addActor(new Player(300, 300));
 
@@ -33,6 +43,7 @@ public class Level4 extends Stage {
 
     @Override
     public void act(float delta) {
+        backgroundScrolling(delta);
         sequencer.update(delta, this);
         super.act(delta);
     }
@@ -63,6 +74,19 @@ public class Level4 extends Stage {
             else {
                 actor.setZIndex(1);
             }
+        }
+    }
+
+    private void backgroundScrolling(float delta) {
+        background.setY(background.getY() + 30 * delta);
+        background2.setY(background2.getY() + 30 * delta);
+
+        if (background.getY() >= 5000) {
+            background.setY(-5000);
+        }
+
+        if (background2.getY() >= 5000) {
+            background2.setY(-5000);
         }
     }
 }
