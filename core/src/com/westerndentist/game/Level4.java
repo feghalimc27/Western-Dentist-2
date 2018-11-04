@@ -30,13 +30,17 @@ public class Level4 extends Stage {
 
         sequencer = new Sequencer();
 
-        sequencer.addPhase(30);
-        sequencer.addPhase(40);
-        sequencer.addPhase(100);
+        sequencer.addPhase(300);
+        sequencer.addPhase(400);
+        sequencer.addPhase(1000);
 
         sequencer.addActorToPhase(0, new BasicEnemy(new Texture("Images/tempRedCircle.png"), 500, 10, 30, new Vector2(0, 0)));
         sequencer.addPhaseSpawnFrequency(0, 10);
         sequencer.addPhaseSpawnPosition(0, new Vector2(300, 700));
+
+        sequencer.addActorToPhase(0, new BasicEnemy(new Texture("Images/tempRedCircle.png"), 500, 10, 30, new Vector2(0, 0)));
+        sequencer.addPhaseSpawnFrequency(0, 40);
+        sequencer.addPhaseSpawnPosition(0, new Vector2(330, 700));
 
         this.game = game;
     }
