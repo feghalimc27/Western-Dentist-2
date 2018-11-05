@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class Projectile extends Actor{
 
     private Texture texture;
-    private float speed = 0;
+    protected float speed = 0;
     private float damage = 10;
     private Rectangle bounds = new Rectangle();
 
@@ -44,7 +44,7 @@ public class Projectile extends Actor{
         remove();
     }
 
-    private void updateBounds() {
+    protected void updateBounds() {
         bounds.setPosition(getX(), getY());
     }
 

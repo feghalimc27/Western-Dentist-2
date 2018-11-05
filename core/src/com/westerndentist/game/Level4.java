@@ -34,11 +34,11 @@ public class Level4 extends Stage {
         sequencer.addPhase(400);
         sequencer.addPhase(1000);
 
-        sequencer.addActorToPhase(0, new BasicEnemy(new Texture("Images/tempRedCircle.png"), 500, 10, 30, new Vector2(0, 0)));
+        sequencer.addActorToPhase(0, new BasicEnemy(new Texture("Images/tempRedCircle.png"), 300, 10, 30, new Vector2(0, 0)));
         sequencer.addPhaseSpawnFrequency(0, 10);
         sequencer.addPhaseSpawnPosition(0, new Vector2(300, 700));
 
-        sequencer.addActorToPhase(0, new BasicEnemy(new Texture("Images/tempRedCircle.png"), 500, 10, 30, new Vector2(0, 0)));
+        sequencer.addActorToPhase(0, new BasicEnemy(new Texture("Images/tempRedCircle.png"), 300, 10, 30, new Vector2(0, 0)));
         sequencer.addPhaseSpawnFrequency(0, 40);
         sequencer.addPhaseSpawnPosition(0, new Vector2(330, 700));
 
@@ -67,6 +67,9 @@ public class Level4 extends Stage {
                 }
             }
             else if (Image.class.isInstance(actor) && actor.getName() == "BACKGROUND") {
+                actor.setZIndex(0);
+            }
+            else if (Image.class.isInstance(actor)) {
                 actor.setZIndex(0);
             }
             else if (Player.class.isInstance(actor)) {
