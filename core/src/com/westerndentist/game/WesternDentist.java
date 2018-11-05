@@ -7,12 +7,14 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class WesternDentist extends Game {
-    private Stage currentStage;
-    private FitViewport viewport;
+    public static float masterVolume = 1.0f;
+    public static float musicVolume = 1.0f;
+    public static float soundEffectVolume = 1.0f;
+    private static Stage currentStage;
 
 	@Override
 	public void create () {
-	    viewport = new FitViewport(800, 600);
+	    FitViewport viewport = new FitViewport(800, 600);
         currentStage = new SplashScreen(this, viewport);
         Gdx.input.setInputProcessor(currentStage);
 	}
