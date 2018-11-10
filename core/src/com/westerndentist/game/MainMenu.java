@@ -1,6 +1,7 @@
 package com.westerndentist.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -8,10 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -25,6 +23,11 @@ public class MainMenu extends Stage {
     MainMenu(final WesternDentist game, final FitViewport viewport) {
         super(viewport);
         this.game = game;
+        Image background = new Image(new Texture("images/mainmenu/background.jpg"));
+        addActor(background);
+        final Sound theme = Gdx.audio.newSound(Gdx.files.internal("sounds/mainmenu/theme.mp3"));
+        final Sound changeSelection = Gdx.audio.newSound(Gdx.files.internal("sounds/mainmenu/changeselect.mp3"));
+        final long themeID = theme.loop(WesternDentist.musicVolumeActual);
         tableLeft = new Table();
         tableLeft.setSize(400, 600);
         tableLeft.left().bottom();
@@ -46,13 +49,15 @@ public class MainMenu extends Stage {
         startButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                //play sound
+                theme.dispose();
                 game.changeStage(new ExampleLevel(game, viewport));
                 return true;
             }
             @Override
             public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //play sound
+                if (fromActor != startButton && fromActor != startButton.getLabel()) {
+                    changeSelection.play(WesternDentist.soundEffectVolumeActual);
+                }
             }
         });
         final TextButton optionsButton = new TextButton("Options", textButtonStyle);
@@ -60,13 +65,14 @@ public class MainMenu extends Stage {
         optionsButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                //play sound
                 tableRight.setVisible(!tableRight.isVisible());
                 return true;
             }
             @Override
             public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //play sound
+                if (fromActor != optionsButton && fromActor != optionsButton.getLabel()) {
+                    changeSelection.play(WesternDentist.soundEffectVolumeActual);
+                }
             }
         });
         final TextButton quitButton = new TextButton("Quit", textButtonStyle);
@@ -74,53 +80,56 @@ public class MainMenu extends Stage {
         quitButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                //play sound
                 Gdx.app.exit();
                 return true;
             }
             @Override
             public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //play sound
+                if (fromActor != quitButton && fromActor != quitButton.getLabel()) {
+                    changeSelection.play(WesternDentist.soundEffectVolumeActual);
+                }
             }
         });
-        tableLeft.add(startButton).size(32f, 64f).expandX().left().padLeft(64f);
+        tableLeft.add(startButton).size(32f, 64f).expandX().left().padLeft(64f).padBottom(4f);
         tableLeft.row();
-        tableLeft.add(optionsButton).size(32f, 64f).expandX().left().padLeft(96f);
+        tableLeft.add(optionsButton).size(32f, 64f).expandX().left().padLeft(96f).padBottom(4f);
         tableLeft.row();
-        tableLeft.add(quitButton).size(32f, 64f).expandX().left().padLeft(50f);
+        tableLeft.add(quitButton).size(32f, 64f).expandX().left().padLeft(50f).padBottom(4f);
         Slider.SliderStyle sliderStyle = new Slider.SliderStyle(
                 new TextureRegionDrawable(new TextureRegion(new Texture("images/mainmenu/sliderBackground.png"))),
                 new TextureRegionDrawable(new TextureRegion(new Texture("images/mainmenu/sliderKnob.png")))
         );
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, null);
         final Label masterVolumeLabel = new Label("Master Volume", labelStyle);
-        final Label masterVolumeValueLabel = new Label(String.valueOf((int)(game.masterVolume * 100)) + "%", labelStyle);
-        final Slider masterVolumeSlider = new Slider(0f, 1f, 0.1f, false, sliderStyle);
-        masterVolumeSlider.setValue(game.masterVolume);
+        final Label masterVolumeValueLabel = new Label(String.valueOf((int)(WesternDentist.masterVolume * 100)) + "%", labelStyle);
+        final Slider masterVolumeSlider = new Slider(0f, 1f, 0.01f, false, sliderStyle);
+        masterVolumeSlider.setValue(WesternDentist.masterVolume);
         masterVolumeSlider.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
-                game.masterVolume = masterVolumeSlider.getValue();
-                masterVolumeValueLabel.setText(String.valueOf((int)(game.masterVolume * 100)) + "%");
+                WesternDentist.masterVolume = masterVolumeSlider.getValue();
+                masterVolumeValueLabel.setText(String.valueOf((int)(WesternDentist.masterVolume * 100)) + "%");
+                theme.setVolume(themeID, WesternDentist.musicVolumeActual);
             }
         });
         final Label musicVolumeLabel = new Label("Music Volume", labelStyle);
-        final Label musicVolumeValueLabel = new Label(String.valueOf((int)(game.musicVolume * 100)) + "%", labelStyle);
-        final Slider musicVolumeSlider = new Slider(0f, 1f, 0.1f, false, sliderStyle);
-        musicVolumeSlider.setValue(game.musicVolume);
+        final Label musicVolumeValueLabel = new Label(String.valueOf((int)(WesternDentist.musicVolume * 100)) + "%", labelStyle);
+        final Slider musicVolumeSlider = new Slider(0f, 1f, 0.01f, false, sliderStyle);
+        musicVolumeSlider.setValue(WesternDentist.musicVolume);
         musicVolumeSlider.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
-                game.musicVolume = musicVolumeSlider.getValue();
-                musicVolumeValueLabel.setText(String.valueOf((int)(game.musicVolume * 100)) + "%");
+                WesternDentist.musicVolume = musicVolumeSlider.getValue();
+                musicVolumeValueLabel.setText(String.valueOf((int)(WesternDentist.musicVolume * 100)) + "%");
+                theme.setVolume(themeID, WesternDentist.musicVolumeActual);
             }
         });
         final Label soundEffectVolumeLabel = new Label("Sound Effect Volume", labelStyle);
-        final Label soundEffectVolumeValueLabel = new Label(String.valueOf((int)(game.soundEffectVolume * 100)) + "%", labelStyle);
+        final Label soundEffectVolumeValueLabel = new Label(String.valueOf((int)(WesternDentist.soundEffectVolume * 100)) + "%", labelStyle);
         final Slider soundEffectVolumeSlider = new Slider(0f, 1f, 0.01f, false, sliderStyle);
-        soundEffectVolumeSlider.setValue(game.soundEffectVolume);
+        soundEffectVolumeSlider.setValue(WesternDentist.soundEffectVolume);
         soundEffectVolumeSlider.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
-                game.soundEffectVolume = soundEffectVolumeSlider.getValue();
-                soundEffectVolumeValueLabel.setText(String.valueOf((int)(game.soundEffectVolume * 100)) + "%");
+                WesternDentist.soundEffectVolume = soundEffectVolumeSlider.getValue();
+                soundEffectVolumeValueLabel.setText(String.valueOf((int)(WesternDentist.soundEffectVolume * 100)) + "%");
             }
         });
         tableRight.add(masterVolumeLabel);

@@ -10,6 +10,8 @@ public class WesternDentist extends Game {
     public static float masterVolume = 1.0f;
     public static float musicVolume = 1.0f;
     public static float soundEffectVolume = 1.0f;
+    public static float musicVolumeActual = masterVolume*musicVolume;
+    public static float soundEffectVolumeActual = masterVolume*soundEffectVolume;
     private static Stage currentStage;
 
 	@Override
@@ -25,6 +27,8 @@ public class WesternDentist extends Game {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         currentStage.act(Gdx.graphics.getDeltaTime());
         currentStage.draw();
+        musicVolumeActual = masterVolume*musicVolume;
+        soundEffectVolumeActual = masterVolume*soundEffectVolume;
 		super.render();
 	}
 
