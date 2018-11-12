@@ -17,7 +17,7 @@ public class WesternDentist extends Game {
 	@Override
 	public void create () {
 	    FitViewport viewport = new FitViewport(800, 600);
-        currentStage = new SplashScreen(this, viewport);
+        currentStage = new Level4(this, viewport);
         Gdx.input.setInputProcessor(currentStage);
 	}
 

@@ -100,7 +100,7 @@ public class Player extends Actor {
         }
 
         if (rateCounter != 0) {
-            rateCounter += fireRate * delta * 10;
+            rateCounter += 1000 * delta * 10;
         }
 
         if (rateCounter >= fireRate) {
