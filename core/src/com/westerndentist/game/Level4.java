@@ -26,7 +26,11 @@ public class Level4 extends Stage {
         addActor(background);
         addActor(background2);
 
-        addActor(new Player(300, 300));
+        SprayEnemy testActor = new SprayEnemy(new Texture("Images/tempRedCircle.png"), 100, 300);
+        testActor.setPosition(300, 300);
+        addActor(testActor);
+
+        addActor(new Player(300, 100));
 
         sequencer = new Sequencer();
 
