@@ -49,6 +49,7 @@ public class Level4 extends Stage {
     public void act(float delta) {
         backgroundScrolling(delta);
         sequencer.update(delta, this);
+        sequencer.advanceToNextPhase();
         super.act(delta);
     }
 
