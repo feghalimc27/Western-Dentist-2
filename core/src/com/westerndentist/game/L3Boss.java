@@ -111,10 +111,10 @@ public class L3Boss extends Boss
         // TODO: Change Projectile Texture
         if (rateCounter == 0) {
             // TODO: Play Firing Sound?
-            getStage().addActor(new NonVerticalProjectile(new Texture("images/L3_Projectile.png"), -300, getX() + texture.getWidth()/2 - 10, getY() + texture.getHeight()/2 - 10, "Muskrat Missile", (float)fireX1/(float)1000, (float)fireY1/(float)1000, true));
-            getStage().addActor(new NonVerticalProjectile(new Texture("images/L3_Projectile.png"), -300, getX() + texture.getWidth()/2 - 10, getY() + texture.getHeight()/2 - 10, "Muskrat Missile", (float)fireX2/(float)1000, (float)fireY2/(float)1000, true));
-            getStage().addActor(new NonVerticalProjectile(new Texture("images/L3_Projectile.png"), -300, getX() + texture.getWidth()/2 - 10, getY() + texture.getHeight()/2 - 10, "Muskrat Missile", (float)fireX3/(float)1000, (float)fireY3/(float)1000, true));
-            getStage().addActor(new NonVerticalProjectile(new Texture("images/L3_Projectile.png"), -300, getX() + texture.getWidth()/2 - 10, getY() + texture.getHeight()/2 - 10, "Muskrat Missile", (float)fireX4/(float)1000, (float)fireY4/(float)1000, true));
+            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX1/(float)1000, (float)fireY1/(float)1000, true));
+            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX2/(float)1000, (float)fireY2/(float)1000, true));
+            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX3/(float)1000, (float)fireY3/(float)1000, true));
+            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX4/(float)1000, (float)fireY4/(float)1000, true));
             fireX1 += XScale1;
             fireY1 += YScale1;
             fireX2 += XScale2;

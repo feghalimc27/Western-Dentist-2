@@ -44,7 +44,7 @@ public class Level3 extends Stage {
             @Override
             public void run() {
                 bossTime = true;
-            }},  60000);
+            }},  5000);
 
         bossTime = false;
         noBoss = true;
@@ -70,7 +70,7 @@ public class Level3 extends Stage {
                 // Player beat the level
                 // TODO: Play victory Sound?
                 // TODO: write code to change level
-                game.changeStage(new MainMenu(game, (FitViewport) getViewport()));
+                game.changeStage(new MainMenu(game));
             }
         super.act(delta);
     }
