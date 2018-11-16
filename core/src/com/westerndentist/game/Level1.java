@@ -7,17 +7,16 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-public class Level4 extends Stage {
-
+public class Level1 extends Stage
+{
     private WesternDentist game;
 
     private Sequencer sequencer;
 
-    private Image background = new Image(new Texture("Images/WesternDentist_Background.png")), background2 = new Image(new Texture("Images/WesternDentist_Background.png"));
+    private Image background = new Image(new Texture("Images/WesternDentist_Background.png")),
+            background2 = new Image(new Texture("Images/WesternDentist_Background.png"));
 
-
-
-    Level4(final WesternDentist game, FitViewport viewport) {
+    Level1(final WesternDentist game, FitViewport viewport) {
         super(viewport);
 
         background.setPosition(0, 2500);
@@ -26,11 +25,7 @@ public class Level4 extends Stage {
         addActor(background);
         addActor(background2);
 
-        SprayEnemy testActor = new SprayEnemy(new Texture("Images/tempRedCircle.png"), 100, 300);
-        testActor.setPosition(300, 300);
-        addActor(testActor);
-
-        addActor(new Player(300, 100));
+        addActor(new Player(300, 300));
 
         sequencer = new Sequencer();
 
@@ -38,13 +33,13 @@ public class Level4 extends Stage {
         sequencer.addPhase(400);
         sequencer.addPhase(1000);
 
-        sequencer.addActorToPhase(0, new BasicEnemy(new Texture("Images/tempRedCircle.png"), 300, 10, 30, new Vector2(0, 0)));
+        sequencer.addActorToPhase(0, new BasicEnemy(new Texture("Images/Hike Maze zombie.png"), 300, 50, 30, new Vector2(0, 0)));
         sequencer.addPhaseSpawnFrequency(0, 10);
-        sequencer.addPhaseSpawnPosition(0, new Vector2(300, 700));
+        sequencer.addPhaseSpawnPosition(0, new Vector2(30, 700));
 
-        sequencer.addActorToPhase(0, new BasicEnemy(new Texture("Images/tempRedCircle.png"), 300, 10, 30, new Vector2(0, 0)));
+        sequencer.addActorToPhase(0, new EnemyLevel1(new Texture("Images/bubber ducky.png"), 300, 20, 30, new Vector2(0, 0)));
         sequencer.addPhaseSpawnFrequency(0, 40);
-        sequencer.addPhaseSpawnPosition(0, new Vector2(330, 700));
+        sequencer.addPhaseSpawnPosition(0, new Vector2(150, 700));
 
         this.game = game;
     }
@@ -53,7 +48,6 @@ public class Level4 extends Stage {
     public void act(float delta) {
         backgroundScrolling(delta);
         sequencer.update(delta, this);
-        sequencer.advanceToNextPhase();
         super.act(delta);
     }
 
@@ -101,4 +95,5 @@ public class Level4 extends Stage {
             background2.setY(-5000);
         }
     }
+
 }

@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class SplashScreen extends Stage {
-    SplashScreen(final WesternDentist game, final FitViewport viewport) {
-        super(viewport);
+    SplashScreen(final WesternDentist game) {
+        super(game.viewport);
         Image splash = new Image(new Texture("images/JEGA.png"));
         SequenceAction sequence = Actions.sequence();
         sequence.addAction(Actions.alpha(0));
@@ -30,7 +30,7 @@ public class SplashScreen extends Stage {
         sequence.addAction(Actions.run(new Runnable() {
             @Override
             public void run() {
-                game.changeStage(new MainMenu(game, viewport));
+                game.changeStage(new MainMenu(game));
             }
         }));
         splash.addAction(sequence);
