@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class SplashScreen extends Stage {
+    private Sound intro;
+
     SplashScreen(final WesternDentist game) {
         super(game.viewport);
         Image splash = new Image(new Texture("images/JEGA.png"));
@@ -20,7 +22,7 @@ public class SplashScreen extends Stage {
         sequence.addAction(Actions.run(new Runnable() {
             @Override
             public void run() {
-                Sound intro = Gdx.audio.newSound(Gdx.files.internal("sounds/JEGA.mp3"));
+                intro = Gdx.audio.newSound(Gdx.files.internal("sounds/JEGA.mp3"));
                 intro.play(1.0f);
             }
         }));
@@ -30,6 +32,7 @@ public class SplashScreen extends Stage {
         sequence.addAction(Actions.run(new Runnable() {
             @Override
             public void run() {
+                intro.dispose();
                 game.changeStage(new MainMenu(game));
             }
         }));
