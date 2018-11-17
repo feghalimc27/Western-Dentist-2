@@ -78,18 +78,23 @@ public class Sequencer {
         // Iterate through list
         ArrayList<Integer> toDelete = new ArrayList<Integer>();
 
-        for (int i = 0; i < actors.get(currentPhase).size(); ++i) {
-            if (spawnFrequency.get(currentPhase).get(i) <= phaseTime) {
-                toDelete.add(i);
-                actors.get(currentPhase).get(i).setPosition(spawnPositions.get(currentPhase).get(i).x, spawnPositions.get(currentPhase).get(i).y);
-                stage.addActor(actors.get(currentPhase).get(i));
+        try {
+            for (int i = 0; i < actors.get(currentPhase).size(); ++i) {
+                if (spawnFrequency.get(currentPhase).get(i) <= phaseTime) {
+                    toDelete.add(i);
+                    actors.get(currentPhase).get(i).setPosition(spawnPositions.get(currentPhase).get(i).x, spawnPositions.get(currentPhase).get(i).y);
+                    stage.addActor(actors.get(currentPhase).get(i));
+                }
+            }
+
+            for (int delete : toDelete) {
+                actors.get(currentPhase).remove(delete);
+                spawnPositions.get(currentPhase).remove(delete);
+                spawnFrequency.get(currentPhase).remove(delete);
             }
         }
-
-        for (int delete : toDelete) {
-            actors.get(currentPhase).remove(delete);
-            spawnPositions.get(currentPhase).remove(delete);
-            spawnFrequency.get(currentPhase).remove(delete);
+        catch (Exception e) {
+            
         }
         // If time matches, delete time and spawn time from list
     }
