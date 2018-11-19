@@ -19,13 +19,9 @@ public class SprayEnemy extends Enemy {
     private Vector2 moveFromPosition;
 
     private static float maxMoveX = 300;
-    private static float maxMoveY = 100;
+    private static float maxMoveY = 300;
 
-    private int[] xPoints = new int[] {100, -300, 300, -100};
-    private int[] yPoints = new int[] {150, -100, 150, -200};
-    private int index = 0;
-
-    private static RandomXS128 generator = new RandomXS128(23);
+    private static RandomXS128 generator = new RandomXS128();
 
     SprayEnemy(Texture texture, float health, float fireRate) {
         super();
@@ -35,6 +31,11 @@ public class SprayEnemy extends Enemy {
         this.fireRate = fireRate;
         bounds.set(getX(), getY(), texture.getWidth(), texture.getHeight());
         setOrigin(getWidth() / 2, getHeight() / 2);
+
+        canMove = false;
+        moveCooldown = 70;
+
+        generator = new RandomXS128();
     }
 
     @Override
@@ -46,22 +47,27 @@ public class SprayEnemy extends Enemy {
 
     private void fireSpray(float delta) {
         if (rateCounter == 0) {
-            getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 0, 1, true, true));
-            getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 1, 0, true, true));
-            getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", -1, 0, true, true));
-            getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 0, -1, true, true));
-            getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 1, 1, true, true));
-            getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", -1, 1, true, true));
-            getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", -1, -1, true, true));
-            getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 1, -1, true, true));
-            getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 0, 1, true, false));
-            getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 1, 0, true, false));
-            getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", -1, 0, true, false));
-            getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 0, -1, true, false));
-            getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 1, 1, true, false));
-            getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", -1, 1, true, false));
-            getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", -1, -1, true, false));
-            getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 1, -1, true, false));
+            try {
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 0, 1, true, true));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 1, 0, true, true));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", -1, 0, true, true));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 0, -1, true, true));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 1, 1, true, true));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", -1, 1, true, true));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", -1, -1, true, true));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 1, -1, true, true));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 0, 1, true, false));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 1, 0, true, false));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", -1, 0, true, false));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 0, -1, true, false));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 1, 1, true, false));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", -1, 1, true, false));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", -1, -1, true, false));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 60, getX() - getWidth(), getY() - getHeight(), "Enemy", 1, -1, true, false));
+            }
+            catch (NullPointerException e) {
+
+            }
 
 
             rateCounter = fireRate;
@@ -78,11 +84,18 @@ public class SprayEnemy extends Enemy {
     private void move(float delta) {
         if (moveCooldown == 0 && canMove) {
 
-            float x = xPoints[index];
-            float y = yPoints[index];
+            float x = maxMoveX * generator.nextFloat();
+            float y = maxMoveY * generator.nextFloat();
 
-            Gdx.app.log("Spray Position", "X: " + x + " Y: " + y);
+            int diceX = (int)(generator.nextFloat() * 24);
+            int diceY = (int)(generator.nextFloat() * 24);
 
+            if (diceX % 2 == 0) {
+                x *= -1;
+            }
+            if (diceY % 2 == 0) {
+                y *= -1;
+            }
 
             moveFromPosition = new Vector2(getX(), getY());
             moveToPosition = new Vector2(x, y);
@@ -91,12 +104,23 @@ public class SprayEnemy extends Enemy {
 
             Vector2 finalPos = new Vector2(moveFromPosition.x + moveToPosition.x, moveFromPosition.y + moveToPosition.y);
 
-            addAction(Actions.moveTo(finalPos.x, finalPos.y, 10 * generator.nextFloat()));
-
-            index++;
-            if (index > 3) {
-                index = 0;
+            if (finalPos.x < 20) {
+                finalPos.x = 20;
             }
+
+            if (finalPos.x > 520) {
+                finalPos.x = 520;
+            }
+
+            if (finalPos.y > getStage().getViewport().getScreenHeight() - 20) {
+                finalPos.y = getStage().getViewport().getScreenHeight() - 20;
+            }
+
+            if (finalPos.y < 20) {
+                finalPos.y = 20;
+            }
+
+            addAction(Actions.moveTo(finalPos.x, finalPos.y, 10 * generator.nextFloat()));
         }
 
         moveCooldown -= delta * 10;

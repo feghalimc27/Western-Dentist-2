@@ -3,14 +3,12 @@ package com.westerndentist.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class MainMenu extends Stage {
     private WesternDentist game;
@@ -22,9 +20,7 @@ public class MainMenu extends Stage {
         this.game = game;
         Image background = new Image(new Texture("images/mainmenu/background.jpg"));
         addActor(background);
-        final Sound theme = Gdx.audio.newSound(Gdx.files.internal("sounds/mainmenu/theme.mp3"));
         final Sound changeSelection = Gdx.audio.newSound(Gdx.files.internal("sounds/mainmenu/changeselect.mp3"));
-        final long themeID = theme.loop(game.musicVolumeActual);
         tableLeft = new Table();
         tableLeft.setSize(400, 600);
         tableLeft.left().bottom();
@@ -40,8 +36,7 @@ public class MainMenu extends Stage {
         startButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                theme.dispose();
-                game.changeStage(new Level4(game, game.viewport));
+                game.changeStage(new Level1(game, game.viewport));
                 return true;
             }
             @Override
@@ -94,7 +89,7 @@ public class MainMenu extends Stage {
             public void changed (ChangeEvent event, Actor actor) {
                 game.masterVolume = masterVolumeSlider.getValue();
                 masterVolumeValueLabel.setText(String.valueOf((int)(game.masterVolume * 100)) + "%");
-                theme.setVolume(themeID, game.musicVolumeActual);
+                game.music.setVolume(game.musicID, game.musicVolumeActual);
             }
         });
         final Label musicVolumeLabel = new Label("Music Volume", game.labelStyle);
@@ -105,7 +100,7 @@ public class MainMenu extends Stage {
             public void changed (ChangeEvent event, Actor actor) {
                 game.musicVolume = musicVolumeSlider.getValue();
                 musicVolumeValueLabel.setText(String.valueOf((int)(game.musicVolume * 100)) + "%");
-                theme.setVolume(themeID, game.musicVolumeActual);
+                game.music.setVolume(game.musicID, game.musicVolumeActual);
             }
         });
         final Label soundEffectVolumeLabel = new Label("Sound Effect Volume", game.labelStyle);

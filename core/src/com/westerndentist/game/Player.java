@@ -18,9 +18,11 @@ public class Player extends Actor {
     private Vector2 movement = new Vector2(0, 0);
     private Rectangle bounds = new Rectangle();
 
+    private float health = 100;
     private float speed = 200;
     private float fireRate = 600;
     private int rateCounter = 0;
+    private float power = 0;
 
     private boolean checkLeft = true, checkRight = true, checkTop = true, checkBottom = true;
 
@@ -64,6 +66,15 @@ public class Player extends Actor {
         checkCollision();
     }
 
+    private void modPower(float delta) {
+        if (power != 0) {
+            power -= 10 * delta;
+        }
+        else if (power < 0) {
+            power = 0;
+        }
+    }
+
     private void move() {
         if (Gdx.input.isKeyPressed(Input.Keys.W) && checkTop) {
             movement.y += speed;
@@ -93,7 +104,7 @@ public class Player extends Actor {
 
     private void fire(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            if (rateCounter == 0) {
+            if (rateCounter == 0 && power < 100) {
                 getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerBurst.png"), 800, getX(), getY(), "Player"));
                 rateCounter += fireRate * delta * 10;
             }
@@ -128,6 +139,8 @@ public class Player extends Actor {
                     Gdx.app.log("Collided with Enemy", actor.getName());
                 }
             }
+
+            // Collided with powerup, increase power
         }
 
         // Check side checks

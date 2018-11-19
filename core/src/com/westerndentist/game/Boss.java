@@ -25,6 +25,7 @@ public abstract class Boss extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
+        updateBounds();
     }
 
     private void updateBounds() {
