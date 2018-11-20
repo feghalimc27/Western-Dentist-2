@@ -15,6 +15,8 @@ public class EnemyLevel1 extends Enemy
 
         setPosition(position.x, position.y);
         bounds.set(getX(), getY(), texture.getWidth(), texture.getHeight());
+
+        setDebug(true);
     }
 
     @Override
@@ -24,14 +26,11 @@ public class EnemyLevel1 extends Enemy
 
     @Override
     public void act(float delta) {
-        moveBy( speed * delta, - 5);
 
-        if(getY() <= 350)
-        {
-            moveBy(- speed * (delta * 2) , 0);
-        }
+        moveBy( (speed/2) * delta, - 3);
 
-        if(getX() < - 50)
+
+        if(getY() < -50)
         {
             remove();
         }

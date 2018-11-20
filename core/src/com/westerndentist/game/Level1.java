@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -16,8 +17,8 @@ public class Level1 extends Stage
     private Image background = new Image(new Texture("Images/WesternDentist_Background.png")),
             background2 = new Image(new Texture("Images/WesternDentist_Background.png"));
 
-    Level1(final WesternDentist game, FitViewport viewport) {
-        super(viewport);
+    Level1(final WesternDentist game)
+    {
 
         background.setPosition(0, 2500);
         background2.setPosition(0, -2500);
@@ -27,19 +28,48 @@ public class Level1 extends Stage
 
         addActor(new Player(300, 300));
 
+        EnemyLevel1 duck1 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 30, new Vector2(0, 0));
+        EnemyLevel1 duck2 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 30, new Vector2(0, 0));
+        EnemyLevel1 duck3 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 30, new Vector2(0, 0));
+        EnemyLevel1 duck4 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 30, new Vector2(0, 0));
+        EnemyLevel1 duck5 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 30, new Vector2(0, 0));
+
+
+        BossHikeMaze hikeMaze = new BossHikeMaze(new Texture("Images/Hike Maze zombie.png"), 1000, new Vector2(0, 400));
+        hikeMaze.addAction(Actions.moveTo(100, 300, 5));
+
         sequencer = new Sequencer();
 
-        sequencer.addPhase(300);
-        sequencer.addPhase(400);
+        sequencer.addPhase(200);
+        sequencer.addPhase(200);
+        sequencer.addPhase(200);
+        sequencer.addPhase(200);
+        sequencer.addPhase(200);
         sequencer.addPhase(1000);
 
-        sequencer.addActorToPhase(0, new BasicEnemy(new Texture("Images/Hike Maze zombie.png"), 300, 50, 30, new Vector2(0, 0)));
-        sequencer.addPhaseSpawnFrequency(0, 10);
-        sequencer.addPhaseSpawnPosition(0, new Vector2(30, 700));
+        sequencer.addActorToPhase(0, duck1);
+        sequencer.addPhaseSpawnFrequency(0, 50);
+        sequencer.addPhaseSpawnPosition(0, new Vector2(40, 700));
 
-        sequencer.addActorToPhase(0, new EnemyLevel1(new Texture("Images/bubber ducky.png"), 300, 20, 30, new Vector2(0, 0)));
-        sequencer.addPhaseSpawnFrequency(0, 40);
-        sequencer.addPhaseSpawnPosition(0, new Vector2(150, 700));
+        sequencer.addActorToPhase(1, duck2);
+        sequencer.addPhaseSpawnFrequency(1, 60);
+        sequencer.addPhaseSpawnPosition(1, new Vector2(60, 700));
+
+        sequencer.addActorToPhase(2, duck3);
+        sequencer.addPhaseSpawnFrequency(2, 70);
+        sequencer.addPhaseSpawnPosition(2, new Vector2(20, 700));
+
+        sequencer.addActorToPhase(3, duck4);
+        sequencer.addPhaseSpawnFrequency(3, 80);
+        sequencer.addPhaseSpawnPosition(3, new Vector2(0, 700));
+
+        sequencer.addActorToPhase(4, duck5);
+        sequencer.addPhaseSpawnFrequency(4, 90);
+        sequencer.addPhaseSpawnPosition(4, new Vector2(70, 700));
+
+        sequencer.addActorToPhase(5, hikeMaze);
+        sequencer.addPhaseSpawnFrequency(5, 120);
+        sequencer.addPhaseSpawnPosition(5, new Vector2(0, 700));
 
         this.game = game;
     }
