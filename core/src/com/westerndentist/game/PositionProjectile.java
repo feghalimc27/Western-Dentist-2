@@ -23,6 +23,12 @@ public class PositionProjectile extends Projectile {
         xFactor = x - playerPos.x;
         yFactor = y - playerPos.y;
 
+        xFactor -= (int)xFactor;
+        yFactor -= (int)yFactor;
+
+        xFactor *= -1;
+        yFactor *= -1;
+
         setPosition(x, y);
     }
 

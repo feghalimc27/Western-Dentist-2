@@ -7,17 +7,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import java.lang.Math;
 
-public class BossHikeMaze extends Boss
-{
-    double blueSin = 0;
-    double greenSin = 0;
+public class BossTrerryClews extends Boss{
 
     float checkX = 100;
-    float checkY = 300;
+    float checkY = 350;
 
-    BossHikeMaze(Texture texture, float health, Vector2 position)
+    BossTrerryClews(Texture texture, float health, Vector2 position)
     {
         super();
 
@@ -25,7 +21,7 @@ public class BossHikeMaze extends Boss
         this.health = health;
 
         setPosition(position.x, position.y);
-        bounds = new Rectangle(getX(), getY(), (float)(texture.getWidth()/2.5), (float)(texture.getHeight()/2.5));
+        bounds = new Rectangle(getX(), getY(), (float)(texture.getWidth()/2), (float)(texture.getHeight()/2));
         setDebug(true);
     }
 
@@ -36,7 +32,7 @@ public class BossHikeMaze extends Boss
         takeDamageFromProjectile();
         if(getX() == checkX && getY() == checkY)
         {
-            fire(delta);
+            //fire(delta);
         }
         super.act(delta);
         updateBounds();
@@ -53,10 +49,9 @@ public class BossHikeMaze extends Boss
         super.drawDebug(shapes);
     }
 
-
     private void updateBounds()
     {
-        bounds.setPosition(getX()+60, getY()+100);
+        bounds.setPosition(getX()+65, getY()+70);
     }
 
 
@@ -90,17 +85,14 @@ public class BossHikeMaze extends Boss
         }
     }
 
+
     private void fire(float delta)
     {
-        blueSin += delta * 2;
-        greenSin += delta * 2;
         try
         {
-            Projectile blueFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_BallBlue.png"), 1000, getX(), getY()+60, "Enemy", (float)(-2 * Math.sin(blueSin)),  -2, true, false);
-            Projectile greenFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_BallGreen.png"), 1000, getX()+200, getY()+60, "Enemy", (float)(-2 * Math.sin(greenSin)), -2, true, false);
+            Projectile redFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 1000, getX(), getY()+60, "Enemy", 0,  -2, false, false);
 
-            getStage().addActor(blueFire);
-            getStage().addActor(greenFire);
+            getStage().addActor(redFire);
 
         }
         catch (NullPointerException e)
@@ -108,4 +100,5 @@ public class BossHikeMaze extends Boss
 
         }
     }
+
 }

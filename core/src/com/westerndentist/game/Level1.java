@@ -38,6 +38,9 @@ public class Level1 extends Stage
         BossHikeMaze hikeMaze = new BossHikeMaze(new Texture("Images/Hike Maze zombie.png"), 2000, new Vector2(0, 400));
         hikeMaze.addAction(Actions.moveTo(100, 300, 5));
 
+        BossTrerryClews trerryClews = new BossTrerryClews(new Texture("Images/Scary Trews.png"), 6500, new Vector2(0, 400));
+        trerryClews.addAction(Actions.moveTo(150,365, 10));
+
         sequencer = new Sequencer();
 
         sequencer.addPhase(200);
@@ -67,7 +70,11 @@ public class Level1 extends Stage
         //sequencer.addPhaseSpawnFrequency(4, 70);
         //sequencer.addPhaseSpawnPosition(4, new Vector2(70, 700));
 
-        sequencer.addActorToPhase(0, hikeMaze);
+        //sequencer.addActorToPhase(5, hikeMaze);
+        //sequencer.addPhaseSpawnFrequency(5, 90);
+        //sequencer.addPhaseSpawnPosition(5, new Vector2(0, 700));
+
+        sequencer.addActorToPhase(0, trerryClews);
         sequencer.addPhaseSpawnFrequency(0, 50);
         sequencer.addPhaseSpawnPosition(0, new Vector2(0, 700));
 
