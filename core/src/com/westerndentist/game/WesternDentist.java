@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -37,6 +40,7 @@ public class WesternDentist extends Game {
     private Sound level2;
     private Sound level3;
     private Sound level4;
+    private Sound bossWarning;
     private Sound level1Boss;
     private Sound level2Boss;
     private Sound level3Boss;
@@ -49,6 +53,7 @@ public class WesternDentist extends Game {
         //level2 = Gdx.audio.newSound(Gdx.files.internal(""));
         //level3 = Gdx.audio.newSound(Gdx.files.internal(""));
         level4 = Gdx.audio.newSound(Gdx.files.internal("sounds/level4.mp3"));
+        bossWarning = Gdx.audio.newSound(Gdx.files.internal("sounds/bosswarning.mp3"));
         level1Boss = Gdx.audio.newSound(Gdx.files.internal("sounds/level1Boss.mp3"));
         //level2Boss = Gdx.audio.newSound(Gdx.files.internal(""));
         //level3Boss = Gdx.audio.newSound(Gdx.files.internal(""));
@@ -155,7 +160,7 @@ public class WesternDentist extends Game {
         currentStage.dispose();
         if (currentStage instanceof Level1) {
             currentStage = new Level1(this);
-        /*} else if (currentStage instanceof Level12 {
+        /*} else if (currentStage instanceof Level2 {
 
         } else if (currentStage instanceof Level3) {*/
 
@@ -180,6 +185,24 @@ public class WesternDentist extends Game {
             } else if (currentStage instanceof Level4) {
                 music = level4Boss;
             }
+            Image warningBG = new Image(new Texture("images/warning_background.png"));
+            Image warningFG = new Image(new Texture("images/warning_foreground.png"));
+            SequenceAction sequence = Actions.sequence();
+            sequence.addAction(Actions.delay(3.5f));
+            sequence.addAction(Actions.run(new Runnable() {
+                @Override
+                public void run() {
+                    musicID = music.loop(musicVolumeActual);
+                }
+            }));
+            warningBG.setPosition(-971, 0);
+            warningBG.addAction(Actions.moveTo(0, 0, 3.5f));
+            warningFG.setPosition(800, 0);
+            warningFG.addAction(Actions.moveTo(0, 0, 3.5f));
+            userInterface.addAction(sequence);
+            userInterface.addActor(warningBG);
+            userInterface.addActor(warningFG);
+            bossWarning.play(soundEffectVolumeActual);
         } else {
             if (currentStage instanceof MainMenu) {
                 music = theme;
@@ -192,7 +215,7 @@ public class WesternDentist extends Game {
             } else if (currentStage instanceof Level4) {
                 music = level4;
             }
+            musicID = music.loop(musicVolumeActual);
         }
-        musicID = music.loop(musicVolumeActual);
     }
 }
