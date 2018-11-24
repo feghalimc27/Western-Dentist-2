@@ -185,20 +185,22 @@ public class WesternDentist extends Game {
             } else if (currentStage instanceof Level4) {
                 music = level4Boss;
             }
-            Image warningBG = new Image(new Texture("images/warning_background.png"));
-            Image warningFG = new Image(new Texture("images/warning_foreground.png"));
+            final Image warningBG = new Image(new Texture("images/warning_background.png"));
+            final Image warningFG = new Image(new Texture("images/warning_foreground.png"));
+            warningBG.setPosition(-971, 150);
+            warningBG.addAction(Actions.moveTo(0, 150, 8f));
+            warningFG.setPosition(0, 229);
+            warningFG.addAction(Actions.moveTo(-971, 229, 8f));
             SequenceAction sequence = Actions.sequence();
-            sequence.addAction(Actions.delay(3.5f));
+            sequence.addAction(Actions.delay(4f));
             sequence.addAction(Actions.run(new Runnable() {
                 @Override
                 public void run() {
                     musicID = music.loop(musicVolumeActual);
+                    warningBG.remove();
+                    warningFG.remove();
                 }
             }));
-            warningBG.setPosition(-971, 0);
-            warningBG.addAction(Actions.moveTo(0, 0, 3.5f));
-            warningFG.setPosition(800, 0);
-            warningFG.addAction(Actions.moveTo(0, 0, 3.5f));
             userInterface.addAction(sequence);
             userInterface.addActor(warningBG);
             userInterface.addActor(warningFG);
