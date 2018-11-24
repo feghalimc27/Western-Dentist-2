@@ -16,7 +16,8 @@ public class Level4 extends Stage {
 
     private Image background = new Image(new Texture("Images/WesternDentist_Background.png")), background2 = new Image(new Texture("Images/WesternDentist_Background.png"));
 
-
+    private boolean bossSpawned = false;
+    private boolean bossMusicPlayed = false;
 
     Level4(final WesternDentist game) {
         super(game.viewport);
@@ -87,6 +88,23 @@ public class Level4 extends Stage {
     public void draw() {
         sortActors();
         super.draw();
+    }
+
+    private void checkBoss() {
+        if (!bossSpawned) {
+            try {
+                for (Actor actor: getActors()) {
+                    if (actor instanceof BossLevel4) {
+                        bossSpawned = true;
+                        game.playMusic(true);
+                        bossMusicPlayed = true;
+                    }
+                }
+            }
+            catch (NullPointerException e) {
+
+            }
+        }
     }
 
     private void sortActors() {

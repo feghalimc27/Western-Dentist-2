@@ -9,13 +9,15 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class BossLevel4 extends Boss {
 
     private float phase1damage = 2500, phase2damage = 5000,
-                  phase3damage = 10000, phase4damage = 20000;
+                  phase3damage = 10000, phase4damage = 20000 ;
 
     private Texture texture = new Texture("Images/l4BossSprite.png");
 
     private int phase = 1;
 
     private float proj1xFactor = 1000, proj1yFactor = 0;
+
+    private float phase2Counter = 0;
 
     private float rateCounter1 = 0;
     private float fireRate1 = 10;
@@ -91,8 +93,13 @@ public class BossLevel4 extends Boss {
                 phase1(delta);
                 break;
             case 2:
+                phase1(delta);
+                phase2(delta);
                 break;
             case 3:
+                phase1(delta);
+                phase2(delta);
+                phase3(delta);
                 break;
             case 4:
                 break;
@@ -154,6 +161,45 @@ public class BossLevel4 extends Boss {
         if (rateCounter1 <= 0) {
             rateCounter1 = 0;
         }
+    }
+
+    private void phase2(float delta) {
+        if (phase2Counter < 100) {
+            try {
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 130, getX() + texture.getWidth() / 2, getY() + texture.getHeight() / 2, "Enemy", 1, -2, true, false));
+            } catch (NullPointerException e) {
+
+            }
+        }
+        else if (phase2Counter > 100 && phase2Counter < 200) {
+            try {
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 130, getX() + texture.getWidth() / 2, getY() + texture.getHeight() / 2, "Enemy", -1, -2, true, false));
+            } catch (NullPointerException e) {
+
+            }
+        }
+        else if (phase2Counter > 200 && phase2Counter < 300) {
+            try {
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 130, getX() + texture.getWidth() / 2, getY() + texture.getHeight() / 2, "Enemy", -1, -2, true, true));
+            } catch (NullPointerException e) {
+
+            }
+        }
+        else if (phase2Counter > 300 && phase2Counter < 400) {
+            try {
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 130, getX() + texture.getWidth() / 2, getY() + texture.getHeight() / 2, "Enemy", 1, -2, true, true));
+            } catch (NullPointerException e) {
+
+            }
+        }
+        else if (phase2Counter > 400) {
+            phase2Counter = 0;
+        }
+
+        phase2Counter += 500 * delta;
+    }
+
+    private void phase3(float delta) {
 
     }
 }
