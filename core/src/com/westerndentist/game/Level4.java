@@ -18,8 +18,8 @@ public class Level4 extends Stage {
 
 
 
-    Level4(final WesternDentist game, FitViewport viewport) {
-        super(viewport);
+    Level4(final WesternDentist game) {
+        super(game.viewport);
 
         background.setPosition(0, 2500);
         background2.setPosition(0, -2500);
