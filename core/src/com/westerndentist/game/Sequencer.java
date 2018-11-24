@@ -54,7 +54,7 @@ public class Sequencer {
             }
         }
 
-        if (actors.get(currentPhase).size() == 0 && actors.size() > currentPhase + 1) {
+        if (actors.get(currentPhase).size() == 0 && actors.size() > (currentPhase + 1)) {
             advanceToNextPhase();
         }
 

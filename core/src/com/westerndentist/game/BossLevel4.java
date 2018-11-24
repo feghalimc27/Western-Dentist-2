@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class BossLevel4 extends Boss {
 
-    private float phase1damage = 5000, phase2damage = 10000,
-                  phase3damage = 20000, phase4damage = 40000;
+    private float phase1damage = 2500, phase2damage = 5000,
+                  phase3damage = 10000, phase4damage = 20000;
 
     private Texture texture = new Texture("Images/l4BossSprite.png");
 
