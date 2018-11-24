@@ -7,9 +7,14 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import java.lang.Math;
 
 public class BossHikeMaze extends Boss
 {
+    double blueSin = 0;
+    double greenSin = 0;
+
+
     BossHikeMaze(Texture texture, float health, Vector2 position)
     {
         super();
@@ -18,18 +23,18 @@ public class BossHikeMaze extends Boss
         this.health = health;
 
         setPosition(position.x, position.y);
-        bounds = new Rectangle(getX(), getY(), texture.getWidth()/2, texture.getHeight()/2);
+        bounds = new Rectangle(getX(), getY(), (float)(texture.getWidth()/2.5), (float)(texture.getHeight()/2.5));
         setDebug(true);
     }
 
     @Override
     public void act(float delta)
     {
-        super.act(delta);
         killOnDead();
         takeDamageFromProjectile();
+        fire(delta);
+        super.act(delta);
         updateBounds();
-        fire();
     }
 
     @Override
@@ -43,9 +48,10 @@ public class BossHikeMaze extends Boss
         super.drawDebug(shapes);
     }
 
+
     private void updateBounds()
     {
-        bounds.setPosition(getX()+45, getY()+100);
+        bounds.setPosition(getX()+60, getY()+100);
     }
 
 
@@ -79,12 +85,14 @@ public class BossHikeMaze extends Boss
         }
     }
 
-    private void fire()
+    private void fire(float delta)
     {
+        blueSin += delta / 2;
+        greenSin += delta / 2;
         try
         {
-            Projectile blueFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_BallBlue.png"), 500, getX()+5, getY()+5, "Enemy", 0, -1, true, false);
-            Projectile greenFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_BallGreen.png"), 500, getX()+60, getY()+60, "Enemy", 0, -1, true, false);
+            Projectile blueFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_BallBlue.png"), 1000, getX(), getY()+60, "Enemy", (float)(-2 * Math.sin(blueSin)),  -2, true, false);
+            Projectile greenFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_BallGreen.png"), 1000, getX()+200, getY()+60, "Enemy", (float)(-2 * Math.sin(greenSin)), -2, true, false);
 
             getStage().addActor(blueFire);
             getStage().addActor(greenFire);

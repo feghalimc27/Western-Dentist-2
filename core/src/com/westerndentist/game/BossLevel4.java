@@ -3,6 +3,7 @@ package com.westerndentist.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -18,6 +19,8 @@ public class BossLevel4 extends Boss {
     private float proj1xFactor = 1000, proj1yFactor = 0;
 
     private float phase2Counter = 0;
+    private float phase3Counter = 0;
+    private float phase3Cooldown = 5000;
 
     private float rateCounter1 = 0;
     private float fireRate1 = 10;
@@ -25,6 +28,8 @@ public class BossLevel4 extends Boss {
     private float damage = 0;
 
     private boolean spawned = false;
+
+    private RandomXS128 rng = new RandomXS128();
 
     BossLevel4() {
         super();
@@ -200,6 +205,11 @@ public class BossLevel4 extends Boss {
     }
 
     private void phase3(float delta) {
-
+        if (phase3Counter >= phase3Cooldown) {
+            //getStage().addActor(new PositionProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 100,"Enemy" ,500 + rng.nextFloat(), ));
+        }
+        else {
+            phase3Counter += 1000 * delta;
+        }
     }
 }
