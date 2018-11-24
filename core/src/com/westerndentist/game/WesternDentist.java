@@ -29,6 +29,7 @@ public class WesternDentist extends Game {
     public Sound music;
     public long musicID;
     private Stage currentStage;
+    private Stage userInterface;
     private Stage pauseMenu;
     private boolean paused = false;
     private Sound theme;
@@ -47,11 +48,11 @@ public class WesternDentist extends Game {
         level1 = Gdx.audio.newSound(Gdx.files.internal("sounds/level1.mp3"));
         //level2 = Gdx.audio.newSound(Gdx.files.internal(""));
         //level3 = Gdx.audio.newSound(Gdx.files.internal(""));
-        //level4 = Gdx.audio.newSound(Gdx.files.internal(""));
-        //level1Boss = Gdx.audio.newSound(Gdx.files.internal(""));
+        level4 = Gdx.audio.newSound(Gdx.files.internal("sounds/level4.mp3"));
+        level1Boss = Gdx.audio.newSound(Gdx.files.internal("sounds/level1Boss.mp3"));
         //level2Boss = Gdx.audio.newSound(Gdx.files.internal(""));
         //level3Boss = Gdx.audio.newSound(Gdx.files.internal(""));
-        //level4Boss = Gdx.audio.newSound(Gdx.files.internal(""));
+        level4Boss = Gdx.audio.newSound(Gdx.files.internal("sounds/level4Boss.mp3"));
 	    font = new BitmapFont(Gdx.files.internal("fonts/touhoufont.fnt"), Gdx.files.internal("fonts/touhoufont.png"), false);
         textButtonStyle = new TextButton.TextButtonStyle(
                 null,
@@ -66,6 +67,7 @@ public class WesternDentist extends Game {
         labelStyle = new Label.LabelStyle(font, null);
 	    viewport = new FitViewport(800, 600);
         currentStage = new SplashScreen(this);
+        userInterface = new UserInterface(this);
         pauseMenu = new PauseMenu(this);
         Gdx.input.setInputProcessor(currentStage);
 	}
@@ -75,8 +77,10 @@ public class WesternDentist extends Game {
         if (!(currentStage instanceof SplashScreen) && !(currentStage instanceof MainMenu) && Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             paused = !paused;
             if (paused) {
+                music.pause();
                 Gdx.input.setInputProcessor(pauseMenu);
             } else {
+                music.resume();
                 pauseMenu.clear();
                 pauseMenu.dispose();
                 pauseMenu = new PauseMenu(this);
@@ -88,8 +92,15 @@ public class WesternDentist extends Game {
         if (!paused) {
             currentStage.act(Gdx.graphics.getDeltaTime());
             currentStage.draw();
+            if (!(currentStage instanceof SplashScreen) && !(currentStage instanceof MainMenu)) {
+                userInterface.act(Gdx.graphics.getDeltaTime());
+                userInterface.draw();
+            }
         } else {
             currentStage.draw();
+            if (!(currentStage instanceof SplashScreen) && !(currentStage instanceof MainMenu)) {
+                userInterface.draw();
+            }
             pauseMenu.act(Gdx.graphics.getDeltaTime());
             pauseMenu.draw();
         }
@@ -101,6 +112,7 @@ public class WesternDentist extends Game {
 	@Override
     public void resize (int width, int height) {
         currentStage.getViewport().update(width, height, true);
+        userInterface.getViewport().update(width, height, true);
         pauseMenu.getViewport().update(width, height, true);
     }
 
@@ -122,6 +134,11 @@ public class WesternDentist extends Game {
 	    currentStage.clear();
 	    currentStage.dispose();
         currentStage = newStage;
+        userInterface.clear();
+        if (!(currentStage instanceof SplashScreen) && !(currentStage instanceof MainMenu)) {
+            userInterface.dispose();
+            userInterface = new UserInterface(this);
+        }
         Gdx.input.setInputProcessor(currentStage);
         playMusic(false);
     }
@@ -131,6 +148,9 @@ public class WesternDentist extends Game {
         pauseMenu.clear();
         pauseMenu.dispose();
         pauseMenu = new PauseMenu(this);
+        userInterface.clear();
+        userInterface.dispose();
+        userInterface = new UserInterface(this);
         currentStage.clear();
         currentStage.dispose();
         if (currentStage instanceof Level1) {
@@ -143,6 +163,7 @@ public class WesternDentist extends Game {
             currentStage = new Level4(this);
         }
         Gdx.input.setInputProcessor(currentStage);
+        playMusic(false);
     }
 
     public void playMusic(boolean bossBattle) {
