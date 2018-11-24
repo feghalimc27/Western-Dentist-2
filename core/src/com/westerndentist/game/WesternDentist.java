@@ -155,7 +155,7 @@ public class WesternDentist extends Game {
         currentStage.dispose();
         if (currentStage instanceof Level1) {
             currentStage = new Level1(this);
-        /*} else if (currentStage instanceof Level12 {
+        /*} else if (currentStage instanceof Level2 {
 
         } else if (currentStage instanceof Level3) {*/
 
