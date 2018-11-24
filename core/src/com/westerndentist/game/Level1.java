@@ -28,14 +28,14 @@ public class Level1 extends Stage
 
         addActor(new Player(300, 300));
 
-        EnemyLevel1 duck1 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 30, new Vector2(0, 0));
-        EnemyLevel1 duck2 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 30, new Vector2(0, 0));
-        EnemyLevel1 duck3 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 30, new Vector2(0, 0));
-        EnemyLevel1 duck4 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 30, new Vector2(0, 0));
-        EnemyLevel1 duck5 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 30, new Vector2(0, 0));
+        EnemyLevel1 duck1 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 6000, new Vector2(0, 0));
+        EnemyLevel1 duck2 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 6000, new Vector2(0, 0));
+        EnemyLevel1 duck3 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 6000, new Vector2(0, 0));
+        EnemyLevel1 duck4 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 6000, new Vector2(0, 0));
+        EnemyLevel1 duck5 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 6000, new Vector2(0, 0));
 
 
-        BossHikeMaze hikeMaze = new BossHikeMaze(new Texture("Images/Hike Maze zombie.png"), 1000, new Vector2(0, 400));
+        BossHikeMaze hikeMaze = new BossHikeMaze(new Texture("Images/Hike Maze zombie.png"), 2000, new Vector2(0, 400));
         hikeMaze.addAction(Actions.moveTo(100, 300, 5));
 
         sequencer = new Sequencer();
@@ -47,29 +47,29 @@ public class Level1 extends Stage
         sequencer.addPhase(200);
         sequencer.addPhase(1000);
 
-        sequencer.addActorToPhase(0, duck1);
+        //sequencer.addActorToPhase(0, duck1);
+        //sequencer.addPhaseSpawnFrequency(0, 50);
+        //sequencer.addPhaseSpawnPosition(0, new Vector2(40, 700));
+
+        //sequencer.addActorToPhase(1, duck2);
+        //sequencer.addPhaseSpawnFrequency(1, 55);
+        //sequencer.addPhaseSpawnPosition(1, new Vector2(60, 700));
+
+        //sequencer.addActorToPhase(2, duck3);
+        //sequencer.addPhaseSpawnFrequency(2, 60);
+        //sequencer.addPhaseSpawnPosition(2, new Vector2(20, 700));
+
+        //sequencer.addActorToPhase(3, duck4);
+        //sequencer.addPhaseSpawnFrequency(3, 65);
+        //sequencer.addPhaseSpawnPosition(3, new Vector2(0, 700));
+
+        //sequencer.addActorToPhase(4, duck5);
+        //sequencer.addPhaseSpawnFrequency(4, 70);
+        //sequencer.addPhaseSpawnPosition(4, new Vector2(70, 700));
+
+        sequencer.addActorToPhase(0, hikeMaze);
         sequencer.addPhaseSpawnFrequency(0, 50);
-        sequencer.addPhaseSpawnPosition(0, new Vector2(40, 700));
-
-        sequencer.addActorToPhase(1, duck2);
-        sequencer.addPhaseSpawnFrequency(1, 60);
-        sequencer.addPhaseSpawnPosition(1, new Vector2(60, 700));
-
-        sequencer.addActorToPhase(2, duck3);
-        sequencer.addPhaseSpawnFrequency(2, 70);
-        sequencer.addPhaseSpawnPosition(2, new Vector2(20, 700));
-
-        sequencer.addActorToPhase(3, duck4);
-        sequencer.addPhaseSpawnFrequency(3, 80);
-        sequencer.addPhaseSpawnPosition(3, new Vector2(0, 700));
-
-        sequencer.addActorToPhase(4, duck5);
-        sequencer.addPhaseSpawnFrequency(4, 90);
-        sequencer.addPhaseSpawnPosition(4, new Vector2(70, 700));
-
-        sequencer.addActorToPhase(5, hikeMaze);
-        sequencer.addPhaseSpawnFrequency(5, 120);
-        sequencer.addPhaseSpawnPosition(5, new Vector2(0, 700));
+        sequencer.addPhaseSpawnPosition(0, new Vector2(0, 700));
 
         this.game = game;
     }
