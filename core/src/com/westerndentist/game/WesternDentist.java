@@ -134,13 +134,13 @@ public class WesternDentist extends Game {
         currentStage.clear();
         currentStage.dispose();
         if (currentStage instanceof Level1) {
-            currentStage = new Level1(this, viewport);
+            currentStage = new Level1(this);
         /*} else if (currentStage instanceof Level12 {
 
         } else if (currentStage instanceof Level3) {*/
 
         } else if (currentStage instanceof Level4) {
-            currentStage = new Level4(this, viewport);
+            currentStage = new Level4(this);
         }
         Gdx.input.setInputProcessor(currentStage);
     }
