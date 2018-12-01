@@ -19,7 +19,7 @@ public class EnemyLevel1 extends Enemy
         setPosition(position.x, position.y);
         bounds.set(getX(), getY(), texture.getWidth(), texture.getHeight());
 
-        setDebug(true);
+        //setDebug(true);
     }
 
     @Override

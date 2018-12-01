@@ -14,8 +14,18 @@ public class Level1 extends Stage
 
     private Sequencer sequencer;
 
+    private boolean bossSpawned = false;
+
+    private boolean bossMusicPlayed = false;
+
+
     private Image background = new Image(new Texture("Images/WesternDentist_Background.png")),
             background2 = new Image(new Texture("Images/WesternDentist_Background.png"));
+
+    private BossHikeMaze hikeMaze = new BossHikeMaze(new Texture("Images/Hike Maze zombie.png"), 2000, new Vector2(0, 400));
+
+    private BossTrerryClews trerryClews = new BossTrerryClews(new Texture("Images/Scary Trews.png"), 5000, new Vector2(0, 400));
+
 
     Level1(final WesternDentist game)
     {
@@ -35,10 +45,8 @@ public class Level1 extends Stage
         EnemyLevel1 duck5 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 6000, new Vector2(0, 0));
 
 
-        BossHikeMaze hikeMaze = new BossHikeMaze(new Texture("Images/Hike Maze zombie.png"), 2000, new Vector2(0, 400));
         hikeMaze.addAction(Actions.moveTo(100, 300, 5));
 
-        BossTrerryClews trerryClews = new BossTrerryClews(new Texture("Images/Scary Trews.png"), 6500, new Vector2(0, 400));
         trerryClews.addAction(Actions.moveTo(150,365, 10));
 
         sequencer = new Sequencer();
@@ -48,41 +56,45 @@ public class Level1 extends Stage
         sequencer.addPhase(200);
         sequencer.addPhase(200);
         sequencer.addPhase(200);
+        sequencer.addPhase(250);
         sequencer.addPhase(1000);
 
-        //sequencer.addActorToPhase(0, duck1);
-        //sequencer.addPhaseSpawnFrequency(0, 50);
-        //sequencer.addPhaseSpawnPosition(0, new Vector2(40, 700));
 
-        //sequencer.addActorToPhase(1, duck2);
-        //sequencer.addPhaseSpawnFrequency(1, 55);
-        //sequencer.addPhaseSpawnPosition(1, new Vector2(60, 700));
-
-        //sequencer.addActorToPhase(2, duck3);
-        //sequencer.addPhaseSpawnFrequency(2, 60);
-        //sequencer.addPhaseSpawnPosition(2, new Vector2(20, 700));
-
-        //sequencer.addActorToPhase(3, duck4);
-        //sequencer.addPhaseSpawnFrequency(3, 65);
-        //sequencer.addPhaseSpawnPosition(3, new Vector2(0, 700));
-
-        //sequencer.addActorToPhase(4, duck5);
-        //sequencer.addPhaseSpawnFrequency(4, 70);
-        //sequencer.addPhaseSpawnPosition(4, new Vector2(70, 700));
-
-        //sequencer.addActorToPhase(5, hikeMaze);
-        //sequencer.addPhaseSpawnFrequency(5, 90);
-        //sequencer.addPhaseSpawnPosition(5, new Vector2(0, 700));
-
-        sequencer.addActorToPhase(0, trerryClews);
+        sequencer.addActorToPhase(0, duck1);
         sequencer.addPhaseSpawnFrequency(0, 50);
-        sequencer.addPhaseSpawnPosition(0, new Vector2(0, 700));
+        sequencer.addPhaseSpawnPosition(0, new Vector2(40, 700));
+
+        sequencer.addActorToPhase(1, duck2);
+        sequencer.addPhaseSpawnFrequency(1, 55);
+        sequencer.addPhaseSpawnPosition(1, new Vector2(60, 700));
+
+        sequencer.addActorToPhase(2, duck3);
+        sequencer.addPhaseSpawnFrequency(2, 60);
+        sequencer.addPhaseSpawnPosition(2, new Vector2(20, 700));
+
+        sequencer.addActorToPhase(3, duck4);
+        sequencer.addPhaseSpawnFrequency(3, 65);
+        sequencer.addPhaseSpawnPosition(3, new Vector2(0, 700));
+
+        sequencer.addActorToPhase(4, duck5);
+        sequencer.addPhaseSpawnFrequency(4, 70);
+        sequencer.addPhaseSpawnPosition(4, new Vector2(70, 700));
+
+        sequencer.addActorToPhase(5, hikeMaze);
+        sequencer.addPhaseSpawnFrequency(5, 90);
+        sequencer.addPhaseSpawnPosition(5, new Vector2(0, 700));
+
+        sequencer.addActorToPhase(6, trerryClews);
+        sequencer.addPhaseSpawnFrequency(6, 180);
+        sequencer.addPhaseSpawnPosition(6, new Vector2(0, 700));
 
         this.game = game;
     }
 
     @Override
-    public void act(float delta) {
+    public void act(float delta)
+    {
+        checkBoss();
         backgroundScrolling(delta);
         sequencer.update(delta, this);
         super.act(delta);
@@ -92,6 +104,35 @@ public class Level1 extends Stage
     public void draw() {
         sortActors();
         super.draw();
+    }
+
+    private void checkBoss()
+    {
+        if (!bossSpawned)
+        {
+            try
+            {
+                for (Actor actor: getActors())
+                {
+                    if (actor instanceof BossTrerryClews)
+                    {
+                        bossSpawned = true;
+                        game.playMusic(true);
+                        bossMusicPlayed = true;
+                    }
+                }
+            }
+            catch (NullPointerException e) {
+
+            }
+        }
+
+        if(trerryClews.health == 0)
+        {
+            Level2 level2 = new Level2(game);
+            game.changeStage(level2);
+        }
+
     }
 
     private void sortActors() {
