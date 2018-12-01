@@ -106,8 +106,8 @@ public class Level2 extends Stage {
                     return;
                 }
             }
-            Level3 level3 = new Level3(game);
-            game.changeStage(level3);
+            //Level3 level3 = new Level3(game);
+            //game.changeStage(level3);
         }
     }
 

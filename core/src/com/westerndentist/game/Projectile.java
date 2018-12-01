@@ -57,7 +57,7 @@ public class Projectile extends Actor{
     }
 
     protected void updateBounds() {
-        bounds.setPosition(getX() + texture.getWidth() / 4, getY()+ texture.getWidth() / 4);
+        bounds.setPosition(getX() + texture.getWidth() / 8, getY()+ texture.getWidth() / 8);
     }
 
     public Rectangle getBounds() {

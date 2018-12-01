@@ -40,5 +40,7 @@ public class PositionProjectile extends Projectile {
         else {
             moveBy(xFactor * delta * speed, yFactor * delta * speed);
         }
+
+        updateBounds();
     }
 }

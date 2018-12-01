@@ -89,7 +89,7 @@ public class Player extends Actor {
         }
 
         if (power > 0) {
-            power -= 10 * delta;
+            power -= delta;
         }
         if (power < 0) {
             power = 0;
@@ -109,19 +109,19 @@ public class Player extends Actor {
 
     private void move(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.W) && checkTop) {
-            movement.y += speed *55* delta;
+            movement.y += speed;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.S) && checkBottom) {
-            movement.y -= speed *55* delta;
+            movement.y -= speed;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.A) && checkLeft) {
-            movement.x -= speed *55* delta;
+            movement.x -= speed;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.D) && checkRight) {
-            movement.x += speed *55* delta;
+            movement.x += speed;
         }
     }
 

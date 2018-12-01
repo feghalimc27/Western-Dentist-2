@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class BossLevel4 extends Boss {
 
@@ -26,6 +27,15 @@ public class BossLevel4 extends Boss {
     private float rateCounter1 = 0;
     private float fireRate1 = 10;
 
+    private float maxMoveX = 520;
+    private float maxMoveY = 580;
+
+    private float moveCooldown = 0;
+    private boolean canMove = true;
+
+    private Vector2 moveFromPosition;
+    private Vector2 moveToPosition;
+
     private float damage = 0;
 
     private boolean spawned = false;
@@ -44,6 +54,7 @@ public class BossLevel4 extends Boss {
             spawned = true;
             // Play sound, do stuff
             Gdx.app.log("Boss 4", "Spawned");
+            move(delta);
         }
         super.act(delta);
         takeDamageFromProjectile();
@@ -56,6 +67,56 @@ public class BossLevel4 extends Boss {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(texture, getX(), getY());
+    }
+
+    private void move(float delta) {
+        if (moveCooldown == 0 && canMove) {
+
+            float x = maxMoveX * rng.nextFloat();
+            float y = maxMoveY * rng.nextFloat();
+
+            int diceX = (int) (rng.nextFloat() * 24);
+            int diceY = (int) (rng.nextFloat() * 24);
+
+            if (diceX % 2 == 0) {
+                x *= -1;
+            }
+            if (diceY % 2 == 0) {
+                y *= -1;
+            }
+
+            moveFromPosition = new Vector2(getX(), getY());
+            moveToPosition = new Vector2(x, y);
+            moveCooldown = 70;
+            canMove = false;
+
+            Vector2 finalPos = new Vector2(moveFromPosition.x + moveToPosition.x, moveFromPosition.y + moveToPosition.y);
+
+            if (finalPos.x < 20 + texture.getWidth() / 2) {
+                finalPos.x = 20 + texture.getWidth() / 2;
+            }
+
+            if (finalPos.x > 520 - texture.getWidth()) {
+                finalPos.x = 520 - texture.getWidth();
+            }
+
+            if (finalPos.y > getStage().getViewport().getScreenHeight() - 20 - texture.getHeight() / 2) {
+                finalPos.y = getStage().getViewport().getScreenHeight() - 20 - texture.getHeight() / 2;
+            }
+
+            if (finalPos.y < 20 + texture.getHeight() / 2 + 300) {
+                finalPos.y = 20 + texture.getHeight() / 2 + 300;
+            }
+
+            addAction(Actions.moveTo(finalPos.x, finalPos.y, 10 * rng.nextFloat()));
+        }
+
+        moveCooldown -= delta * 10;
+
+        if (moveCooldown <= 0) {
+            moveCooldown = 0;
+            canMove = true;
+        }
     }
 
     private void changePhase() {
@@ -138,7 +199,7 @@ public class BossLevel4 extends Boss {
 
         if (rateCounter1 == 0) {
             try {
-                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 100, getX() + texture.getWidth() / 2, getY() + texture.getHeight() / 2, "Enemy", proj1xFactor / 1000, proj1yFactor / 1000, false, false));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 120, getX() + texture.getWidth() / 2, getY() + texture.getHeight() / 2, "Enemy", proj1xFactor / 1000, proj1yFactor / 1000, false, false));
             } catch (NullPointerException e) {
                 Gdx.app.log("Boss Level 4", "Enemy not found");
             }
