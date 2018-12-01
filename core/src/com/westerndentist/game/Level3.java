@@ -17,18 +17,12 @@ public class Level3 extends Stage {
     private WesternDentist game;
     private Image background = new Image(new Texture("Images/WesternDentist_L3_Background.png"));
     private Image background2 = new Image(new Texture("Images/WesternDentist_L3_Background.png"));
-    private Boolean bossTime, noBoss;
+    private Boolean bossTime, noBoss, bossMusic, spawnBossNow, win;
 
-    Level3 (final WesternDentist game, final FitViewport viewport) {
-        super(viewport);
+    Level3 (final WesternDentist game) {
+        super(game.viewport);
 
-        // Load level
-        // Load UI and Background
-        Image ui = new Image(new Texture("Images/WesternDentist_UI.png"));
-
-        // Set Z axis for UI and set background name
-        ui.setName("UI_FRAME");
-        ui.setZIndex(300000);
+        // set background name
         background.setName("BACKGROUND");
 
         // Add background, player, UI
@@ -36,18 +30,21 @@ public class Level3 extends Stage {
         background2.setPosition(0, -2500);
         addActor(background);
         addActor(background2);
-        addActor(new Player(300, 300));
-        addActor(ui);
+        game.player.setPosition(300,100);
+        addActor(game.player);
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 bossTime = true;
-            }},  5000);
+            }},   60000);
 
         bossTime = false;
         noBoss = true;
+        bossMusic = false;
+        spawnBossNow = false;
+        win = false;
         this.game = game;
     }
 
@@ -63,14 +60,39 @@ public class Level3 extends Stage {
         if (!bossTime)
             spawnEnemies();
         if (bossTime && noBoss)
-            spawnBoss();
+        {
+            if(!bossMusic)
+            {
+                game.playMusic(true);
+                bossMusic = true;
+                final Timer spawnBossTimer = new Timer();
+                spawnBossTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        spawnBossNow = true;
+                    }},  4000);
+            }
+            if(spawnBossNow)
+            {
+                spawnBoss();
+            }
+            //spawnBoss();
+        }
         if (bossTime && !noBoss)
-            if (bossIsDead())
+            if (bossIsDead() && !win)
             {
                 // Player beat the level
-                // TODO: Play victory Sound?
-                // TODO: write code to change level
-                game.changeStage(new MainMenu(game));
+                Timer endTimer = new Timer();
+                endTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        win = true;
+                    }},  3000);
+                //game.changeStage(new MainMenu(game));
+            }
+            if(win)
+            {
+                game.changeStage(new Level4(game));
             }
         super.act(delta);
     }
@@ -119,9 +141,9 @@ public class Level3 extends Stage {
             Gdx.app.log("Level 3", "Spawned Enemy");
             double enemyType = Math.random() * 1000;
             if (enemyType < 250)
-                addActor(new BasicEnemy(new Texture("Images/RocketEnemy.png"), 500, 40, 100, new Vector2((float)Math.random() * (520-64), 800)));
+                addActor(new BasicEnemy(new Texture("Images/RocketEnemy.png"), 400, 90, 100, new Vector2((float)Math.random() * (520-64), 800)));
             else
-                addActor(new BasicEnemy(new Texture("Images/AsteroidEnemy.png"), 200, 50, 100, new Vector2((float)Math.random() * (520-64), 800)));
+                addActor(new BasicEnemy(new Texture("Images/AsteroidEnemy.png"), 150, 150, 100, new Vector2((float)Math.random() * (520-64), 800)));
         }
     }
 
