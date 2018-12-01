@@ -37,6 +37,9 @@ public class Projectile extends Actor{
         if (getY() > 1000 || getY() < -100) {
             remove();
         }
+        if (getX() > 800 || getX() < -200) {
+            remove();
+        }
     }
 
     @Override
@@ -60,4 +63,6 @@ public class Projectile extends Actor{
     public Rectangle getBounds() {
         return bounds;
     }
+
+
 }

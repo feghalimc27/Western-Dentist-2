@@ -12,6 +12,8 @@ public abstract class Boss extends Actor {
 
     protected Rectangle bounds;
 
+    private float score = 10000000;
+
 
     Boss() {
 
@@ -26,6 +28,15 @@ public abstract class Boss extends Actor {
     public void act(float delta) {
         super.act(delta);
         updateBounds();
+        score -= 10 * delta;
+    }
+
+    protected void giveScore() {
+        for (Actor actor: getStage().getActors()) {
+            if (Player.class.isInstance(actor)) {
+                ((Player)actor).addScore(score);
+            }
+        }
     }
 
     private void updateBounds() {

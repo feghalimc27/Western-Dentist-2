@@ -14,13 +14,16 @@ import java.awt.*;
 
 public class Player extends Actor {
 
+    private float score;
+
     private Texture texture = new Texture("Images/tempMerrySeoul.png");
     private Vector2 movement = new Vector2(0, 0);
     private Rectangle bounds = new Rectangle();
 
-    private float health = 100;
+    private int health = 5;
     private float speed = 200;
     private float fireRate = 600;
+    private float iframes = 0;
     private int rateCounter = 0;
     private float power = 0;
 
@@ -47,6 +50,7 @@ public class Player extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        batch.setColor(getColor());
         batch.draw(texture, getX(), getY());
     }
 
@@ -58,38 +62,61 @@ public class Player extends Actor {
 
     @Override
     public void act(float delta) {
-        move();
+        move(delta);
         applyMovement(delta);
         fire(delta);
+        modPower(delta);
+        decayIframes(delta);
+        increaseScore(delta);
 
         updateBounds();
         checkCollision();
     }
 
+    private void increaseScore(float delta) {
+        score += 100 * delta;
+        Gdx.app.log("Score", "" + score);
+    }
+
     private void modPower(float delta) {
-        if (power != 0) {
+        if (power > 1000) {
+            power = 1000;
+        }
+
+        if (power > 0) {
             power -= 10 * delta;
         }
-        else if (power < 0) {
+        if (power < 0) {
             power = 0;
         }
     }
 
-    private void move() {
+    private void decayIframes(float delta) {
+        if (iframes > 0) {
+            iframes -= 20 * delta;
+            setColor(0.5f, 0.5f, 0.5f, 0.5f);
+        }
+        else if (iframes < 0) {
+            iframes = 0;
+            setColor(1, 1, 1, 1);
+        }
+    }
+
+    private void move(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.W) && checkTop) {
-            movement.y += speed;
+            movement.y += speed * 1000 * delta;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.S) && checkBottom) {
-            movement.y -= speed;
+            movement.y -= speed * 1000 * delta;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.A) && checkLeft) {
-            movement.x -= speed;
+            movement.x -= speed * 1000 * delta;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.D) && checkRight) {
-            movement.x += speed;
+            movement.x += speed * 1000 * delta;
         }
     }
 
@@ -104,7 +131,7 @@ public class Player extends Actor {
 
     private void fire(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            if (rateCounter == 0 && power < 100) {
+            if (rateCounter == 0) {
                 getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerBurst.png"), 800, getX(), getY(), "Player"));
                 rateCounter += fireRate * delta * 10;
             }
@@ -128,19 +155,34 @@ public class Player extends Actor {
 
     private void checkCollision() {
         for (Actor actor : getStage().getActors()) {
-            if (Projectile.class.isInstance(actor)) {
-                if (bounds.overlaps(((Projectile)actor).getBounds())) {
-                    // Collided with projectile, check name to see if friendly or enemy
+            if (Projectile.class.isInstance(actor) && iframes == 0) {
+                if (bounds.overlaps(((Projectile) actor).getBounds())) {
+                    if (actor.getName() == "Enemy") {
+                        health -= 1;
+                        ((Projectile) actor).destroy();
+                        iframes = 100;
+                    }
                 }
             }
 
-            if (Enemy.class.isInstance(actor)) {
-                if (bounds.overlaps(((Enemy)actor).getBounds())) {
+            if (Enemy.class.isInstance(actor) && iframes == 0) {
+                if (bounds.overlaps(((Enemy) actor).getBounds())) {
                     Gdx.app.log("Collided with Enemy", actor.getName());
                 }
             }
 
-            // Collided with powerup, increase power
+            if (Powerup.class.isInstance(actor)) {
+                if (bounds.overlaps(((Powerup) actor).getBounds())) {
+                    if (PowerPowerup.class.isInstance(actor)) {
+                        float plus = ((PowerPowerup) actor).destroy();
+                        power += plus;
+                        fireRate -= plus;
+                    }
+                    else if (HealthPowerup.class.isInstance(actor)) {
+                        health += ((HealthPowerup) actor).destroy();
+                    }
+                }
+            }
         }
 
         // Check side checks
@@ -152,5 +194,21 @@ public class Player extends Actor {
 
     public Rectangle getBounds() {
         return bounds;
+    }
+
+    public void addScore(float score) {
+        this.score += score;
+    }
+
+    public int getScore() {
+        return (int)score;
+    }
+
+    public int getPower() {
+        return (int)power;
+    }
+
+    public int getHealth() {
+        return health;
     }
 }
