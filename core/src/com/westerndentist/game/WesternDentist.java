@@ -31,6 +31,8 @@ public class WesternDentist extends Game {
     public FitViewport viewport;
     public Sound music;
     public long musicID;
+    public Player player;
+    public int hiScore;
     private Stage currentStage;
     private Stage userInterface;
     private Stage pauseMenu;
@@ -72,6 +74,7 @@ public class WesternDentist extends Game {
         labelStyle = new Label.LabelStyle(font, null);
 	    viewport = new FitViewport(800, 600);
         currentStage = new SplashScreen(this);
+        player = new Player(300, 100);
         userInterface = new UserInterface(this);
         pauseMenu = new PauseMenu(this);
         Gdx.input.setInputProcessor(currentStage);
