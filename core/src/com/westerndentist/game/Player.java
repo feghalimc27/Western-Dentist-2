@@ -75,7 +75,6 @@ public class Player extends Actor {
 
     private void increaseScore(float delta) {
         score += 100 * delta;
-        Gdx.app.log("Score", "" + score);
     }
 
     private void modPower(float delta) {

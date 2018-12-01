@@ -30,8 +30,8 @@ public class BossLevel4 extends Boss {
     private float maxMoveX = 520;
     private float maxMoveY = 580;
 
-    private float moveCooldown = 0;
-    private boolean canMove = true;
+    private float moveCooldown = 147;
+    private boolean canMove = false;
 
     private Vector2 moveFromPosition;
     private Vector2 moveToPosition;
@@ -54,14 +54,12 @@ public class BossLevel4 extends Boss {
             spawned = true;
             // Play sound, do stuff
             Gdx.app.log("Boss 4", "Spawned");
-            move(delta);
         }
         super.act(delta);
+        move(delta);
         takeDamageFromProjectile();
         changePhase();
         phase(delta);
-
-        Gdx.app.log("Boss Damage", "" + damage);
     }
 
     @Override
