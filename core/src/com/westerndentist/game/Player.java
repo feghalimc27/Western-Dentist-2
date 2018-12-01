@@ -176,7 +176,8 @@ public class Player extends Actor {
 
             if (Enemy.class.isInstance(actor) && iframes == 0) {
                 if (bounds.overlaps(((Enemy) actor).getBounds())) {
-                    Gdx.app.log("Collided with Enemy", actor.getName());
+                    health -= 1;
+                    iframes = 100;
                 }
             }
 
