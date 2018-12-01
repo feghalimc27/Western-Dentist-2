@@ -140,7 +140,7 @@ public class BossLevel4 extends Boss {
             try {
                 getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 100, getX() + texture.getWidth() / 2, getY() + texture.getHeight() / 2, "Enemy", proj1xFactor / 1000, proj1yFactor / 1000, false, false));
             } catch (NullPointerException e) {
-
+                Gdx.app.log("Boss Level 4", "Enemy not found");
             }
 
             if (proj1xFactor <= 1100 && proj1xFactor > 0 && proj1yFactor >= -100) {

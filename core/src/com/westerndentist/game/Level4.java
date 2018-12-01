@@ -14,7 +14,7 @@ public class Level4 extends Stage {
 
     private Sequencer sequencer;
 
-    private Image background = new Image(new Texture("Images/WesternDentist_Background.png")), background2 = new Image(new Texture("Images/WesternDentist_Background.png"));
+    private Image background = new Image(new Texture("Images/WesternDentist_BackgroundL4.png")), background2 = new Image(new Texture("Images/WesternDentist_BackgroundL4.png"));
 
     private boolean bossSpawned = false;
     private boolean bossMusicPlayed = false;
