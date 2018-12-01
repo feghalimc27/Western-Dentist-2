@@ -10,8 +10,18 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class BossTrerryClews extends Boss{
 
-    float checkX = 100;
-    float checkY = 350;
+    private float checkX = 150;
+    private float checkY = 365;
+
+    private float rateCounter = 0;
+    private float inCounter = 10;
+
+    private float initX1 = 1;
+    private float initX2 = -1;
+    private float initY1 = -1;
+    private float initY2 = 1;
+
+    private boolean isSpawned = false;
 
     BossTrerryClews(Texture texture, float health, Vector2 position)
     {
@@ -22,17 +32,21 @@ public class BossTrerryClews extends Boss{
 
         setPosition(position.x, position.y);
         bounds = new Rectangle(getX(), getY(), (float)(texture.getWidth()/2), (float)(texture.getHeight()/2));
-        setDebug(true);
+        //setDebug(true);
     }
 
     @Override
     public void act(float delta)
     {
+        if(!isSpawned)
+        {
+            isSpawned = true;
+        }
         killOnDead();
         takeDamageFromProjectile();
         if(getX() == checkX && getY() == checkY)
         {
-            //fire(delta);
+            fire(delta);
         }
         super.act(delta);
         updateBounds();
@@ -88,13 +102,37 @@ public class BossTrerryClews extends Boss{
 
     private void fire(float delta)
     {
+        initX1 += delta;
+        initX2 += delta;
+        initY1 += delta;
+        initY2 += delta;
+
         try
         {
-            Projectile redFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 1000, getX(), getY()+60, "Enemy", 0,  -2, false, false);
+            if (rateCounter == 0)
+            {
 
-            getStage().addActor(redFire);
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 100, getX() + 105, getY() + 35, "Enemy", (float) Math.sin(initX1), (float) Math.sin(initY1), false, false));
+
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 100, getX() + 190, getY() + 60, "Enemy", (float) Math.sin(initX2), (float) Math.sin(initY2), false, false));
+
+
+                rateCounter += inCounter;
+
+            }
+
+            if (rateCounter != 0)
+            {
+                --rateCounter;
+            }
+
+            if (rateCounter < 0)
+            {
+                rateCounter = 0;
+            }
 
         }
+
         catch (NullPointerException e)
         {
 

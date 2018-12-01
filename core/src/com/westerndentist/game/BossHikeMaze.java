@@ -26,7 +26,12 @@ public class BossHikeMaze extends Boss
 
         setPosition(position.x, position.y);
         bounds = new Rectangle(getX(), getY(), (float)(texture.getWidth()/2.5), (float)(texture.getHeight()/2.5));
-        setDebug(true);
+        //setDebug(true);
+    }
+
+    public float getHealth()
+    {
+        return this.health;
     }
 
     @Override
@@ -103,6 +108,7 @@ public class BossHikeMaze extends Boss
             getStage().addActor(greenFire);
 
         }
+
         catch (NullPointerException e)
         {
 
