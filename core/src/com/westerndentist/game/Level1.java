@@ -36,7 +36,9 @@ public class Level1 extends Stage
         addActor(background);
         addActor(background2);
 
-        addActor(new Player(300, 300));
+        game.player.setPosition(300,300);
+
+        addActor(game.player);
 
         EnemyLevel1 duck1 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 6000, new Vector2(0, 0));
         EnemyLevel1 duck2 = new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 50, 6000, new Vector2(0, 0));
