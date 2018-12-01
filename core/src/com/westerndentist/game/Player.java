@@ -26,6 +26,7 @@ public class Player extends Actor {
     private float iframes = 0;
     private int rateCounter = 0;
     private float power = 0;
+    private WesternDentist game;
 
     private boolean checkLeft = true, checkRight = true, checkTop = true, checkBottom = true;
 
@@ -41,11 +42,12 @@ public class Player extends Actor {
         setName("Player");
     }
 
-    Player(float x, float y) {
+    Player(float x, float y, WesternDentist game) {
         setPosition(x, y, Align.center);
         bounds.set(x, y, texture.getWidth() / 4, texture.getWidth() / 4);
         bounds.setCenter(x + texture.getWidth() / 4, y - texture.getHeight() / 4);
         setName("Player");
+        this.game = game;
     }
 
     @Override
@@ -71,6 +73,9 @@ public class Player extends Actor {
 
         updateBounds();
         checkCollision();
+        if (health <= 0) {
+            game.restartStage();
+        }
     }
 
     private void increaseScore(float delta) {
