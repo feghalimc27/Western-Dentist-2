@@ -19,7 +19,7 @@ public class Projectile extends Actor{
         speed = initialSpeed;
         setPosition(x, y);
         setName(tag);
-        bounds.set(x, y, texture.getWidth() / 2, texture.getHeight() / 2);
+        bounds.set(x + texture.getWidth() / 8, y + texture.getWidth() / 8, texture.getWidth() / 4, texture.getHeight() / 4);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class Projectile extends Actor{
     }
 
     protected void updateBounds() {
-        bounds.setPosition(getX(), getY());
+        bounds.setPosition(getX() + texture.getWidth() / 4, getY()+ texture.getWidth() / 4);
     }
 
     public Rectangle getBounds() {

@@ -35,6 +35,7 @@ public abstract class Boss extends Actor {
         for (Actor actor: getStage().getActors()) {
             if (Player.class.isInstance(actor)) {
                 ((Player)actor).addScore(score);
+                break;
             }
         }
     }

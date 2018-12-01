@@ -83,6 +83,11 @@ public class Player extends Actor {
             power = 1000;
         }
 
+        fireRate = 600 - power;
+        if (fireRate < 0) {
+            fireRate = 0;
+        }
+
         if (power > 0) {
             power -= 10 * delta;
         }
@@ -104,19 +109,19 @@ public class Player extends Actor {
 
     private void move(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.W) && checkTop) {
-            movement.y += speed * 1000 * delta;
+            movement.y += speed *55* delta;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.S) && checkBottom) {
-            movement.y -= speed * 1000 * delta;
+            movement.y -= speed *55* delta;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.A) && checkLeft) {
-            movement.x -= speed * 1000 * delta;
+            movement.x -= speed *55* delta;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.D) && checkRight) {
-            movement.x += speed * 1000 * delta;
+            movement.x += speed *55* delta;
         }
     }
 
@@ -176,7 +181,6 @@ public class Player extends Actor {
                     if (PowerPowerup.class.isInstance(actor)) {
                         float plus = ((PowerPowerup) actor).destroy();
                         power += plus;
-                        fireRate -= plus;
                     }
                     else if (HealthPowerup.class.isInstance(actor)) {
                         health += ((HealthPowerup) actor).destroy();
@@ -198,6 +202,18 @@ public class Player extends Actor {
 
     public void addScore(float score) {
         this.score += score;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public void setScore(float score) {
+        this.score = score;
+    }
+
+    public void setPower(float power) {
+        this.power = score;
     }
 
     public int getScore() {

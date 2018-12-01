@@ -13,7 +13,6 @@ public class PowerPowerup extends Powerup{
     PowerPowerup(float lifetime, float value, Vector2 position) {
         this.lifetime = lifetime;
         this.value = value;
-        setDebug(true);
 
         setPosition(position.x, position.y);
         bounds = new Rectangle(getX(), getY(), texture.getWidth(), texture.getHeight());

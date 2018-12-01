@@ -21,6 +21,7 @@ public class Level4 extends Stage {
 
     Level4(final WesternDentist game) {
         super(game.viewport);
+        setDebugAll(true);
 
         background.setPosition(0, 2500);
         background2.setPosition(0, -2500);
@@ -32,7 +33,8 @@ public class Level4 extends Stage {
         testActor.setPosition(400, 300);
         testActor.addAction(Actions.moveTo(400, 550, 5));
 
-        addActor(new Player(300, 100));
+        game.player.setPosition(300, 100);
+        addActor(game.player);
 
         sequencer = new Sequencer();
 
