@@ -23,6 +23,7 @@ public class BossTrerryClews extends Boss{
 
     private boolean isSpawned = false;
 
+
     BossTrerryClews(Texture texture, float health, Vector2 position)
     {
         super();
@@ -71,7 +72,9 @@ public class BossTrerryClews extends Boss{
 
     private void killOnDead()
     {
-        if (health <= 0) {
+        if (health <= 0)
+        {
+            giveScore();
             remove();
         }
     }

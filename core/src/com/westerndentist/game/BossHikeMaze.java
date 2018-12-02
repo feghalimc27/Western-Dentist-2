@@ -67,7 +67,9 @@ public class BossHikeMaze extends Boss
 
     private void killOnDead()
     {
-        if (health <= 0) {
+        if (health <= 0)
+        {
+            giveScore();
             remove();
         }
     }
