@@ -19,6 +19,10 @@ public class Level3 extends Stage {
     private Image background2 = new Image(new Texture("Images/WesternDentist_L3_Background.png"));
     private Boolean bossTime, noBoss, bossMusic, spawnBossNow, win;
 
+    /**
+     * Constructor for Level 3
+     * @param game      game object containing all values which persist across level instances
+     */
     Level3 (final WesternDentist game) {
         super(game.viewport);
 
@@ -38,7 +42,8 @@ public class Level3 extends Stage {
             @Override
             public void run() {
                 bossTime = true;
-            }},   60000              );
+            }},   60000
+        );
 
         bossTime = false;
         noBoss = true;
@@ -48,12 +53,19 @@ public class Level3 extends Stage {
         this.game = game;
     }
 
+    /**
+     * Draw the scene on the window
+     */
     @Override
     public void draw() {
         sortActors();
         super.draw();
     }
 
+    /**
+     * Perform all actions on all objects on screen
+     * @param delta     time since the last frame
+     */
     @Override
     public void act(float delta) {
         backgroundScrolling(delta);
@@ -97,6 +109,10 @@ public class Level3 extends Stage {
         super.act(delta);
     }
 
+    /**
+     * check whether boss is dead
+     * @return      true if boss has died, false otherwise
+     */
     private Boolean bossIsDead()
     {
         for(Actor actor : this.getActors())
@@ -107,6 +123,9 @@ public class Level3 extends Stage {
         return true;
     }
 
+    /**
+     * Sets Z index for all objects on screen
+     */
     private void sortActors() {
         for (Actor actor : this.getActors()) {
             int z = actor.getZIndex();
@@ -134,6 +153,9 @@ public class Level3 extends Stage {
         }
     }
 
+    /**
+     * Randomly spawns one of two enemies on the screen with a chance of no spawn
+     */
     private void spawnEnemies() {
         double decider = Math.random() * (1000 - 0);
 
@@ -147,6 +169,9 @@ public class Level3 extends Stage {
         }
     }
 
+    /**
+     * Spawn a L3 boss
+     */
     private void spawnBoss()
     {
         Gdx.app.log("Level 3", "Mr. Muskrat has Arrived");
@@ -154,6 +179,10 @@ public class Level3 extends Stage {
         noBoss = false;
     }
 
+    /**
+     * scroll the background image across the screen
+     * @param delta     Time since the last frame
+     */
     private void backgroundScrolling(float delta) {
         background.setY(background.getY() + 30 * delta);
         background2.setY(background2.getY() + 30 * delta);

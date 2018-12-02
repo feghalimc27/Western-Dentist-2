@@ -42,6 +42,9 @@ public class L3Boss extends Boss
 
     private boolean checkLeft = true, checkRight = true, checkTop = true, checkBottom = true;
 
+    /**
+     * Empty Constructor
+     */
     L3Boss() {
         setPosition(0, 0);
         setBounds(0, 0, texture.getWidth(), texture.getHeight());
@@ -50,6 +53,10 @@ public class L3Boss extends Boss
         // TODO: Boss Spawn Sound?
     }
 
+    /**
+     * Overriden Constructor with position vector
+     * @param position      vector containing the x and y coordinates of the object's spawn
+     */
     L3Boss(Vector2 position) {
         setPosition(position.x, position.y);
         setBounds(position.x, position.y, texture.getWidth(), texture.getHeight());
@@ -57,6 +64,11 @@ public class L3Boss extends Boss
         health = 20000;
     }
 
+    /**
+     * overriden constructor with position coordinates
+     * @param x     x coordinate of the object's spawn
+     * @param y     y coordinate of the object's spawn
+     */
     L3Boss(float x, float y) {
         setPosition(x, y, Align.center);
         bounds.set(x, y, texture.getWidth()/2, texture.getHeight()/2);
@@ -65,17 +77,30 @@ public class L3Boss extends Boss
         health = 20000;
     }
 
+    /**
+     * Draw this object on the screen
+     * @param batch         batch object to handle the batch process of drawing the window
+     * @param parentAlpha   alpha of the parent object
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(texture, getX(), getY());
     }
 
+    /**
+     * Draw this object with a highlighted hitbox
+     * @param shapes shape renderer object to handle the shape-drawing for hitboxes
+     */
     @Override
     public void drawDebug(ShapeRenderer shapes) {
         shapes.rect(bounds.x, bounds.y, bounds.width, bounds.height);
         super.drawDebug(shapes);
     }
 
+    /**
+     * Perform the necessary actions for each frame
+     * @param delta time since the last frame
+     */
     @Override
     public void act(float delta) {
         score -= 1100 * delta;
@@ -97,6 +122,9 @@ public class L3Boss extends Boss
         killOnDead();
     }
 
+    /**
+     * Destroy this object if health drops below 0
+     */
     private void killOnDead()
     {
         if (health <= 0)
@@ -107,6 +135,9 @@ public class L3Boss extends Boss
         }
     }
 
+    /**
+     * When This object is destroyed, add an appropriate score to the player
+     */
     @Override
     protected void giveScore() {
         for (Actor actor: getStage().getActors()) {
@@ -117,6 +148,9 @@ public class L3Boss extends Boss
         }
     }
 
+    /**
+     * Set the internal movement vector
+     */
     private void move() {
         if (getY() > 250)
             movement.y += speed;
@@ -124,6 +158,10 @@ public class L3Boss extends Boss
             movement.y = 0;
     }
 
+    /**
+     * apply appropriate movement to this object based on its movement vector
+     * @param delta time since the last frame
+     */
     private void applyMovement(float delta) {
         movement.x *= delta;
         movement.y *= delta;
@@ -133,6 +171,10 @@ public class L3Boss extends Boss
         movement = new Vector2(0, 0);
     }
 
+    /**
+     * Logic for the first phase projectile firing
+     * @param delta time since the last frame
+     */
     private void firePhase1(float delta) {
         prevPhase = phase;
         phase = 1;
@@ -187,6 +229,10 @@ public class L3Boss extends Boss
         }
     }
 
+    /**
+     * Logic for phase 2 projectile firing
+     * @param delta time since last frame
+     */
     private void firePhase2(float delta)
     {
         prevPhase = phase;
@@ -256,6 +302,10 @@ public class L3Boss extends Boss
         }
     }
 
+    /**
+     * logic for phase 3 projectile firing
+     * @param delta time since the last fame
+     */
     private void firePhase3(float delta)
     {
         prevPhase = phase;
@@ -333,6 +383,10 @@ public class L3Boss extends Boss
         }
     }
 
+    /**
+     * phase 4 projectile firing logic
+     * @param delta time since the last frame
+     */
     private void firePhase4(float delta)
     {
         prevPhase = phase;
@@ -381,6 +435,9 @@ public class L3Boss extends Boss
         }
     }
 
+    /**
+     * Set a new hitbox in case movement occurred
+     */
     private void updateBounds() {
         float x = getX() + (texture.getWidth() / 2) - bounds.getWidth() / 2;
         float y = getY() + (texture.getHeight() / 2) - bounds.getHeight() / 2;
@@ -388,6 +445,9 @@ public class L3Boss extends Boss
         bounds.setPosition(x, y);
     }
 
+    /**
+     * check for collisions for other objects, and handle the collisions appropriately
+     */
     private void checkCollision() {
         for (Actor actor : getStage().getActors()) {
             if (Projectile.class.isInstance(actor)) {
@@ -421,6 +481,10 @@ public class L3Boss extends Boss
         checkTop = (getY() + 30 < getStage().getViewport().getScreenHeight() - 20);
     }
 
+    /**
+     * getter for the bounds of this object
+     * @return return the private bounds parameter
+     */
     public Rectangle getBounds() {
         return bounds;
     }
