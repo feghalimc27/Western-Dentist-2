@@ -1,12 +1,12 @@
 package com.westerndentist.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class Level1 extends Stage
 {
@@ -18,7 +18,6 @@ public class Level1 extends Stage
 
     private boolean bossMusicPlayed = false;
 
-
     private Image background = new Image(new Texture("Images/WesternDentist_Background.png")),
             background2 = new Image(new Texture("Images/WesternDentist_Background.png"));
 
@@ -27,6 +26,10 @@ public class Level1 extends Stage
     private BossTrerryClews trerryClews = new BossTrerryClews(new Texture("Images/Scary Trews.png"), 5000, new Vector2(0, 400));
 
 
+    /**
+     * The constructor for the first level
+     * @param game - The whole game is passed in which handles pause and many other functions
+     */
     Level1(final WesternDentist game)
     {
 
@@ -103,11 +106,16 @@ public class Level1 extends Stage
     }
 
     @Override
-    public void draw() {
+    public void draw()
+    {
         sortActors();
         super.draw();
     }
 
+    /**
+     * This function will check if the boss has spawned from the list of actors and play the boss music
+     * If the boss has died the game will load the next level
+     */
     private void checkBoss()
     {
         if (!bossSpawned)
@@ -124,8 +132,9 @@ public class Level1 extends Stage
                     }
                 }
             }
-            catch (NullPointerException e) {
-
+            catch (NullPointerException e)
+            {
+                Gdx.app.log("Level: ", "Level could not get the actor");
             }
         }
 
@@ -137,6 +146,9 @@ public class Level1 extends Stage
 
     }
 
+    /**
+     * This function will sort the actors by the Z axis
+     */
     private void sortActors() {
         for (Actor actor : this.getActors()) {
             int z = actor.getZIndex();
@@ -163,6 +175,10 @@ public class Level1 extends Stage
         }
     }
 
+    /**
+     * This function will scroll the background from top to bottom
+     * @param delta - time in seconds since the last frame
+     */
     private void backgroundScrolling(float delta) {
         background.setY(background.getY() + 30 * delta);
         background2.setY(background2.getY() + 30 * delta);

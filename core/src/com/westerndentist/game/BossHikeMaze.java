@@ -17,6 +17,12 @@ public class BossHikeMaze extends Boss
     float checkX = 100;
     float checkY = 300;
 
+    /**
+     * Constructor for initializing the boss
+     * @param texture - the texture image for the boss
+     * @param health - the health amount for the boss
+     * @param position - the initial position of the boss
+     */
     BossHikeMaze(Texture texture, float health, Vector2 position)
     {
         super();
@@ -27,11 +33,6 @@ public class BossHikeMaze extends Boss
         setPosition(position.x, position.y);
         bounds = new Rectangle(getX(), getY(), (float)(texture.getWidth()/2.5), (float)(texture.getHeight()/2.5));
         //setDebug(true);
-    }
-
-    public float getHealth()
-    {
-        return this.health;
     }
 
     @Override
@@ -59,12 +60,17 @@ public class BossHikeMaze extends Boss
     }
 
 
+    /**
+     * Updates the bounds to be more accurate with the bosses position
+     */
     private void updateBounds()
     {
         bounds.setPosition(getX()+60, getY()+100);
     }
 
-
+    /**
+     * Checks if the health of the boss is zero, adds to the score of a flat sum, then removes the boss
+     */
     private void killOnDead()
     {
         if (health <= 0)
@@ -74,6 +80,9 @@ public class BossHikeMaze extends Boss
         }
     }
 
+    /**
+     * This function checks if it receives a projectile and decrement the health
+     */
     private void takeDamageFromProjectile()
     {
         try {
@@ -93,10 +102,14 @@ public class BossHikeMaze extends Boss
             }
         }
         catch (NullPointerException e) {
-            Gdx.app.log("Boss: ", "Something broke but I'm just gonna ignore it lol");
+            Gdx.app.log("Boss: ", "Actor was destroyed before position collision could be checked");
         }
     }
 
+    /**
+     * This function allows the boss to fire projectiles at the enemy
+     * @param delta - time in seconds since the last frame
+     */
     private void fire(float delta)
     {
         blueSin += delta * 2;
@@ -113,7 +126,7 @@ public class BossHikeMaze extends Boss
 
         catch (NullPointerException e)
         {
-
+            Gdx.app.log("Boss: ", "List reshuffled");
         }
     }
 }

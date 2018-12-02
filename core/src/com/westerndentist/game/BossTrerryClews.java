@@ -23,7 +23,12 @@ public class BossTrerryClews extends Boss{
 
     private boolean isSpawned = false;
 
-
+    /**
+     * Constructor for initializing the boss
+     * @param texture - the texture image for the boss
+     * @param health - the health amount for the boss
+     * @param position - the initial position of the boss
+     */
     BossTrerryClews(Texture texture, float health, Vector2 position)
     {
         super();
@@ -64,12 +69,17 @@ public class BossTrerryClews extends Boss{
         super.drawDebug(shapes);
     }
 
+    /**
+     * Updates the bounds to be more accurate with the bosses position
+     */
     private void updateBounds()
     {
         bounds.setPosition(getX()+65, getY()+70);
     }
 
-
+    /**
+     * Checks if the health of the boss is zero, adds to the score of a flat sum, then removes the boss
+     */
     private void killOnDead()
     {
         if (health <= 0)
@@ -79,6 +89,9 @@ public class BossTrerryClews extends Boss{
         }
     }
 
+    /**
+     * This function checks if it receives a projectile and decrement the health
+     */
     private void takeDamageFromProjectile()
     {
         try {
@@ -98,11 +111,14 @@ public class BossTrerryClews extends Boss{
             }
         }
         catch (NullPointerException e) {
-            Gdx.app.log("Boss: ", "Something broke but I'm just gonna ignore it lol");
+            Gdx.app.log("Boss: ", "Actor was destroyed before position collision could be checked");
         }
     }
 
-
+    /**
+     * This function allows the boss to fire projectiles at the enemy
+     * @param delta - time in seconds since the last frame
+     */
     private void fire(float delta)
     {
         initX1 += delta;
@@ -138,7 +154,7 @@ public class BossTrerryClews extends Boss{
 
         catch (NullPointerException e)
         {
-
+            Gdx.app.log("Boss: ", "List reshuffled");
         }
     }
 
