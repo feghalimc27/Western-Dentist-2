@@ -18,6 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WesternDentist extends Game {
     public float masterVolume = 1.0f;
     public float musicVolume = 1.0f;
@@ -47,6 +50,10 @@ public class WesternDentist extends Game {
     private Sound level2Boss;
     private Sound level3Boss;
     private Sound level4Boss;
+    private int level1Score;
+    private int level2score;
+    private int level3Score;
+    private int level4Score;
 
 	@Override
 	public void create () {
@@ -60,7 +67,7 @@ public class WesternDentist extends Game {
         //level2Boss = Gdx.audio.newSound(Gdx.files.internal(""));
         //level3Boss = Gdx.audio.newSound(Gdx.files.internal(""));
         level4Boss = Gdx.audio.newSound(Gdx.files.internal("sounds/level4Boss.mp3"));
-	    font = new BitmapFont(Gdx.files.internal("fonts/touhoufont.fnt"), Gdx.files.internal("fonts/touhoufont.png"), false);
+        font = new BitmapFont(Gdx.files.internal("fonts/touhoufont.fnt"), Gdx.files.internal("fonts/touhoufont.png"), false);
         textButtonStyle = new TextButton.TextButtonStyle(
                 null,
                 new TextureRegionDrawable(new TextureRegion(new Texture("images/mainmenu/buttonDown.png"))),
@@ -74,7 +81,7 @@ public class WesternDentist extends Game {
         labelStyle = new Label.LabelStyle(font, null);
 	    viewport = new FitViewport(800, 600);
         currentStage = new SplashScreen(this);
-        player = new Player(300, 100);
+        player = new Player(300, 100, this);
         userInterface = new UserInterface(this);
         pauseMenu = new PauseMenu(this);
         Gdx.input.setInputProcessor(currentStage);
@@ -100,6 +107,9 @@ public class WesternDentist extends Game {
         if (!paused) {
             currentStage.act(Gdx.graphics.getDeltaTime());
             currentStage.draw();
+            if (hiScore < player.getScore()) {
+                hiScore = player.getScore();
+            }
             if (!(currentStage instanceof SplashScreen) && !(currentStage instanceof MainMenu)) {
                 userInterface.act(Gdx.graphics.getDeltaTime());
                 userInterface.draw();
@@ -139,6 +149,18 @@ public class WesternDentist extends Game {
         pauseMenu.clear();
         pauseMenu.dispose();
         pauseMenu = new PauseMenu(this);
+        hiScore = 0;
+        player.setScore(0);
+        player.setHealth(5);
+        if (currentStage instanceof Level1) {
+            level1Score = player.getScore();
+        } else if (currentStage instanceof Level2) {
+            level2score = player.getScore();
+        } else if (currentStage instanceof Level3) {
+            level3Score = player.getScore();
+        } else if (currentStage instanceof Level4) {
+            level4Score = player.getScore();
+        }
 	    currentStage.clear();
 	    currentStage.dispose();
         currentStage = newStage;
@@ -159,14 +181,17 @@ public class WesternDentist extends Game {
         userInterface.clear();
         userInterface.dispose();
         userInterface = new UserInterface(this);
+        player.setScore(0);
+        player.setHealth(5);
+        player.setPower(0);
         currentStage.clear();
         currentStage.dispose();
         if (currentStage instanceof Level1) {
             currentStage = new Level1(this);
-        /*} else if (currentStage instanceof Level2 {
-
-        } else if (currentStage instanceof Level3) {*/
-
+        } else if (currentStage instanceof Level2) {
+            currentStage = new Level2(this);
+        } else if (currentStage instanceof Level3) {
+            currentStage = new Level3(this);
         } else if (currentStage instanceof Level4) {
             currentStage = new Level4(this);
         }
@@ -181,10 +206,10 @@ public class WesternDentist extends Game {
 	    if (bossBattle) {
             if (currentStage instanceof Level1) {
                 music = level1Boss;
-            /*} else if (currentStage instanceof Level2) {
-                music = level2Boss;
+            } else if (currentStage instanceof Level2) {
+                //music = level2Boss;
             } else if (currentStage instanceof Level3) {
-                music = level3Boss;*/
+                //music = level3Boss;
             } else if (currentStage instanceof Level4) {
                 music = level4Boss;
             }
@@ -213,10 +238,10 @@ public class WesternDentist extends Game {
                 music = theme;
             } else if (currentStage instanceof Level1) {
                 music = level1;
-            /*} else if (currentStage instanceof Level2) {
-                music = level2;
+            } else if (currentStage instanceof Level2) {
+                //music = level2;
             } else if (currentStage instanceof Level3) {
-                music = level3;*/
+                //music = level3;
             } else if (currentStage instanceof Level4) {
                 music = level4;
             }

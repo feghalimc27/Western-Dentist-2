@@ -38,7 +38,7 @@ public class Level2 extends Stage {
         addActor(background);
         addActor(background2);
 
-        addActor(new Player(300, 100));
+        addActor(game.player);
 
         sequencer = new Sequencer();
 

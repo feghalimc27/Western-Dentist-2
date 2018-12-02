@@ -52,7 +52,7 @@ public class UserInterface extends Stage {
         } else if (game.player.getHealth() == 5) {
             playerLabel.setText("* * * * *");
         }
-        powerLabel.setText(game.player.getPower() + "/1000");
+        powerLabel.setText(String.format("%04d", game.player.getPower()) + "/1000");
         fpsLabel.setText(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
 }
