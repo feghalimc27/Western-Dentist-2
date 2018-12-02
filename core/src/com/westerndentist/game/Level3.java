@@ -38,7 +38,7 @@ public class Level3 extends Stage {
             @Override
             public void run() {
                 bossTime = true;
-            }},   60000);
+            }},   3000              );
 
         bossTime = false;
         noBoss = true;

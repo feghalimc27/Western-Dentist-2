@@ -38,6 +38,7 @@ public class L3Boss extends Boss
     private Boolean phaseChange = true;
     private int phase = 1;
     private int prevPhase = 1;
+    private float score = 10000000;
 
     private boolean checkLeft = true, checkRight = true, checkTop = true, checkBottom = true;
 
@@ -54,7 +55,6 @@ public class L3Boss extends Boss
         setBounds(position.x, position.y, texture.getWidth(), texture.getHeight());
         setName("Mr. Muskrat");
         health = 20000;
-        // TODO: Boss Spawn Sound?
     }
 
     L3Boss(float x, float y) {
@@ -63,7 +63,6 @@ public class L3Boss extends Boss
         bounds.setCenter(x + texture.getWidth() / 4, y - texture.getHeight() / 4);
         setName("Mr. Muskrat");
         health = 20000;
-        // TODO: Boss Spawn Sound?
     }
 
     @Override
@@ -79,6 +78,7 @@ public class L3Boss extends Boss
 
     @Override
     public void act(float delta) {
+        score -= 1100 * delta;
         move();
         applyMovement(delta);
         if(getY() <= 350)
@@ -101,9 +101,19 @@ public class L3Boss extends Boss
     {
         if (health <= 0)
         {
-            super.giveScore();
+            this.giveScore();
             remove();
             Gdx.app.log("Mr. Muskrat", "That wasn\'t very Cash Money of you");
+        }
+    }
+
+    @Override
+    protected void giveScore() {
+        for (Actor actor: getStage().getActors()) {
+            if (Player.class.isInstance(actor)) {
+                ((Player)actor).addScore(this.score);
+                break;
+            }
         }
     }
 
