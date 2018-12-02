@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class Projectile extends Actor{
 
@@ -31,14 +32,16 @@ public class Projectile extends Actor{
     public void act(float delta) {
         super.act(delta);
 
-        moveBy(0,  (speed * delta));
+        if (!(this instanceof PositionProjectile || this instanceof NonVerticalProjectile || this instanceof LinearProjectile)) {
+            moveBy(0, (speed * delta));
+        }
         updateBounds();
 
         if (getY() > 1000 || getY() < -100) {
-            remove();
+            addAction(Actions.removeActor());
         }
         if (getX() > 800 || getX() < -200) {
-            remove();
+            addAction(Actions.removeActor());
         }
     }
 

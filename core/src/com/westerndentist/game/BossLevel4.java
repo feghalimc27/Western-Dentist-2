@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 public class BossLevel4 extends Boss {
 
     private float phase1damage = 3000, phase2damage = 6000,
-                  phase3damage = 12000, phase4damage = 24000 ;
+                  phase3damage = 12000, phase4damage = 24000;
 
     private Texture texture = new Texture("Images/l4BossSprite.png");
 
@@ -46,6 +46,7 @@ public class BossLevel4 extends Boss {
         super();
 
         bounds = new Rectangle(getX(), getY(), texture.getWidth(), texture.getHeight());
+        setName("BOSS4");
     }
 
     @Override
@@ -130,6 +131,7 @@ public class BossLevel4 extends Boss {
         else if (damage > phase4damage) {
             // end level
             phase = 5;
+            addAction(Actions.removeActor());
         }
     }
 

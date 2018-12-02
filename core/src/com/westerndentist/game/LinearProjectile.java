@@ -52,7 +52,7 @@ public class LinearProjectile extends Projectile {
      */
     @Override
     public void act(float delta) {
-        //super.act(delta);
+        super.act(delta);
 
         moveBy(xFactor * speed * delta, yFactor * speed * delta);
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -19,6 +20,7 @@ public class Player extends Actor {
     private Texture texture = new Texture("Images/tempMerrySeoul.png");
     private Vector2 movement = new Vector2(0, 0);
     private Rectangle bounds = new Rectangle();
+    private Rectangle powerBounds = new Rectangle();
 
     private int health = 5;
     private float speed = 200;
@@ -46,6 +48,7 @@ public class Player extends Actor {
         setPosition(x, y, Align.center);
         bounds.set(x, y, texture.getWidth() / 4, texture.getWidth() / 4);
         bounds.setCenter(x + texture.getWidth() / 4, y - texture.getHeight() / 4);
+        powerBounds.set(x, y, texture.getWidth(), texture.getHeight());
         setName("Player");
         this.game = game;
     }
@@ -67,7 +70,6 @@ public class Player extends Actor {
         move(delta);
         applyMovement(delta);
         fire(delta);
-        modPower(delta);
         decayIframes(delta);
         increaseScore(delta);
 
@@ -103,7 +105,7 @@ public class Player extends Actor {
     private void decayIframes(float delta) {
         if (iframes > 0) {
             iframes -= 20 * delta;
-            setColor(0.5f, 0.5f, 0.5f, 0.5f);
+            setColor(0.5f, 0.5f, 0.5f, 0.3f + 0.9f * Math.abs(MathUtils.cos( iframes / 50)));
         }
         else if (iframes < 0) {
             iframes = 0;
@@ -143,6 +145,7 @@ public class Player extends Actor {
             if (rateCounter == 0) {
                 getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerBurst.png"), 800, getX(), getY(), "Player"));
                 rateCounter += fireRate * delta * 10;
+                modPower(delta);
             }
         }
 
@@ -160,6 +163,7 @@ public class Player extends Actor {
         float y = getY() + (texture.getHeight() / 2) - bounds.getHeight() / 2;
 
         bounds.setPosition(x, y);
+        powerBounds.setPosition(x, y);
     }
 
     private void checkCollision() {
@@ -182,7 +186,7 @@ public class Player extends Actor {
             }
 
             if (Powerup.class.isInstance(actor)) {
-                if (bounds.overlaps(((Powerup) actor).getBounds())) {
+                if (powerBounds.overlaps(((Powerup) actor).getBounds())) {
                     if (PowerPowerup.class.isInstance(actor)) {
                         float plus = ((PowerPowerup) actor).destroy();
                         power += plus;
