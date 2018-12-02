@@ -18,9 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class WesternDentist extends Game {
     public float masterVolume = 1.0f;
     public float musicVolume = 1.0f;
@@ -161,6 +158,13 @@ public class WesternDentist extends Game {
         } else if (currentStage instanceof Level4) {
             level4Score = player.getScore();
         }
+
+        if (currentStage instanceof Level1 || currentStage instanceof Level2 || currentStage instanceof Level3) {
+
+        } else if (currentStage instanceof Level4) {
+
+        }
+
 	    currentStage.clear();
 	    currentStage.dispose();
         currentStage = newStage;
