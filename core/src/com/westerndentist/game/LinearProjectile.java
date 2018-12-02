@@ -18,6 +18,17 @@ public class LinearProjectile extends Projectile {
 
     private boolean risingX = true, risingY = true;
 
+    /**
+     * Constructor -- only supported
+     * @param texture
+     * @param initialSpeed
+     * @param x
+     * @param y
+     * @param tag
+     * @param xFactor
+     * @param yFactor
+     * @param curve
+     */
     LinearProjectile(Texture texture, float initialSpeed, float x, float y, String tag, float xFactor, float yFactor, boolean curve) {
         super(texture, initialSpeed, x, y, tag);
 
@@ -35,6 +46,10 @@ public class LinearProjectile extends Projectile {
         this.curve = curve;
     }
 
+    /**
+     * perform necessary actions for this frame
+     * @param delta
+     */
     @Override
     public void act(float delta) {
         //super.act(delta);
@@ -48,6 +63,12 @@ public class LinearProjectile extends Projectile {
         }
     }
 
+    /**
+     * return the angle of the projectile's motion based on x and y components
+     * @param x
+     * @param y
+     * @return
+     */
     private float getAngle(float x, float y) {
         if (x == 1 && y == 0) {
             return 0;
