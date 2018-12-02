@@ -21,7 +21,7 @@ public class Level3 extends Stage {
 
     /**
      * Constructor for Level 3
-     * @param game
+     * @param game      game object containing all values which persist across level instances
      */
     Level3 (final WesternDentist game) {
         super(game.viewport);
@@ -64,7 +64,7 @@ public class Level3 extends Stage {
 
     /**
      * Perform all actions on all objects on screen
-     * @param delta
+     * @param delta     time since the last frame
      */
     @Override
     public void act(float delta) {
@@ -111,7 +111,7 @@ public class Level3 extends Stage {
 
     /**
      * check whether boss is dead
-     * @return true if boss has died, false otherwise
+     * @return      true if boss has died, false otherwise
      */
     private Boolean bossIsDead()
     {
@@ -181,7 +181,7 @@ public class Level3 extends Stage {
 
     /**
      * scroll the background image across the screen
-     * @param delta
+     * @param delta     Time since the last frame
      */
     private void backgroundScrolling(float delta) {
         background.setY(background.getY() + 30 * delta);

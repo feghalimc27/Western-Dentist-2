@@ -55,7 +55,7 @@ public class L3Boss extends Boss
 
     /**
      * Overriden Constructor with position vector
-     * @param position
+     * @param position      vector containing the x and y coordinates of the object's spawn
      */
     L3Boss(Vector2 position) {
         setPosition(position.x, position.y);
@@ -66,8 +66,8 @@ public class L3Boss extends Boss
 
     /**
      * overriden constructor with position coordinates
-     * @param x
-     * @param y
+     * @param x     x coordinate of the object's spawn
+     * @param y     y coordinate of the object's spawn
      */
     L3Boss(float x, float y) {
         setPosition(x, y, Align.center);
@@ -79,8 +79,8 @@ public class L3Boss extends Boss
 
     /**
      * Draw this object on the screen
-     * @param batch
-     * @param parentAlpha
+     * @param batch         batch object to handle the batch process of drawing the window
+     * @param parentAlpha   alpha of the parent object
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
@@ -89,7 +89,7 @@ public class L3Boss extends Boss
 
     /**
      * Draw this object with a highlighted hitbox
-     * @param shapes
+     * @param shapes shape renderer object to handle the shape-drawing for hitboxes
      */
     @Override
     public void drawDebug(ShapeRenderer shapes) {
@@ -99,7 +99,7 @@ public class L3Boss extends Boss
 
     /**
      * Perform the necessary actions for each frame
-     * @param delta
+     * @param delta time since the last frame
      */
     @Override
     public void act(float delta) {
@@ -160,7 +160,7 @@ public class L3Boss extends Boss
 
     /**
      * apply appropriate movement to this object based on its movement vector
-     * @param delta
+     * @param delta time since the last frame
      */
     private void applyMovement(float delta) {
         movement.x *= delta;
@@ -173,7 +173,7 @@ public class L3Boss extends Boss
 
     /**
      * Logic for the first phase projectile firing
-     * @param delta
+     * @param delta time since the last frame
      */
     private void firePhase1(float delta) {
         prevPhase = phase;
@@ -231,7 +231,7 @@ public class L3Boss extends Boss
 
     /**
      * Logic for phase 2 projectile firing
-     * @param delta
+     * @param delta time since last frame
      */
     private void firePhase2(float delta)
     {
@@ -304,7 +304,7 @@ public class L3Boss extends Boss
 
     /**
      * logic for phase 3 projectile firing
-     * @param delta
+     * @param delta time since the last fame
      */
     private void firePhase3(float delta)
     {
@@ -385,7 +385,7 @@ public class L3Boss extends Boss
 
     /**
      * phase 4 projectile firing logic
-     * @param delta
+     * @param delta time since the last frame
      */
     private void firePhase4(float delta)
     {
@@ -483,7 +483,7 @@ public class L3Boss extends Boss
 
     /**
      * getter for the bounds of this object
-     * @return
+     * @return return the private bounds parameter
      */
     public Rectangle getBounds() {
         return bounds;

@@ -20,14 +20,14 @@ public class LinearProjectile extends Projectile {
 
     /**
      * Constructor -- only supported
-     * @param texture
-     * @param initialSpeed
-     * @param x
-     * @param y
-     * @param tag
-     * @param xFactor
-     * @param yFactor
-     * @param curve
+     * @param texture       relative file path to the texture
+     * @param initialSpeed  speed of the object's motion
+     * @param x             x coordinate of the object's spawn position
+     * @param y             y coordinate of the object's spawn position
+     * @param tag           label for the object in gdx logs
+     * @param xFactor       x component of motion
+     * @param yFactor       y component of motion
+     * @param curve         true if curved motion should be enabled
      */
     LinearProjectile(Texture texture, float initialSpeed, float x, float y, String tag, float xFactor, float yFactor, boolean curve) {
         super(texture, initialSpeed, x, y, tag);
@@ -48,7 +48,7 @@ public class LinearProjectile extends Projectile {
 
     /**
      * perform necessary actions for this frame
-     * @param delta
+     * @param delta time since last frame
      */
     @Override
     public void act(float delta) {
@@ -65,9 +65,9 @@ public class LinearProjectile extends Projectile {
 
     /**
      * return the angle of the projectile's motion based on x and y components
-     * @param x
-     * @param y
-     * @return
+     * @param x x component of motion
+     * @param y y component of motion
+     * @return angle of motion (in degrees)
      */
     private float getAngle(float x, float y) {
         if (x == 1 && y == 0) {
