@@ -44,6 +44,7 @@ public class BossLevel4 extends Boss {
     private float damage = 0;
 
     private boolean spawned = false;
+    private boolean phase4active = true;
 
     private RandomXS128 rng = new RandomXS128();
 
@@ -199,7 +200,7 @@ public class BossLevel4 extends Boss {
             case 4:
                 phase1(delta);
                 phase2(delta);
-                phase3(delta);
+                phase4(delta);
                 break;
             default:
                 break;
@@ -264,28 +265,28 @@ public class BossLevel4 extends Boss {
     private void phase2(float delta) {
         if (phase2Counter < 100) {
             try {
-                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 130, getX() + texture.getWidth() / 2, getY() + texture.getHeight() / 2, "Enemy", 1, -2, true, false));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurstL4P2.png"), 130, getX() + texture.getWidth() / 2, getY() + texture.getHeight() / 2, "Enemy", 1, -2, true, false));
             } catch (NullPointerException e) {
 
             }
         }
         else if (phase2Counter > 100 && phase2Counter < 200) {
             try {
-                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 130, getX() + texture.getWidth() / 2, getY() + texture.getHeight() / 2, "Enemy", -1, -2, true, false));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurstL4P2.png"), 130, getX() + texture.getWidth() / 2, getY() + texture.getHeight() / 2, "Enemy", -1, -2, true, false));
             } catch (NullPointerException e) {
 
             }
         }
         else if (phase2Counter > 200 && phase2Counter < 300) {
             try {
-                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 130, getX() + texture.getWidth() / 2, getY() + texture.getHeight() / 2, "Enemy", -1, -2, true, true));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurstL4P2.png"), 130, getX() + texture.getWidth() / 2, getY() + texture.getHeight() / 2, "Enemy", -1, -2, true, true));
             } catch (NullPointerException e) {
 
             }
         }
         else if (phase2Counter > 300 && phase2Counter < 400) {
             try {
-                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 130, getX() + texture.getWidth() / 2, getY() + texture.getHeight() / 2, "Enemy", 1, -2, true, true));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurstL4P2.png"), 130, getX() + texture.getWidth() / 2, getY() + texture.getHeight() / 2, "Enemy", 1, -2, true, true));
             } catch (NullPointerException e) {
 
             }
@@ -332,6 +333,21 @@ public class BossLevel4 extends Boss {
         else {
             phase3Counter += 1000 * delta;
         }
+    }
+
+    private void phase4(float delta) {
+        if (phase4active) {
+            phase4active = false;
+            getStage().addActor(new Boss4Phase4());
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    phase4active = true;
+                }
+            }, 10000);
+        }
+
     }
 
     public int getPhase() {
