@@ -62,7 +62,7 @@ public class Level2 extends Stage {
         boss.addAction(Actions.moveTo(200, 250, 6));
 
         sequencer.addActorToPhase(2, boss);
-        sequencer.addPhaseSpawnFrequency(2, 30);
+        sequencer.addPhaseSpawnFrequency(2, 10);
         sequencer.addPhaseSpawnPosition(2, new Vector2(300, 1000));
 
 
