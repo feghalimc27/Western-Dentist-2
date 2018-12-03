@@ -28,7 +28,7 @@ public class BossLevel4 extends Boss {
     private float phase3Cooldown = 5000;
 
     private float rateCounter1 = 0;
-    private float fireRate1 = 10;
+    private float fireRate1 = 20;
 
     private float maxMoveX = 520;
     private float maxMoveY = 580;
