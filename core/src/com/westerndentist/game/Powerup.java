@@ -52,6 +52,10 @@ public abstract class Powerup extends Actor {
         moveBy(10 * xMov * delta, 10 * yMov *  delta);
     }
 
+    /**
+     * Update lifetime
+     * @param delta
+     */
     private void updateLifetime(float delta) {
         lifetime -=  100 * delta;
         if (lifetime <= 0) {
@@ -59,15 +63,26 @@ public abstract class Powerup extends Actor {
         }
     }
 
+    /**
+     * Destroy
+     * @return value
+     */
     public float destroy() {
         remove();
         return value;
     }
 
+    /**
+     * Update bounds
+     */
     public void updateBounds() {
         bounds.setPosition(getX(), getY());
     }
 
+    /**
+     * Get bounds for collisions
+     * @return Rectangle bounds
+     */
     public Rectangle getBounds() {
         return bounds;
     }
