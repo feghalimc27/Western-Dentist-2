@@ -20,6 +20,9 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import java.awt.*;
 
+/**
+ * Player class
+ */
 public class Player extends Actor {
 
     private float score;
@@ -41,18 +44,31 @@ public class Player extends Actor {
 
     private boolean checkLeft = true, checkRight = true, checkTop = true, checkBottom = true;
 
+    /**
+     * Default Constructor
+     */
     Player() {
         setPosition(0, 0);
         setBounds(0, 0, texture.getWidth() / 2, texture.getWidth() / 2);
         setName("Player");
     }
 
+    /**
+     * Constructor with position (unused)
+     * @param position initial position
+     */
     Player(Vector2 position) {
         setPosition(position.x, position.y);
         setBounds(position.x, position.y, texture.getWidth() / 2, texture.getWidth() / 2);
         setName("Player");
     }
 
+    /**
+     * Player constructor
+     * @param x initial x
+     * @param y initial y
+     * @param game instance of the game
+     */
     Player(float x, float y, WesternDentist game) {
         setPosition(x, y, Align.center);
         bounds.set(x, y, texture.getWidth() / 4, texture.getWidth() / 4);
@@ -62,6 +78,11 @@ public class Player extends Actor {
         this.game = game;
     }
 
+    /**
+     * Draws texture to frame
+     * @param batch
+     * @param parentAlpha
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.setColor(getColor());
@@ -69,12 +90,20 @@ public class Player extends Actor {
         batch.setColor(1, 1, 1, 1);
     }
 
+    /**
+     * Handles drawing hitbox
+     * @param shapes
+     */
     @Override
     public void drawDebug(ShapeRenderer shapes) {
         shapes.rect(bounds.x, bounds.y, bounds.width, bounds.height);
         super.drawDebug(shapes);
     }
 
+    /**
+     * Updates every time step
+     * @param delta time since the last frame in seconds
+     */
     @Override
     public void act(float delta) {
         move(delta);
@@ -93,6 +122,7 @@ public class Player extends Actor {
             sequence.addAction(Actions.run(new Runnable() {
                 @Override
                 public void run() {
+                    ((Level4)game.currentStage).restart();
                     game.restartStage();
                 }
             }));
@@ -112,21 +142,36 @@ public class Player extends Actor {
         }
     }
 
+    /**
+     * Remove player and aura from stage
+     * @return
+     */
     @Override
     public boolean remove() {
         aura.remove();
         return super.remove();
     }
 
+    /**
+     * Add aura to stage
+     */
     public void addAura() {
         aura = new Aura(this, game);
         getStage().addActor(aura);
     }
 
+    /**
+     * Increase score over time
+     * @param delta the time since the last frame in seconds
+     */
     private void increaseScore(float delta) {
         score += 100 * delta;
     }
 
+    /**
+     * Modifies power decay when firing
+     * @param delta time since the last frame in seconds
+     */
     private void modPower(float delta) {
         if (power > 1000) {
             power = 1000;
@@ -145,6 +190,10 @@ public class Player extends Actor {
         }
     }
 
+    /**
+     * Decay intangibility frames
+     * @param delta time since the last frame in seconds
+     */
     private void decayIframes(float delta) {
         if (iframes > 0) {
             iframes -= 20 * delta;
@@ -156,6 +205,10 @@ public class Player extends Actor {
         }
     }
 
+    /**
+     * Handles player movement
+     * @param delta time since the last frame in seconds
+     */
     private void move(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.W) && checkTop) {
             movement.y += speed;
@@ -174,6 +227,10 @@ public class Player extends Actor {
         }
     }
 
+    /**
+     * Applies movement
+     * @param delta time since the last frame in seconds
+     */
     private void applyMovement(float delta) {
         movement.x *= delta;
         movement.y *= delta;
@@ -183,6 +240,10 @@ public class Player extends Actor {
         movement = new Vector2(0, 0);
     }
 
+    /**
+     * Handles firing
+     * @param delta time since the last frame in seconds
+     */
     private void fire(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             if (rateCounter == 0) {
@@ -236,6 +297,9 @@ public class Player extends Actor {
         }
     }
 
+    /**
+     * Update bounding box
+     */
     private void updateBounds() {
         float x = getX() + (texture.getWidth() / 2) - bounds.getWidth() / 2;
         float y = getY() + (texture.getHeight() / 2) - bounds.getHeight() / 2;
@@ -244,6 +308,9 @@ public class Player extends Actor {
         powerBounds.setPosition(x, y);
     }
 
+    /**
+     * Handle collision detection
+     */
     private void checkCollision() {
         for (Actor actor : getStage().getActors()) {
             if (Projectile.class.isInstance(actor) && iframes == 0) {
@@ -287,34 +354,66 @@ public class Player extends Actor {
         checkTop = (getY() + 30 < 580);
     }
 
+    /**
+     * Return bounding box for collision detection
+     * @return Rectangle bounds
+     */
     public Rectangle getBounds() {
         return bounds;
     }
 
+    /**
+     * Add to score
+     * @param score
+     */
     public void addScore(float score) {
         this.score += score;
     }
 
+    /**
+     * Set health
+     * @param health
+     */
     public void setHealth(int health) {
         this.health = health;
     }
 
+    /**
+     * Set score
+     * @param score
+     */
     public void setScore(float score) {
         this.score = score;
     }
 
+    /**
+     * Set power
+     * @param power
+     */
     public void setPower(float power) {
         this.power = power;
     }
 
+    /**
+     * Get score
+     * @return
+     */
     public int getScore() {
         return (int)score;
     }
 
+    /**
+     * Get power
+     * @return
+     */
     public int getPower() {
         return (int)power;
     }
 
+    /**
+     * Get health
+     * @return
+     */
     public int getHealth() {
         return health;
     }

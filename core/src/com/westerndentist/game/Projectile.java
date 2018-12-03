@@ -8,6 +8,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
+/**
+ * Base projectile class
+ */
 public class Projectile extends Actor{
 
     private Texture texture;
@@ -15,6 +18,14 @@ public class Projectile extends Actor{
     private float damage = 10;
     private Rectangle bounds = new Rectangle();
 
+    /**
+     * Constructor
+     * @param texture texture
+     * @param initialSpeed initial speed
+     * @param x initial x
+     * @param y initial y
+     * @param tag actor who spawned
+     */
     Projectile(Texture texture, float initialSpeed, float x, float y, String tag) {
         this.texture = texture;
         speed = initialSpeed;
@@ -23,6 +34,15 @@ public class Projectile extends Actor{
         bounds.set(x + texture.getWidth() / 8, y + texture.getWidth() / 8, texture.getWidth() / 4, texture.getHeight() / 4);
     }
 
+    /**
+     * Constructor
+     * @param texture texture
+     * @param initialSpeed initial speed
+     * @param x initial x
+     * @param y initial y
+     * @param tag actor who spawned
+     * @param damage damage
+     */
     Projectile(Texture texture, float initialSpeed, float x, float y, String tag, float damage) {
         this.texture = texture;
         speed = initialSpeed;
@@ -33,6 +53,11 @@ public class Projectile extends Actor{
     }
 
 
+    /**
+     * Draws the projectile
+     * @param batch SpriteBatch to draw sprite
+     * @param parentAlpha alpha of the parent (unused)
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         if (getName().equals("Player") && damage > 10) {
@@ -45,6 +70,10 @@ public class Projectile extends Actor{
         batch.draw(texture, getX(), getY(), texture.getWidth() / 2, texture.getHeight() / 2);
     }
 
+    /**
+     * Updates every time step
+     * @param delta time since the last frame in seconds
+     */
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -62,24 +91,42 @@ public class Projectile extends Actor{
         }
     }
 
+    /**
+     * Draw projectile hitbox on debug = true
+     * @param shapes
+     */
     @Override
     public void drawDebug(ShapeRenderer shapes) {
         shapes.rect(bounds.x, bounds.y, bounds.width, bounds.height);
         super.drawDebug(shapes);
     }
 
+    /**
+     * get the damage value to inflict
+     * @return float damage
+     */
     public float getDamage() {
         return damage;
     }
 
+    /**
+     * Destroy projectile
+     */
     public void destroy() {
         remove();
     }
 
+    /**
+     * Update bounds
+     */
     protected void updateBounds() {
         bounds.setPosition(getX() + texture.getWidth() / 8, getY()+ texture.getWidth() / 8);
     }
 
+    /**
+     * Get bounds for collision
+     * @return Rectangle bounds
+     */
     public Rectangle getBounds() {
         return bounds;
     }

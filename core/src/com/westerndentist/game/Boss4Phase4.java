@@ -10,6 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Manages the 4th phase of the Level4 Boss Fight
+ */
 public class Boss4Phase4 extends Actor {
 
     private RandomXS128 rng = new RandomXS128();
@@ -28,12 +31,19 @@ public class Boss4Phase4 extends Actor {
     private float x1 = 480, y1 = 580 - 68, x2 = 0, y2 = 580 - 218, x3 = 480, y3 = 580 - 445;
     private float fx1 = 0, fy1 = 580 - 68, fx2 = 480, fy2 = 580 - 218, fx3 = 0, fy3 = 580 - 445;
 
+    /**
+     * Constructor
+     */
     Boss4Phase4() {
         flipped = (12 * rng.nextFloat()) > 6;
         setX(20);
         setY(20);
     }
 
+    /**
+     * Updates every time step
+     * @param delta the time since the last frame in seconds
+     */
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -75,6 +85,11 @@ public class Boss4Phase4 extends Actor {
         }
     }
 
+    /**
+     * Handles drawing
+     * @param batch SpriteBatch to draw textures
+     * @param parentAlpha the alpha of the parent (Unused)
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.setColor(1, 1, 1, MathUtils.sinDeg(angle));

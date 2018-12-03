@@ -6,6 +6,9 @@ import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
+/**
+ * Spray enemy for level 4
+ */
 public class SprayEnemy extends Enemy {
 
     private float rateCounter = 0;
@@ -23,6 +26,12 @@ public class SprayEnemy extends Enemy {
 
     private static RandomXS128 generator = new RandomXS128();
 
+    /**
+     * Constructor
+     * @param texture texture
+     * @param health initial health
+     * @param fireRate rate of fire
+     */
     SprayEnemy(Texture texture, float health, float fireRate) {
         super();
 
@@ -38,6 +47,10 @@ public class SprayEnemy extends Enemy {
         generator = new RandomXS128();
     }
 
+    /**
+     * Updates on each time step
+     * @param delta the time since the last frame in seconds
+     */
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -45,6 +58,10 @@ public class SprayEnemy extends Enemy {
         move(delta);
     }
 
+    /**
+     * Spray fire
+     * @param delta time since the last frame in seconds
+     */
     private void fireSpray(float delta) {
         if (rateCounter == 0) {
             try {
@@ -81,6 +98,10 @@ public class SprayEnemy extends Enemy {
         }
     }
 
+    /**
+     * Move based on XOR Shift Random
+     * @param delta time since the last frame in seconds
+     */
     private void move(float delta) {
         if (moveCooldown == 0 && canMove) {
 

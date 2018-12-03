@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * Projectile that spawns, waits, then moves
+ */
 public class PositionProjectile extends Projectile {
 
     private float xFactor, yFactor;
@@ -12,6 +15,16 @@ public class PositionProjectile extends Projectile {
 
     private Vector2 playerPos;
 
+    /**
+     * Constructor
+     * @param texture texture
+     * @param speed initial speed
+     * @param tag name of the object that spawned the projectile
+     * @param x initial x
+     * @param y initial y
+     * @param playerPos position to move towards
+     * @param delay how long before moving
+     */
     PositionProjectile(Texture texture, float speed, String tag, float x, float y, Vector2 playerPos, float delay) {
         super(texture, speed, x, y,tag);
 
@@ -32,6 +45,10 @@ public class PositionProjectile extends Projectile {
         setPosition(x, y);
     }
 
+    /**
+     * Updates every time step
+     * @param delta time since the last frame in seconds
+     */
     @Override
     public void act(float delta) {
         if (timer < delay) {

@@ -12,6 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Boss for level 4
+ */
 public class BossLevel4 extends Boss {
 
     private float phase1damage = 3000, phase2damage = 9000,
@@ -48,6 +51,9 @@ public class BossLevel4 extends Boss {
 
     private RandomXS128 rng = new RandomXS128();
 
+    /**
+     * Constructor
+     */
     BossLevel4() {
         super();
 
@@ -55,6 +61,10 @@ public class BossLevel4 extends Boss {
         setName("BOSS4");
     }
 
+    /**
+     * Act function, updates every time step
+     * @param delta difference since the last frame in seconds
+     */
     @Override
     public void act(float delta) {
         if (!spawned) {
@@ -70,11 +80,20 @@ public class BossLevel4 extends Boss {
         spawnPower(delta);
     }
 
+    /**
+     * Draws texture to the screen
+     * @param batch SpriteBatch, handles drawing
+     * @param parentAlpha parent alpha, handles transparency of objects (unused)
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(texture, getX(), getY());
     }
 
+    /**
+     * Moves the boss randomly using XOR Shift Randomizers
+     * @param delta
+     */
     private void move(float delta) {
         if (moveCooldown == 0 && canMove) {
 
@@ -125,6 +144,9 @@ public class BossLevel4 extends Boss {
         }
     }
 
+    /**
+     * Handles phase changing based on health
+     */
     private void changePhase() {
         if (damage > phase1damage && damage < phase2damage) {
             phase = 2;
@@ -141,6 +163,9 @@ public class BossLevel4 extends Boss {
         }
     }
 
+    /**
+     * Handles taking damage from projectiles
+     */
     private void takeDamageFromProjectile() {
         try {
             for (Actor actor : getStage().getActors()) {
@@ -162,6 +187,10 @@ public class BossLevel4 extends Boss {
         }
     }
 
+    /**
+     * Handles spawning powerups on a timer, spawns them every 30 seconds
+     * @param delta
+     */
     private void spawnPower(float delta) {
         if (!spawningPower) {
             spawningPower = true;
@@ -183,6 +212,10 @@ public class BossLevel4 extends Boss {
         }
     }
 
+    /**
+     * Manages phases
+     * @param delta time since the last frame in seconds
+     */
     private void phase(float delta) {
         switch (phase) {
             case 1:
@@ -207,6 +240,10 @@ public class BossLevel4 extends Boss {
         }
     }
 
+    /**
+     * Manages phase 1
+     * @param delta time since the last frame in seconds
+     */
     private void phase1(float delta) {
         float spinFactor = 1000;
 
@@ -262,6 +299,10 @@ public class BossLevel4 extends Boss {
         }
     }
 
+    /**
+     * Manages phase 2
+     * @param delta time since the last frame in seconds
+     */
     private void phase2(float delta) {
         if (phase2Counter < 100) {
             try {
@@ -298,6 +339,10 @@ public class BossLevel4 extends Boss {
         phase2Counter += 500 * delta;
     }
 
+    /**
+     * Manages phase 3
+     * @param delta time since the last frame in seconds
+     */
     private void phase3(float delta) {
         if (phase3Counter >= phase3Cooldown) {
             Vector2 playerPos = new Vector2();
@@ -335,6 +380,10 @@ public class BossLevel4 extends Boss {
         }
     }
 
+    /**
+     * Manages phase 4
+     * @param delta time since the last frame in seconds
+     */
     private void phase4(float delta) {
         if (phase4active) {
             phase4active = false;
@@ -350,6 +399,10 @@ public class BossLevel4 extends Boss {
 
     }
 
+    /**
+     * Gets the current phase
+     * @return int phase
+     */
     public int getPhase() {
         return phase;
     }

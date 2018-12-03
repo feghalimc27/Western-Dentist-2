@@ -10,6 +10,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+/**
+ * Aura class for the player's overshield
+ */
 public class Aura extends Actor {
 
     private Texture texture = new Texture("Images/WesternDentist_Aura.png");
@@ -24,6 +27,11 @@ public class Aura extends Actor {
     private WesternDentist game;
     private Rectangle bounds;
 
+    /**
+     * Constructor
+     * @param player Handles a reference to the player
+     * @param game Handles a reference to the game
+     */
     Aura(Player player, WesternDentist game) {
         this.game = game;
         setName("Aura");
@@ -33,6 +41,10 @@ public class Aura extends Actor {
         this.player = player;
     }
 
+    /**
+     * Updated on each time step
+     * @param delta the time since the last frame in seconds
+     */
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -81,6 +93,11 @@ public class Aura extends Actor {
         bounds.set(getX(), getY(), texture.getWidth(), texture.getHeight());
     }
 
+    /**
+     * Draws objects to the screen
+     * @param batch SpriteBatch to draw objects
+     * @param parentAlpha Alpha for the parent (unused)
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         if (active) {
@@ -96,6 +113,9 @@ public class Aura extends Actor {
         batch.setColor(Color.WHITE);
     }
 
+    /**
+     * Handles blocking projectiles when aura is active
+     */
     private void block() {
         try {
             for (Actor actor: getStage().getActors()) {
@@ -107,7 +127,7 @@ public class Aura extends Actor {
             }
         }
         catch (NullPointerException e) {
-
+            Gdx.app.log("Aura", "An actor was removed before it could be checked");
         }
     }
 }

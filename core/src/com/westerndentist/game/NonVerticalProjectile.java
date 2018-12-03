@@ -7,6 +7,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
+/**
+ * Projectile for nonvertical movement
+ */
 public class NonVerticalProjectile extends Projectile {
 
     private float xFactor, yFactor, firstX, firstY;
@@ -18,6 +21,18 @@ public class NonVerticalProjectile extends Projectile {
 
     private boolean risingX = true, risingY = true;
 
+    /**
+     * Constructor
+     * @param texture texture
+     * @param initialSpeed initial speed
+     * @param x initial x position
+     * @param y initial y position
+     * @param tag name of the object that spawned
+     * @param xFactor multiplicative factor for x
+     * @param yFactor multiplicative factor for y
+     * @param curve handles sine curve
+     * @param dir handles bossPhase damage
+     */
     NonVerticalProjectile(Texture texture, float initialSpeed, float x, float y, String tag, float xFactor, float yFactor, boolean curve, boolean dir) {
         super(texture, initialSpeed, x, y, tag);
 
@@ -37,6 +52,10 @@ public class NonVerticalProjectile extends Projectile {
         this.dir = dir;
     }
 
+    /**
+     * Updates every time step
+     * @param delta time since the last frame in seconds
+     */
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -54,6 +73,10 @@ public class NonVerticalProjectile extends Projectile {
         }
     }
 
+    /**
+     * Handles curving
+     * @param delta time since the last frame in seconds
+     */
     private void mod(float delta) {
         //setOrigin(origin.x, origin.y);
         //angle += 360 * delta;
@@ -72,6 +95,12 @@ public class NonVerticalProjectile extends Projectile {
         }
     }
 
+    /**
+     * Gets the angle between two factors
+     * @param x x
+     * @param y y
+     * @return float angle
+     */
     private float getAngle(float x, float y) {
         if (x == 1 && y == 0) {
             return 0;

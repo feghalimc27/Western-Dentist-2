@@ -10,6 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+/**
+ * Base enemy abstract class
+ */
 public abstract class Enemy extends Actor {
 
     protected Texture texture;
@@ -25,20 +28,32 @@ public abstract class Enemy extends Actor {
 
     private RandomXS128 rng = new RandomXS128();
 
+    /**
+     * Constructor
+     */
     Enemy() {
 
     }
 
+    /**
+     * Draws object to the screen
+     * @param batch SpriteBatch to draw the texture
+     * @param parentAlpha The alpha of the objects parent (Unused)
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(texture, getX(), getY());
     }
 
+    /**
+     * Updates every frame
+     * @param delta the time since the last frame in secondss
+     */
     @Override
     public void act(float delta) {
         if (!checked) {
             checked = true;
-            scoreMultiplier = (int)health % 10;
+            scoreMultiplier = (int)health / 10;
         }
         super.act(delta);
         updateBounds();
@@ -46,6 +61,9 @@ public abstract class Enemy extends Actor {
         killOnDead();
     }
 
+    /**
+     * Handles killing the enemies on health < 0
+     */
     private void killOnDead() {
         if (health <= 0) {
             int powerups = (int)(6 * rng.nextFloat()) + 1;
@@ -60,7 +78,7 @@ public abstract class Enemy extends Actor {
 
             for (Actor actor: getStage().getActors()) {
                 if (Player.class.isInstance(actor)) {
-                    ((Player)actor).addScore(7000 * scoreMultiplier);
+                    ((Player)actor).addScore(1000 * scoreMultiplier);
                     break;
                 }
             }
@@ -69,6 +87,9 @@ public abstract class Enemy extends Actor {
         }
     }
 
+    /**
+     * Handles taking damage from projectiles
+     */
     private void takeDamageFromProjectile() {
         try {
             for (Actor actor : getStage().getActors()) {
@@ -91,16 +112,27 @@ public abstract class Enemy extends Actor {
         }
     }
 
+    /**
+     * Override debug draw to draw enemy bounding boxes when in debug mode
+     * @param shapes shapes
+     */
     @Override
     public void drawDebug(ShapeRenderer shapes) {
         shapes.rect(bounds.x, bounds.y, bounds.width, bounds.height);
         super.drawDebug(shapes);
     }
 
+    /**
+     * Updates the bounding box
+     */
     private void updateBounds() {
         bounds.setPosition(getX(), getY());
     }
 
+    /**
+     * Returns the bounding box for collision handling
+     * @return Rectangle bounds
+     */
     public Rectangle getBounds() {
         return bounds;
     }

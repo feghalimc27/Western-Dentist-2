@@ -7,6 +7,9 @@ import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+/**
+ * Abstract base class for powerups
+ */
 public abstract class Powerup extends Actor {
 
     protected float lifetime;
@@ -19,7 +22,10 @@ public abstract class Powerup extends Actor {
     private RandomXS128 rng = new RandomXS128();
     protected Rectangle bounds = new Rectangle();
 
-    Powerup() {
+    /**
+     * Defualt constructor
+     */
+    Powerup(boolean boss) {
         if (!boss) {
             xMov *= rng.nextFloat();
             if (xMov < 0.5) {
@@ -30,10 +36,14 @@ public abstract class Powerup extends Actor {
         }
         else {
             xMov = 0;
-            yMov = 100;
+            yMov = -2;
         }
     }
 
+    /**
+     * Updates every time step
+     * @param delta time since the last frame in seconds
+     */
     @Override
     public void act(float delta) {
         super.act(delta);

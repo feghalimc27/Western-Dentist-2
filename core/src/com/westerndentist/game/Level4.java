@@ -13,6 +13,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.sql.Time;
 import java.util.ArrayList;
 
+/**
+ * Class for level 4
+ */
 public class Level4 extends Stage {
 
     private WesternDentist game;
@@ -22,6 +25,7 @@ public class Level4 extends Stage {
     private Image background = new Image(new Texture("Images/WesternDentist_BackgroundL4.png")), background2 = new Image(new Texture("Images/WesternDentist_BackgroundL4.png"));
 
     private boolean restart = false;
+    private boolean playerRestart = false;
 
     private boolean bossSpawned = false;
     private boolean bossThread = false;
@@ -32,6 +36,10 @@ public class Level4 extends Stage {
     private Thread bossT;
     private Thread musicT;
 
+    /**
+     * Constructor, sets up level in sequencer and links to game
+     * @param game instance of the game
+     */
     Level4(final WesternDentist game) {
         super(game.viewport);
         setDebugAll(false);
@@ -107,6 +115,10 @@ public class Level4 extends Stage {
         this.game = game;
     }
 
+    /**
+     * Updates every time step
+     * @param delta time since the last frame in seconds
+     */
     @Override
     public void act(final float delta) {
         backgroundScrolling(delta);
@@ -124,12 +136,26 @@ public class Level4 extends Stage {
         super.act(delta);
     }
 
+    /**
+     * Draws all actors to screen
+     */
     @Override
     public void draw() {
         //sortActors();
         super.draw();
     }
 
+    /**
+     * Stop thread on restart
+     */
+    void restart() {
+        playerRestart = true;
+    }
+
+    /**
+     * Starts boss observer thread
+     * @param force forces thread to start if it wasn't manually started, used from L4 Boss
+     */
     private void bossObserverDead(boolean force) {
         class Observer implements Runnable {
             boolean died = true;
@@ -147,6 +173,10 @@ public class Level4 extends Stage {
                 catch (InterruptedException e) {
                     Gdx.app.log("Boss Observer Thread 2", "ERROR: Interrupted while sleeping");
                     Thread.currentThread().interrupt();
+                }
+
+                if (playerRestart) {
+                    playerRestart = false;
                 }
 
                 while (!interrupted && bossThread) {
@@ -167,6 +197,13 @@ public class Level4 extends Stage {
                             t.printStackTrace();
                             Gdx.app.log("Boss Observer Thread 2", "Object being checked was deleted.");
                         }
+                        if (playerRestart) {
+                            break;
+                        }
+                    }
+
+                    if (playerRestart) {
+                        break;
                     }
 
                     if (Thread.interrupted()) {
@@ -190,6 +227,9 @@ public class Level4 extends Stage {
                 while (true) {
                     if (boss.getPhase() <= 4) {
                         Gdx.app.log("Boss phase", " " + boss.getPhase());
+                        if (playerRestart) {
+                            break;
+                        }
                         continue;
                     }
 
@@ -206,6 +246,10 @@ public class Level4 extends Stage {
                 catch (InterruptedException e) {
                     Gdx.app.log("Boss Observer Thread 2", "ERROR: Interrupted while sleeping");
                     Thread.currentThread().interrupt();
+                }
+
+                if (playerRestart = true) {
+                    bossThread = false;
                 }
 
                 if (bossThread && !interrupted) {
@@ -236,6 +280,9 @@ public class Level4 extends Stage {
         }
     }
 
+    /**
+     * Starts an observer to check if the boss is spawned and play music if it is
+     */
     private void checkBoss() {
         class Observer implements Runnable {
             @Override
@@ -301,10 +348,17 @@ public class Level4 extends Stage {
         }
     }
 
+    /**
+     * Ends the level
+     */
     private void endLevel() {
+        game.player.remove();
         game.changeStage(new MainMenu(game));
     }
 
+    /**
+     * Sorts actors in view (deprecated)
+     */
     private void sortActors() {
         for (int i = 0; i < getActors().size; ++i) {
             int z = getActors().items[i].getZIndex();
@@ -331,6 +385,10 @@ public class Level4 extends Stage {
         }
     }
 
+    /**
+     * Handles background scrolling
+     * @param delta the time since the last frame in seconds
+     */
     private void backgroundScrolling(float delta) {
         background.setY(background.getY() - 30 * delta);
         background2.setY(background2.getY() - 30 * delta);
@@ -344,6 +402,9 @@ public class Level4 extends Stage {
         }
     }
 
+    /**
+     * Starts the playing of boss music, forces bossObserver to start if called from boss
+     */
     public void playMusic() {
         if (bossSpawned) {
             bossMusicPlayed = true;
