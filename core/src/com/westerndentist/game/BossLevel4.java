@@ -105,8 +105,8 @@ public class BossLevel4 extends Boss {
                 finalPos.x = 520 - texture.getWidth();
             }
 
-            if (finalPos.y > getStage().getViewport().getScreenHeight() - 20 - texture.getHeight() / 2) {
-                finalPos.y = getStage().getViewport().getScreenHeight() - 20 - texture.getHeight() / 2;
+            if (finalPos.y > maxMoveY - 20 - texture.getHeight() / 2) {
+                finalPos.y = maxMoveY - 20 - texture.getHeight() / 2;
             }
 
             if (finalPos.y < 20 + texture.getHeight() / 2 + 300) {

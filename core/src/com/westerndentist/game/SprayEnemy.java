@@ -112,8 +112,8 @@ public class SprayEnemy extends Enemy {
                 finalPos.x = 520;
             }
 
-            if (finalPos.y > getStage().getViewport().getScreenHeight() - 20) {
-                finalPos.y = getStage().getViewport().getScreenHeight() - 20;
+            if (finalPos.y > 580 - 20) {
+                finalPos.y = 580 - 20;
             }
 
             if (finalPos.y < 20) {
