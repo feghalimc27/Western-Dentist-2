@@ -143,7 +143,40 @@ public class Player extends Actor {
     private void fire(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             if (rateCounter == 0) {
-                getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerBurst.png"), 800, getX(), getY(), "Player"));
+                if (power <= 10) {
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX(), getY() + 10, "Player"));
+                }
+                else if (power > 10 && power <= 50) {
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() + 10, getY() + 10 - 2, "Player"));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX(), getY() + 10, "Player"));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() - 10, getY() + 10 - 2, "Player"));
+                }
+                else if (power > 50 && power <= 120) {
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() + 10, getY() + 10 - 2, "Player"));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX(), getY() + 10, "Player"));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() - 10, getY() + 10 - 2, "Player"));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() + 20, getY() + 10 - 4, "Player"));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() - 20, getY() + 10 - 4, "Player"));
+                }
+                else if (power > 120 && power <= 240) {
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() + 10, getY() + 10 - 2, "Player"));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX(), getY() + 10, "Player"));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() - 10, getY() + 10 - 2, "Player"));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() - 20, getY() + 10 - 4, "Player"));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() - 30, getY() + 10 - 6, "Player"));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() + 20, getY() + 10 - 4, "Player"));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() + 30, getY() + 10 - 6, "Player"));
+
+                }
+                else {
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() + 10, getY() + 10 - 2, "Player", 10 + power % 100));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX(), getY() + 10, "Player", 10 + power % 100));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() - 10, getY() + 10 - 2, "Player", 10 + power % 100));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() + 20, getY() + 10 - 4, "Player", 10 + power % 100));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() - 20, getY() + 10 - 4, "Player", 10 + power % 100));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() - 30, getY() + 10 - 6, "Player", 10 + power % 100));
+                    getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() + 30, getY() + 10 - 6, "Player", 10 + power % 100));
+                }
                 rateCounter += fireRate * delta * 10;
                 modPower(delta);
             }
@@ -170,7 +203,7 @@ public class Player extends Actor {
         for (Actor actor : getStage().getActors()) {
             if (Projectile.class.isInstance(actor) && iframes == 0) {
                 if (bounds.overlaps(((Projectile) actor).getBounds())) {
-                    if (actor.getName() == "Enemy") {
+                    if (actor.getName() == "Enemy" || actor.getName() == "Muskrat Missile") {
                         health -= 1;
                         ((Projectile) actor).destroy();
                         iframes = 100;

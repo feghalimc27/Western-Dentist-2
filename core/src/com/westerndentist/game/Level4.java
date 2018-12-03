@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.sql.Time;
+import java.util.ArrayList;
 
 public class Level4 extends Stage {
 
@@ -18,6 +19,8 @@ public class Level4 extends Stage {
     private Sequencer sequencer;
 
     private Image background = new Image(new Texture("Images/WesternDentist_BackgroundL4.png")), background2 = new Image(new Texture("Images/WesternDentist_BackgroundL4.png"));
+
+    private boolean restart = false;
 
     private boolean bossSpawned = false;
     private boolean bossThread = false;
@@ -30,7 +33,13 @@ public class Level4 extends Stage {
 
     Level4(final WesternDentist game) {
         super(game.viewport);
-        //setDebugAll(true);
+        setDebugAll(false);
+        try {
+            Thread.sleep(500);
+        }
+        catch (InterruptedException e) {
+            Gdx.app.log("Level 4", "Main thread interrupted");
+        }
 
         bossSpawned = false;
         bossThread = false;
@@ -104,10 +113,11 @@ public class Level4 extends Stage {
             checkBoss();
         }
         if (!bossThread) {
-            bossObserverDead();
+            bossObserverDead(false);
         }
         if (bossDead) {
             endLevel();
+            bossDead = false;
         }
         super.act(delta);
     }
@@ -118,27 +128,35 @@ public class Level4 extends Stage {
         super.draw();
     }
 
-    private void bossObserverDead() {
+    private void bossObserverDead(boolean force) {
         class Observer implements Runnable {
             boolean died = true;
+            boolean interrupted = false;
+            int phase = 0;
 
             @Override
             public void run() {
+                Gdx.app.log("Boss Observer Thread 2", "Started");
+
                 try {
                     Thread.sleep(10000);
                 }
                 catch (InterruptedException e) {
                     Gdx.app.log("Boss Observer Thread 2", "ERROR: Interrupted while sleeping");
+                    Thread.currentThread().interrupt();
                 }
 
-                while (!Thread.interrupted()) {
+                while (!interrupted && bossThread) {
                     died = true;
 
                     for (int i = 0; i < getActors().size; ++i) {
                         try {
-                            if (BossLevel4.class.isInstance(getActors().items[i])) {
-                                died = false;
+                            if (BossLevel4.class.isInstance(getActors().items[i]) && phase < 4) {
+                                phase = ((BossLevel4)getActors().items[i]).getPhase();
                                 break;
+                            }
+                            else if (BossLevel4.class.isInstance(getActors().items[i]) && phase < 4) {
+                                died = false;
                             }
                         }
                         catch (NullPointerException t) {
@@ -147,11 +165,16 @@ public class Level4 extends Stage {
                         }
                     }
 
-                    if (!died) {
+                    if (Thread.interrupted()) {
+                        break;
+                    }
+
+                    if (phase < 4) {
                         try {
                             Thread.sleep(500);
                         }
                         catch (InterruptedException e) {
+                            interrupted = true;
                             Gdx.app.log("Boss Observer Thread 2", "ERROR: Interrupted while sleeping");
                         }
                     }
@@ -165,15 +188,30 @@ public class Level4 extends Stage {
                 }
                 catch (InterruptedException e) {
                     Gdx.app.log("Boss Observer Thread 2", "ERROR: Interrupted while sleeping");
+                    Thread.currentThread().interrupt();
                 }
 
-                bossDead = true;
+                if (bossThread && !interrupted) {
+                    bossDead = true;
+                    bossThread = false;
+                    Gdx.app.log("Boss Observer Thread 2", "Boss dead");
+                }
+                else {
+                    bossDead = false;
+                }
 
-                Gdx.app.log("Boss Observer Thread 2", "Boss dead");
+                Thread.currentThread().interrupt();
             }
         }
 
-        if (bossSpawned && !bossThread) {
+        if (bossSpawned && !bossThread && !bossDead) {
+            bossThread = true;
+            Observer observer = new Observer();
+            bossT = new Thread(observer);
+            bossT.start();
+        }
+
+        if (force) {
             bossThread = true;
             Observer observer = new Observer();
             bossT = new Thread(observer);
@@ -185,14 +223,32 @@ public class Level4 extends Stage {
         class Observer implements Runnable {
             @Override
             public void run() {
+                Gdx.app.log("Boss observer thread", "Started");
+
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(1500);
                 }
                 catch (InterruptedException e) {
                     Gdx.app.log("Boss Observer Thread", "ERROR: Interrupted while sleeping");
+                    Thread.currentThread().interrupt();
                 }
 
-                while (true) {
+                if (!restart) {
+                    try {
+                        Thread.sleep(1000);
+                    }
+                    catch (InterruptedException e) {
+                        Gdx.app.log("Boss Observer Thread", "ERROR: Interrupted while sleeping");
+                    }
+                    restart = true;
+                    bossSpawned = false;
+                    bossThread = false;
+                    musicThread = false;
+                    bossMusicPlayed = false;
+                    bossDead = false;
+                }
+
+                while (musicThread) {
                     boolean spawned = false;
 
                     for (int i = 0; i < getActors().size; ++i) {
@@ -207,16 +263,13 @@ public class Level4 extends Stage {
                     }
                 }
 
-                bossSpawned = true;
-
-                try {
-                    Thread.sleep(1000);
+                if (musicThread) {
+                    Gdx.app.log("Boss Observer Thread", "Music Played");
+                    bossSpawned = true;
                 }
-                catch (InterruptedException e) {
-                    Gdx.app.log("Boss Observer Thread", "ERROR: Interrupted while sleeping");
+                else {
+                    bossSpawned = false;
                 }
-
-                Gdx.app.log("Boss Observer Thread", "Music Played");
             }
         }
 
@@ -227,8 +280,7 @@ public class Level4 extends Stage {
         }
 
         if (bossSpawned) {
-            bossMusicPlayed = true;
-            game.playMusic(true);
+            playMusic();
         }
     }
 
@@ -272,6 +324,19 @@ public class Level4 extends Stage {
 
         if (background2.getY() <= -5000) {
             background2.setY(5000);
+        }
+    }
+
+    public void playMusic() {
+        if (bossSpawned) {
+            bossMusicPlayed = true;
+            game.playMusic(true);
+        }
+        else {
+            Gdx.app.log("Level 4", "Broken threads");
+            bossMusicPlayed = true;
+            game.playMusic(true);
+            bossObserverDead(true);
         }
     }
 }

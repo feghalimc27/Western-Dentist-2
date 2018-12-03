@@ -23,9 +23,24 @@ public class Projectile extends Actor{
         bounds.set(x + texture.getWidth() / 8, y + texture.getWidth() / 8, texture.getWidth() / 4, texture.getHeight() / 4);
     }
 
+    Projectile(Texture texture, float initialSpeed, float x, float y, String tag, float damage) {
+        this.texture = texture;
+        speed = initialSpeed;
+        setPosition(x, y);
+        setName(tag);
+        this.damage = damage;
+        bounds.set(x + texture.getWidth() / 8, y + texture.getWidth() / 8, texture.getWidth() / 4, texture.getHeight() / 4);
+    }
+
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        if (damage > 10) {
+            setColor((255 - damage)/255, (255 - damage)/255, 1, 1);
+        }
+        batch.setColor(getColor());
         batch.draw(texture, getX(), getY(), texture.getWidth() / 2, texture.getHeight() / 2);
+
     }
 
     @Override

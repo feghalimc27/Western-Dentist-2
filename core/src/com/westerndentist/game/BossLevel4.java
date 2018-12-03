@@ -11,8 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class BossLevel4 extends Boss {
 
-    private float phase1damage = 3000, phase2damage = 6000,
-                  phase3damage = 12000, phase4damage = 24000;
+    private float phase1damage = 5000, phase2damage = 10000,
+                  phase3damage = 20000, phase4damage = 40000;
 
     private Texture texture = new Texture("Images/l4BossSprite.png");
 
@@ -53,7 +53,7 @@ public class BossLevel4 extends Boss {
     public void act(float delta) {
         if (!spawned) {
             spawned = true;
-            // Play sound, do stuff
+            ((Level4)getStage()).playMusic();
             Gdx.app.log("Boss 4", "Spawned");
         }
         super.act(delta);
@@ -303,5 +303,9 @@ public class BossLevel4 extends Boss {
         else {
             phase3Counter += 1000 * delta;
         }
+    }
+
+    public int getPhase() {
+        return phase;
     }
 }
