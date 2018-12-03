@@ -248,13 +248,12 @@ public class Level4 extends Stage {
                     Thread.currentThread().interrupt();
                 }
 
-                if (playerRestart = true) {
+                if (playerRestart) {
                     bossThread = false;
                 }
 
                 if (bossThread && !interrupted) {
                     bossDead = true;
-                    bossThread = false;
                     Gdx.app.log("Boss Observer Thread 2", "Boss dead");
                 }
                 else {
