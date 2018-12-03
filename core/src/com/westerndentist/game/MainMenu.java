@@ -36,7 +36,7 @@ public class MainMenu extends Stage {
         startButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                game.changeStage(new Level4(game));
+                game.changeStage(new Level1(game));
                 return true;
             }
             @Override
