@@ -28,7 +28,7 @@ public abstract class Boss extends Actor {
     public void act(float delta) {
         super.act(delta);
         updateBounds();
-        score -= 100 * delta;
+        score -= 10000 * delta;
     }
 
     protected void giveScore() {
