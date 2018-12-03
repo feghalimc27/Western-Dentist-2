@@ -20,6 +20,7 @@ public class Level2 extends Stage {
 
     private boolean bossSpawned = false;
     private boolean bossMusicPlayed = false;
+    private boolean change = false;
     private int backgroundHeight1 = 426;
     private int backgroundHeight2 = 3508;
     private double increment1 = 10;
@@ -106,8 +107,11 @@ public class Level2 extends Stage {
                     return;
                 }
             }
-            Level3 level3 = new Level3(game);
-            game.changeStage(level3);
+            if(!change) {
+                change = true;
+                Level3 level3 = new Level3(game);
+                game.changeStage(level3);
+            }
         }
     }
 
