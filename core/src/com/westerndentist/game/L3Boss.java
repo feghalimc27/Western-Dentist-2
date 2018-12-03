@@ -49,7 +49,7 @@ public class L3Boss extends Boss
         setPosition(0, 0);
         setBounds(0, 0, texture.getWidth(), texture.getHeight());
         setName("Mr. Muskrat");
-        health = 20000;
+        health = 30000;
         // TODO: Boss Spawn Sound?
     }
 

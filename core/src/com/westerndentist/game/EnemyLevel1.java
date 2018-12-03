@@ -60,7 +60,7 @@ public class EnemyLevel1 extends Enemy
         {
             if (rateCounter == 0) {
 
-                Projectile duckFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_PlayerBurst.png"), 1000, getX() + 5, getY(), "Enemy", 0, -1, false, false);
+                Projectile duckFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_PlayerBurst.png"), 500, getX() + 5, getY(), "Enemy", 0, -1, false, false);
                 getStage().addActor(duckFire);
                 rateCounter += fireRate * delta * 10;
             }

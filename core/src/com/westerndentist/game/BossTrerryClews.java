@@ -14,7 +14,7 @@ public class BossTrerryClews extends Boss{
     private float checkY = 365;
 
     private float rateCounter = 0;
-    private float inCounter = 10;
+    private float inCounter = 5;
 
     private float initX1 = 1;
     private float initX2 = -1;
@@ -121,10 +121,10 @@ public class BossTrerryClews extends Boss{
      */
     private void fire(float delta)
     {
-        initX1 += delta;
-        initX2 += delta;
-        initY1 += delta;
-        initY2 += delta;
+        initX1 += delta * 4;
+        initX2 += delta * 4;
+        initY1 += delta * 4;
+        initY2 += delta * 4;
 
         try
         {

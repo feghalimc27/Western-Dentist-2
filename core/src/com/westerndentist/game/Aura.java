@@ -2,6 +2,7 @@ package com.westerndentist.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -12,16 +13,19 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class Aura extends Actor {
 
     private Texture texture = new Texture("Images/WesternDentist_Aura.png");
+    private Sound auraActivated = Gdx.audio.newSound(Gdx.files.internal("sounds/auraActivated.mp3"));
+    private Sound auraDeactivated = Gdx.audio.newSound(Gdx.files.internal("sounds/auraDeactivated.mp3"));
     private float cooldown = 0;
     private float time = 0;
     private float degrees = 20;
     private boolean rising = true;
     private boolean active = false;
     private Player player;
-
+    private WesternDentist game;
     private Rectangle bounds;
 
-    Aura(Player player) {
+    Aura(Player player, WesternDentist game) {
+        this.game = game;
         setName("Aura");
         setX(player.getX());
         setY(player.getY());
@@ -36,6 +40,7 @@ public class Aura extends Actor {
             block();
         }
         if (!active && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && cooldown == 0) {
+            auraActivated.play(game.soundEffectVolumeActual);
             active = true;
             time = 5;
         }
@@ -45,6 +50,7 @@ public class Aura extends Actor {
         }
 
         if (time < 0) {
+            auraDeactivated.play(game.soundEffectVolumeActual);
             time = 0;
             cooldown = 10;
             active = false;

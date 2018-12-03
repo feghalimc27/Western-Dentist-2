@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.TimeUtils;
+
 import java.lang.Math;
 
 public class BossHikeMaze extends Boss
@@ -16,6 +18,8 @@ public class BossHikeMaze extends Boss
 
     float checkX = 100;
     float checkY = 300;
+
+    long lastFired = 0;
 
     /**
      * Constructor for initializing the boss
@@ -40,8 +44,9 @@ public class BossHikeMaze extends Boss
     {
         killOnDead();
         takeDamageFromProjectile();
-        if(getX() == checkX && getY() == checkY)
+        if(getX() == checkX && getY() == checkY && (TimeUtils.millis() - lastFired) > 100)
         {
+            lastFired = TimeUtils.millis();
             fire(delta);
         }
         super.act(delta);
@@ -112,12 +117,12 @@ public class BossHikeMaze extends Boss
      */
     private void fire(float delta)
     {
-        blueSin += delta * 2;
-        greenSin += delta * 2;
+        blueSin += delta * 16;
+        greenSin += delta * 16;
         try
         {
-            Projectile blueFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_BallBlue.png"), 1000, getX(), getY()+60, "Enemy", (float)(-2 * Math.sin(blueSin)),  -2, true, false);
-            Projectile greenFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_BallGreen.png"), 1000, getX()+200, getY()+60, "Enemy", (float)(-2 * Math.sin(greenSin)), -2, true, false);
+            Projectile blueFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_BallBlue.png"), 100, getX(), getY()+60, "Enemy", (float)(-2 * Math.sin(-blueSin)),  -2, true, false);
+            Projectile greenFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_BallGreen.png"), 100, getX()+200, getY()+60, "Enemy", (float)(-2 * Math.sin(greenSin)), -2, true, false);
 
             getStage().addActor(blueFire);
             getStage().addActor(greenFire);

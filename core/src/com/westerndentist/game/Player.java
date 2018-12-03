@@ -2,6 +2,7 @@ package com.westerndentist.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -9,7 +10,13 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import java.awt.*;
 
@@ -21,6 +28,7 @@ public class Player extends Actor {
     private Vector2 movement = new Vector2(0, 0);
     private Rectangle bounds = new Rectangle();
     private Rectangle powerBounds = new Rectangle();
+    private Sound hitSound = Gdx.audio.newSound(Gdx.files.internal("sounds/playerhit.mp3"));
 
     private int health = 5;
     private float speed = 200;
@@ -51,7 +59,6 @@ public class Player extends Actor {
         bounds.setCenter(x + texture.getWidth() / 4, y - texture.getHeight() / 4);
         powerBounds.set(x, y, texture.getWidth(), texture.getHeight());
         setName("Player");
-        aura = new Aura(this);
         this.game = game;
     }
 
@@ -79,11 +86,40 @@ public class Player extends Actor {
         updateBounds();
         checkCollision();
         if (health <= 0) {
-            game.restartStage();
+            health = 5;
+            SequenceAction sequence = Actions.sequence();
+            sequence.addAction(Actions.delay(3f));
+            sequence.addAction(Actions.fadeOut(1));
+            sequence.addAction(Actions.run(new Runnable() {
+                @Override
+                public void run() {
+                    game.restartStage();
+                }
+            }));
+            Image background = new Image(new Texture("images/pausemenu/background.png"));
+            Table table = new Table();
+            table.setSize(560, 600);
+            table.center();
+            Label youDied = new Label("Failure.", game.labelStyle);
+            Label restarting = new Label("Restarting...", game.labelStyle);
+            table.add(youDied);
+            table.row();
+            table.add(restarting);
+            game.currentStage.addActor(background);
+            game.currentStage.addActor(table);
+            game.currentStage.addAction(sequence);
+            remove();
         }
     }
 
+    @Override
+    public boolean remove() {
+        aura.remove();
+        return super.remove();
+    }
+
     public void addAura() {
+        aura = new Aura(this, game);
         getStage().addActor(aura);
     }
 
@@ -213,6 +249,7 @@ public class Player extends Actor {
             if (Projectile.class.isInstance(actor) && iframes == 0) {
                 if (bounds.overlaps(((Projectile) actor).getBounds())) {
                     if (actor.getName() == "Enemy" || actor.getName() == "Muskrat Missile") {
+                        hitSound.play(game.soundEffectVolumeActual);
                         health -= 1;
                         ((Projectile) actor).destroy();
                         iframes = 100;
@@ -222,6 +259,7 @@ public class Player extends Actor {
 
             if (Enemy.class.isInstance(actor) && iframes == 0) {
                 if (bounds.overlaps(((Enemy) actor).getBounds())) {
+                    hitSound.play(game.soundEffectVolumeActual);
                     health -= 1;
                     iframes = 100;
                 }
@@ -234,7 +272,9 @@ public class Player extends Actor {
                         power += plus;
                     }
                     else if (HealthPowerup.class.isInstance(actor)) {
-                        health += ((HealthPowerup) actor).destroy();
+                        if (health < 5) {
+                            health += ((HealthPowerup) actor).destroy();
+                        }
                     }
                 }
             }
@@ -244,7 +284,7 @@ public class Player extends Actor {
         checkRight = (getX() + 30 < 520);
         checkLeft = (getX() - 20 > 20);
         checkBottom = (getY() - 20 > 20);
-        checkTop = (getY() + 30 < getStage().getViewport().getScreenHeight() - 20);
+        checkTop = (getY() + 30 < 580);
     }
 
     public Rectangle getBounds() {
@@ -264,7 +304,7 @@ public class Player extends Actor {
     }
 
     public void setPower(float power) {
-        this.power = score;
+        this.power = power;
     }
 
     public int getScore() {

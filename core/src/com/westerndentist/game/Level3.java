@@ -59,7 +59,7 @@ public class Level3 extends Stage {
      */
     @Override
     public void draw() {
-        sortActors();
+        //sortActors();
         super.draw();
     }
 
@@ -69,44 +69,36 @@ public class Level3 extends Stage {
      */
     @Override
     public void act(float delta) {
-        backgroundScrolling(delta);
-        if (!bossTime)
-            spawnEnemies();
-        if (bossTime && noBoss)
-        {
-            if(!bossMusic)
+        if (!win) {
+            backgroundScrolling(delta);
+            if (!bossTime)
+                spawnEnemies();
+            if (bossTime && noBoss)
             {
-                game.playMusic(true);
-                bossMusic = true;
-                final Timer spawnBossTimer = new Timer();
-                spawnBossTimer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        spawnBossNow = true;
-                    }},  4000);
+                if(!bossMusic)
+                {
+                    game.playMusic(true);
+                    bossMusic = true;
+                    final Timer spawnBossTimer = new Timer();
+                    spawnBossTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            spawnBossNow = true;
+                        }},  4000);
+                }
+                if(spawnBossNow)
+                {
+                    spawnBoss();
+                }
+                //spawnBoss();
             }
-            if(spawnBossNow)
-            {
-                spawnBoss();
-            }
-            //spawnBoss();
+            if (bossTime && !noBoss)
+                if (bossIsDead())
+                {
+                    win = true;
+                    game.changeStage(new Level4(game));
+                }
         }
-        if (bossTime && !noBoss)
-            if (bossIsDead() && !win)
-            {
-                // Player beat the level
-                Timer endTimer = new Timer();
-                endTimer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        win = true;
-                    }},  3000);
-                //game.changeStage(new MainMenu(game));
-            }
-            if(win)
-            {
-                game.changeStage(new Level4(game));
-            }
         super.act(delta);
     }
 
