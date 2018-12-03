@@ -168,7 +168,7 @@ public class Level3 extends Stage {
     private void spawnBoss()
     {
         Gdx.app.log("Level 3", "Mr. Muskrat has Arrived");
-        addActor(new L3Boss(getViewport().getScreenWidth()/2 - 180, getViewport().getScreenHeight()));
+        addActor(new L3Boss(getViewport().getScreenWidth()/2 - 180, 600));
         noBoss = false;
     }
 
