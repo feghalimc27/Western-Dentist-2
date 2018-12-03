@@ -63,7 +63,7 @@ public class Level2 extends Stage {
         boss.addAction(Actions.moveTo(200, 250, 6));
 
         sequencer.addActorToPhase(2, boss);
-        sequencer.addPhaseSpawnFrequency(2, 10);
+        sequencer.addPhaseSpawnFrequency(2, 70);
         sequencer.addPhaseSpawnPosition(2, new Vector2(300, 1000));
 
 
@@ -82,7 +82,7 @@ public class Level2 extends Stage {
 
     @Override
     public void draw() {
-        sortActors();
+        //sortActors();
         super.draw();
     }
 
@@ -99,7 +99,7 @@ public class Level2 extends Stage {
                 }
             }
             catch (NullPointerException e) {
-
+                Gdx.app.log("Level2 Check Boss: ","An object was deleted before it could be checked.");
             }
         }else if (bossSpawned) {
             for (Actor actor: getActors()) {

@@ -87,7 +87,7 @@ public abstract class Enemy extends Actor {
             }
         }
         catch (NullPointerException e) {
-            Gdx.app.log("Enemy: ", "Something broke but I'm just gonna ignore it lol");
+            Gdx.app.log("Enemy: ", "Size of the actor container changed.");
         }
     }
 

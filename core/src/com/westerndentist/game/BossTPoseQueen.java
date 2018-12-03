@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class BossTPoseQueen extends Boss {
 
-    private float phase1damage = 75000, phase2damage = 150000,
-            phase3damage = 300000, phase4damage = 600000;
+    private float phase1damage = 30000, phase2damage = 50000,
+            phase3damage = 100000, phase4damage = 160000;
 
     private Texture texture = new Texture("Images/L2_Boss_T-Pose_Queen.png");
 
@@ -138,7 +138,7 @@ public class BossTPoseQueen extends Boss {
                 }
             }
         } catch (NullPointerException e) {
-            Gdx.app.log("Enemy: ", "Something broke but I'm just gonna ignore it lol");
+            Gdx.app.log("Level2 Boss: ", "An objected was deleted before it could be checked.");
         }
     }
 
@@ -188,7 +188,7 @@ public class BossTPoseQueen extends Boss {
             }
 
         } catch (Exception e){
-
+            Gdx.app.log("Level2 Boss Phase1", "Size of actor container changed.");
         }
     }
 
@@ -209,7 +209,7 @@ public class BossTPoseQueen extends Boss {
                     //Gdx.app.log("", String.valueOf(basicSpawnX));
                 }
         } catch (Exception e){
-
+            Gdx.app.log("Level2 Boss Phase2", "Size of actor container changed.");
         }
     }
 
@@ -220,15 +220,15 @@ public class BossTPoseQueen extends Boss {
                 getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX3 / (float) 1000, (float) fireY3 / (float) 1000, false));
             }
         } catch (Exception e) {
-
+            Gdx.app.log("Level2 Boss Phase3", "Size of actor container changed.");
         }
     }
 
     private void phase4() {
         try {
             if (rateCounter == 0) {
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX1 / (float) 1000, (float) -fireY1 / (float) 5000, false));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX2 / (float) 1000, (float) -fireY2 / (float) 5000, false));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX1 / (float) 1000, (float) fireY1 / (float) 5000, false));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX2 / (float) 1000, (float) fireY2 / (float) 5000, false));
                 getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX3 / (float) 1000, (float) -fireY3 / (float) 5000, false));
                 getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX4 / (float) 1000, (float) -fireY4 / (float) 5000, false));
                 getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX4 / (float) 1000, (float) fireY4 / (float) 1000, true));
@@ -236,7 +236,7 @@ public class BossTPoseQueen extends Boss {
 
             }
         } catch (Exception e) {
-
+            Gdx.app.log("Level2 Boss Phase4", "Size of actor container changed.");
         }
     }
 }
