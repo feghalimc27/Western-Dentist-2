@@ -29,7 +29,7 @@ public class Player extends Actor {
     private int rateCounter = 0;
     private float power = 0;
     private WesternDentist game;
-    boolean aura = false;
+    private Aura aura;
 
     private boolean checkLeft = true, checkRight = true, checkTop = true, checkBottom = true;
 
@@ -51,6 +51,7 @@ public class Player extends Actor {
         bounds.setCenter(x + texture.getWidth() / 4, y - texture.getHeight() / 4);
         powerBounds.set(x, y, texture.getWidth(), texture.getHeight());
         setName("Player");
+        aura = new Aura(this);
         this.game = game;
     }
 
@@ -69,7 +70,6 @@ public class Player extends Actor {
 
     @Override
     public void act(float delta) {
-        aura();
         move(delta);
         applyMovement(delta);
         fire(delta);
@@ -83,25 +83,8 @@ public class Player extends Actor {
         }
     }
 
-    private void aura() {
-        try {
-            if (!aura) {
-                for (Actor actor : getStage().getActors()) {
-                    if (actor.getName().equals("Aura")) {
-                        Gdx.app.log("Player", "Aura found");
-                        aura = true;
-                        break;
-                    }
-                }
-                if (!aura) {
-                    Gdx.app.log("Player", "Adding aura");
-                    getStage().addActor(new Aura(this));
-                }
-            }
-        }
-        catch (NullPointerException e) {
-
-        }
+    public void addAura() {
+        getStage().addActor(aura);
     }
 
     private void increaseScore(float delta) {

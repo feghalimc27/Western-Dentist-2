@@ -36,6 +36,7 @@ public class Level3 extends Stage {
         addActor(background2);
         game.player.setPosition(300,100);
         addActor(game.player);
+        game.player.addAura();
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
