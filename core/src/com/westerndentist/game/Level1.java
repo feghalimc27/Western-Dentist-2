@@ -59,47 +59,47 @@ public class Level1 extends Stage
         sequencer.addActorToPhase(0, new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 100, 3000, new Vector2(0, 0)));
         sequencer.addPhaseSpawnFrequency(0, 50);
         sequencer.addPhaseSpawnPosition(0, new Vector2(40, 700));
-        /*sequencer.addActorToPhase(0, new EnemyLevel1(new Texture("Images/bubber ducky.png"), -220, 100, 3000, new Vector2(0, 0)));
-        sequencer.addPhaseSpawnFrequency(0, 50);
-        sequencer.addPhaseSpawnPosition(0, new Vector2(560, 700));*/
+        sequencer.addActorToPhase(0, new EnemyLevel1(new Texture("Images/bubber ducky.png"), -220, 100, 3000, new Vector2(0, 0)));
+        sequencer.addPhaseSpawnFrequency(0, 100);
+        sequencer.addPhaseSpawnPosition(0, new Vector2(560, 700));
 
         sequencer.addActorToPhase(1, new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 100, 3000, new Vector2(0, 0)));
         sequencer.addPhaseSpawnFrequency(1, 50);
         sequencer.addPhaseSpawnPosition(1, new Vector2(40, 700));
-        /*sequencer.addActorToPhase(1, new EnemyLevel1(new Texture("Images/bubber ducky.png"), -220, 100, 3000, new Vector2(0, 0)));
-        sequencer.addPhaseSpawnFrequency(1, 50);
-        sequencer.addPhaseSpawnPosition(1, new Vector2(560, 700));
-        sequencer.addActorToPhase(1, new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 100, 3000, new Vector2(0, 0)));
-        sequencer.addPhaseSpawnFrequency(1, 100);
-        sequencer.addPhaseSpawnPosition(1, new Vector2(40, 400));
         sequencer.addActorToPhase(1, new EnemyLevel1(new Texture("Images/bubber ducky.png"), -220, 100, 3000, new Vector2(0, 0)));
         sequencer.addPhaseSpawnFrequency(1, 100);
-        sequencer.addPhaseSpawnPosition(1, new Vector2(560, 400));*/
+        sequencer.addPhaseSpawnPosition(1, new Vector2(560, 700));
+        sequencer.addActorToPhase(1, new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 100, 3000, new Vector2(0, 0)));
+        sequencer.addPhaseSpawnFrequency(1, 75);
+        sequencer.addPhaseSpawnPosition(1, new Vector2(40, 800));
+        sequencer.addActorToPhase(1, new EnemyLevel1(new Texture("Images/bubber ducky.png"), -220, 100, 3000, new Vector2(0, 0)));
+        sequencer.addPhaseSpawnFrequency(1, 125);
+        sequencer.addPhaseSpawnPosition(1, new Vector2(560, 800));
 
         sequencer.addActorToPhase(2, new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 100, 3000, new Vector2(0, 0)));
         sequencer.addPhaseSpawnFrequency(2, 50);
         sequencer.addPhaseSpawnPosition(2, new Vector2(40, 700));
-        /*sequencer.addActorToPhase(2, new EnemyLevel1(new Texture("Images/bubber ducky.png"), -220, 100, 3000, new Vector2(0, 0)));
-        sequencer.addPhaseSpawnFrequency(2, 50);
+        sequencer.addActorToPhase(2, new EnemyLevel1(new Texture("Images/bubber ducky.png"), -220, 100, 3000, new Vector2(0, 0)));
+        sequencer.addPhaseSpawnFrequency(2, 51);
         sequencer.addPhaseSpawnPosition(2, new Vector2(560, 700));
         sequencer.addActorToPhase(2, new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 100, 3000, new Vector2(0, 0)));
         sequencer.addPhaseSpawnFrequency(2, 100);
-        sequencer.addPhaseSpawnPosition(2, new Vector2(40, 400));
+        sequencer.addPhaseSpawnPosition(2, new Vector2(40, 800));
         sequencer.addActorToPhase(2, new EnemyLevel1(new Texture("Images/bubber ducky.png"), -220, 100, 3000, new Vector2(0, 0)));
-        sequencer.addPhaseSpawnFrequency(2, 100);
-        sequencer.addPhaseSpawnPosition(2, new Vector2(560, 400));
+        sequencer.addPhaseSpawnFrequency(2, 101);
+        sequencer.addPhaseSpawnPosition(2, new Vector2(560, 800));
         sequencer.addActorToPhase(2, new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 100, 3000, new Vector2(0, 0)));
         sequencer.addPhaseSpawnFrequency(2, 75);
         sequencer.addPhaseSpawnPosition(2, new Vector2(40, 700));
         sequencer.addActorToPhase(2, new EnemyLevel1(new Texture("Images/bubber ducky.png"), -220, 100, 3000, new Vector2(0, 0)));
-        sequencer.addPhaseSpawnFrequency(2, 75);
+        sequencer.addPhaseSpawnFrequency(2, 76);
         sequencer.addPhaseSpawnPosition(2, new Vector2(560, 700));
         sequencer.addActorToPhase(2, new EnemyLevel1(new Texture("Images/bubber ducky.png"), 220, 100, 3000, new Vector2(0, 0)));
         sequencer.addPhaseSpawnFrequency(2, 125);
-        sequencer.addPhaseSpawnPosition(2, new Vector2(40, 400));
+        sequencer.addPhaseSpawnPosition(2, new Vector2(40, 800));
         sequencer.addActorToPhase(2, new EnemyLevel1(new Texture("Images/bubber ducky.png"), -220, 100, 3000, new Vector2(0, 0)));
-        sequencer.addPhaseSpawnFrequency(2, 125);
-        sequencer.addPhaseSpawnPosition(2, new Vector2(560, 400));*/
+        sequencer.addPhaseSpawnFrequency(2, 126);
+        sequencer.addPhaseSpawnPosition(2, new Vector2(560, 800));
 
         sequencer.addActorToPhase(3, hikeMaze);
         sequencer.addPhaseSpawnFrequency(3, 90);
