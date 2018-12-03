@@ -68,12 +68,27 @@ public class BossTPoseQueen extends Boss {
 
     private float spin = 1;
 
+    /**
+     *
+     * @param Sequencer
+     * sequencer - The instance of the sequencer to update the location
+     * of entities who's main functionality is to add animation.
+     *
+     * BossTPoseQueen - The constructor of level2
+     */
     BossTPoseQueen(Sequencer Sequencer) {
         super();
         this.sequencer = Sequencer;
         bounds = new Rectangle(getX(), getY(), texture.getWidth(), texture.getHeight());
     }
 
+    /**
+     *
+     * @param delta
+     * delta - time since last frame
+     * act - Acts as the backbone, makes sure specific elements
+     * such as music, boss, etc. work as they should
+     */
     @Override
     public void act(float delta) {
         if (!spawned) {
@@ -89,12 +104,23 @@ public class BossTPoseQueen extends Boss {
         Gdx.app.log("Boss Damage", "" + damage);
     }
 
+    /**
+     *
+     * @param batch
+     * @param parentAlpha
+     * draw - draws the boss sprite on the screen
+     * batch - sprite batch, this draws the sprites
+     * parentAlpha - transparency of the object
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(texture, getX(), getY());
     }
 
-
+    /**
+     * phase - each phase of difficulty of the boss
+     * based on damage
+     */
     private void phase() {
         if (this.damage < this.phase1damage) {
             phase1();
@@ -120,7 +146,10 @@ public class BossTPoseQueen extends Boss {
         }
     }
 
-
+    /**
+     * takeDamageFromProjectile - Allows the boss to take damage from the player
+     * when the boss's hit box overlaps the projectiles hit box
+     */
     private void takeDamageFromProjectile() {
         try {
             for (Actor actor : getStage().getActors()) {
@@ -142,6 +171,9 @@ public class BossTPoseQueen extends Boss {
         }
     }
 
+    /**
+     * phase1 - first phase
+     */
     private void phase1() {
         try {
             if (rateCounter == 0) {
@@ -192,6 +224,9 @@ public class BossTPoseQueen extends Boss {
         }
     }
 
+    /**
+     * phase2 - second phase
+     */
     private void phase2() {
         try {
             if (rateCounter == 0) {
@@ -213,6 +248,9 @@ public class BossTPoseQueen extends Boss {
         }
     }
 
+    /**
+     * phase3 - third phase
+     */
     private void phase3() {
         try {
             if (rateCounter == 0) {
@@ -224,6 +262,9 @@ public class BossTPoseQueen extends Boss {
         }
     }
 
+    /**
+     * phase4 - fourth phase
+     */
     private void phase4() {
         try {
             if (rateCounter == 0) {
