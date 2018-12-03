@@ -14,17 +14,23 @@ public abstract class Powerup extends Actor {
 
     private float xMov = 1;
     private float yMov = -1;
+    protected boolean boss = false;
 
     private RandomXS128 rng = new RandomXS128();
     protected Rectangle bounds = new Rectangle();
 
     Powerup() {
-        xMov *= rng.nextFloat();
-        if (xMov < 0.5) {
-            xMov = -1;
+        if (!boss) {
+            xMov *= rng.nextFloat();
+            if (xMov < 0.5) {
+                xMov = -1;
+            } else {
+                xMov = 1;
+            }
         }
         else {
-            xMov = 1;
+            xMov = 0;
+            yMov = 100;
         }
     }
 

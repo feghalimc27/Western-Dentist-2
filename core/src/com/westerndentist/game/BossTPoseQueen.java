@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class BossTPoseQueen extends Boss {
 
-    private float phase1damage = 20000, phase2damage = 40000,
-            phase3damage = 70000, phase4damage = 120000;
+    private float phase1damage = 5000, phase2damage = 10000,
+            phase3damage = 20000, phase4damage = 40000;
 
     private Texture texture = new Texture("Images/L2_Boss_T-Pose_Queen.png");
 

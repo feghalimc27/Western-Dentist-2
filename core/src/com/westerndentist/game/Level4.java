@@ -2,6 +2,7 @@ package com.westerndentist.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.HdpiUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -134,6 +135,7 @@ public class Level4 extends Stage {
             boolean died = true;
             boolean interrupted = false;
             int phase = 0;
+            BossLevel4 boss = null;
 
             @Override
             public void run() {
@@ -154,6 +156,7 @@ public class Level4 extends Stage {
                         try {
                             if (getActors().items[i].getName().equals("BOSS4") && phase < 4) {
                                 phase = ((BossLevel4)getActors().items[i]).getPhase();
+                                boss = (BossLevel4)getActors().items[i];
                                 break;
                             }
                             else if (getActors().items[i].getName().equals("BOSS4")) {
@@ -179,7 +182,20 @@ public class Level4 extends Stage {
                             Gdx.app.log("Boss Observer Thread 2", "ERROR: Interrupted while sleeping");
                         }
                     }
-                    else if (died) {
+                    else if (boss != null) {
+                        break;
+                    }
+                }
+
+                while (true) {
+                    if (boss.getPhase() <= 4) {
+                        Gdx.app.log("Boss phase", " " + boss.getPhase());
+                        continue;
+                    }
+
+                    else if (boss.getPhase() > 4) {
+                        boss.remove();
+                        Gdx.app.log("Boss Observer Thread 2", "Removed boss");
                         break;
                     }
                 }

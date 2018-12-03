@@ -9,10 +9,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class BossLevel4 extends Boss {
 
-    private float phase1damage = 17500, phase2damage = 35000,
-                  phase3damage = 70000, phase4damage = 140000;
+    private float phase1damage = 3000, phase2damage = 9000,
+                  phase3damage = 18000, phase4damage = 36000;
 
     private Texture texture = new Texture("Images/l4BossSprite.png");
 
@@ -32,6 +35,8 @@ public class BossLevel4 extends Boss {
 
     private float moveCooldown = 147;
     private boolean canMove = false;
+
+    private boolean spawningPower = false;
 
     private Vector2 moveFromPosition;
     private Vector2 moveToPosition;
@@ -61,6 +66,7 @@ public class BossLevel4 extends Boss {
         takeDamageFromProjectile();
         changePhase();
         phase(delta);
+        spawnPower(delta);
     }
 
     @Override
@@ -131,7 +137,6 @@ public class BossLevel4 extends Boss {
         else if (damage > phase4damage) {
             // end level
             phase = 5;
-            addAction(Actions.removeActor());
         }
     }
 
@@ -156,6 +161,27 @@ public class BossLevel4 extends Boss {
         }
     }
 
+    private void spawnPower(float delta) {
+        if (!spawningPower) {
+            spawningPower = true;
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    spawningPower = false;
+                }
+            }, 30000);
+
+            getStage().addActor(new PowerPowerup(5000, 10, new Vector2(getX() + 40 + texture.getWidth() / 2, getY()), true));
+            getStage().addActor(new PowerPowerup(5000, 10, new Vector2(getX() + 80 + texture.getWidth() / 2, getY()), true));
+            getStage().addActor(new HealthPowerup(5000, 1, new Vector2(getX() + 120 + texture.getWidth() / 2, getY()), true));
+            getStage().addActor(new HealthPowerup(5000, 1, new Vector2(getX() - 120 + texture.getWidth() / 2, getY()), true));
+            getStage().addActor(new PowerPowerup(5000, 10, new Vector2(getX() - 40 + texture.getWidth() / 2, getY()), true));
+            getStage().addActor(new PowerPowerup(5000, 10, new Vector2(getX() - 80 + texture.getWidth() / 2, getY()), true));
+
+        }
+    }
+
     private void phase(float delta) {
         switch (phase) {
             case 1:
@@ -171,6 +197,9 @@ public class BossLevel4 extends Boss {
                 phase3(delta);
                 break;
             case 4:
+                phase1(delta);
+                phase2(delta);
+                phase3(delta);
                 break;
             default:
                 break;

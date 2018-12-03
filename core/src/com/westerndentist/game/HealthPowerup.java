@@ -18,6 +18,17 @@ public class HealthPowerup extends Powerup {
         setName("Health");
     }
 
+    HealthPowerup(float lifetime, float value, Vector2 position, boolean boss) {
+        this.lifetime = lifetime;
+        this.value = value;
+        this.boss = boss;
+
+        setPosition(position.x, position.y);
+        bounds = new Rectangle(getX(), getY(), texture.getWidth(), texture.getHeight());
+        setName("Health");
+    }
+
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(texture, getX(), getY());

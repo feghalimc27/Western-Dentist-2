@@ -19,6 +19,17 @@ public class PowerPowerup extends Powerup{
         setName("Power");
     }
 
+    PowerPowerup(float lifetime, float value, Vector2 position, boolean boss) {
+        this.lifetime = lifetime;
+        this.value = value;
+        this.boss = boss;
+
+        setPosition(position.x, position.y);
+        bounds = new Rectangle(getX(), getY(), texture.getWidth(), texture.getHeight());
+        setName("Power");
+    }
+
+
     @Override
     public void drawDebug(ShapeRenderer shapes) {
         shapes.rect(bounds.x, bounds.y, bounds.width, bounds.height);
