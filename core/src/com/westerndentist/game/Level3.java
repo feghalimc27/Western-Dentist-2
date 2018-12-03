@@ -96,6 +96,7 @@ public class Level3 extends Stage {
                 if (bossIsDead())
                 {
                     win = true;
+                    game.player.remove();
                     game.changeStage(new Level4(game));
                 }
         }

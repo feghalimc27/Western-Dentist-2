@@ -35,8 +35,8 @@ public class Level2 extends Stage {
     Level2(final WesternDentist game) {
         super(game.viewport);
 
-        float stageWidth = Gdx.graphics.getWidth(),
-                stageHeight = Gdx.graphics.getHeight();
+        float stageWidth = 800,
+                stageHeight = 600;
 
         background.setPosition(0, 0);
         background2.setPosition(0, 0);
@@ -129,6 +129,7 @@ public class Level2 extends Stage {
             }
             if(!change) {
                 change = true;
+                game.player.remove();
                 Level3 level3 = new Level3(game);
                 game.changeStage(level3);
             }

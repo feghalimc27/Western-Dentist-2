@@ -19,7 +19,7 @@ public class Level1 extends Stage
     private boolean bossMusicPlayed = false;
 
     private Image background = new Image(new Texture("Images/WesternDentist_Background.png")),
-            background2 = new Image(new Texture("Images/WesternDentist_Background.png"));
+            background2 = new Image(new Texture("Images/WesternDentist_Background2.png"));
 
     private BossHikeMaze hikeMaze = new BossHikeMaze(new Texture("Images/Hike Maze zombie.png"), 7500, new Vector2(0, 400));
 
@@ -32,14 +32,12 @@ public class Level1 extends Stage
      */
     Level1(final WesternDentist game)
     {
-
+        super(game.viewport);
         background.setPosition(0, 2500);
         background2.setPosition(0, -2500);
 
         addActor(background);
         addActor(background2);
-
-        game.player.setPosition(300,300);
 
         addActor(game.player);
         game.player.addAura();
@@ -157,6 +155,7 @@ public class Level1 extends Stage
         if(trerryClews.health <= 0)
         {
             trerryClews.health = 1;
+            game.player.remove();
             trerryClews.remove();
             bossSpawned = false;
             Level2 level2 = new Level2(game);

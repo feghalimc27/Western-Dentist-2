@@ -61,7 +61,6 @@ public class WesternDentist extends Game {
 
 	@Override
 	public void create () {
-
         theme = Gdx.audio.newSound(Gdx.files.internal("sounds/mainmenu/theme.mp3"));
         level1 = Gdx.audio.newSound(Gdx.files.internal("sounds/level1.mp3"));
         level2 = Gdx.audio.newSound(Gdx.files.internal("sounds/level2.mp3"));
@@ -87,7 +86,7 @@ public class WesternDentist extends Game {
         labelStyle = new Label.LabelStyle(font, null);
 	    viewport = new FitViewport(800, 600);
         currentStage = new SplashScreen(this);
-        player = new Player(300, 100, this);
+        player = new Player(260, 100, this);
         userInterface = new UserInterface(this);
         pauseMenu = new PauseMenu(this);
         Gdx.input.setInputProcessor(currentStage);
@@ -138,16 +137,7 @@ public class WesternDentist extends Game {
         currentStage.getViewport().update(width, height, true);
         userInterface.getViewport().update(width, height, true);
         pauseMenu.getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void pause() {
-	    super.pause();
-    }
-
-    @Override
-    public void resume() {
-        super.resume();
+        super.resize(width, height);
     }
 
     public void changeStage(final Stage newStage) {
@@ -168,7 +158,7 @@ public class WesternDentist extends Game {
             if (music != null) {
                 music.stop();
             }
-            if (!(newStage instanceof MainMenu)) {
+            if (!(currentStage instanceof SplashScreen)) {
                 if (currentStage instanceof Level1 || currentStage instanceof Level2 || currentStage instanceof Level3) {
                     bossDeath.play(soundEffectVolumeActual);
                     table = new Table();
@@ -268,7 +258,7 @@ public class WesternDentist extends Game {
                 }
                 player.setHealth(5);
                 player.setScore(0);
-                player.setPosition(300, 100);
+                player.setPosition(260, 100);
                 hiScore = 0;
                 SequenceAction sequence = Actions.sequence();
                 if (!(currentStage instanceof MainMenu)) {
