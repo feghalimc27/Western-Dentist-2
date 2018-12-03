@@ -29,6 +29,7 @@ public class Player extends Actor {
     private int rateCounter = 0;
     private float power = 0;
     private WesternDentist game;
+    boolean aura = false;
 
     private boolean checkLeft = true, checkRight = true, checkTop = true, checkBottom = true;
 
@@ -84,15 +85,18 @@ public class Player extends Actor {
 
     private void aura() {
         try {
-            boolean aura = false;
-            for (Actor actor: getStage().getActors()) {
-                if (actor.getName().equals("Aura")) {
-                    aura = true;
-                    break;
-                }
-            }
             if (!aura) {
-                getStage().addActor(new Aura(this));
+                for (Actor actor : getStage().getActors()) {
+                    if (actor.getName().equals("Aura")) {
+                        Gdx.app.log("Player", "Aura found");
+                        aura = true;
+                        break;
+                    }
+                }
+                if (!aura) {
+                    Gdx.app.log("Player", "Adding aura");
+                    getStage().addActor(new Aura(this));
+                }
             }
         }
         catch (NullPointerException e) {
