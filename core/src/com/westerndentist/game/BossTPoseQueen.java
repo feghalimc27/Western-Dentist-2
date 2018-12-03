@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class BossTPoseQueen extends Boss {
 
-    private float phase1damage = 1500, phase2damage = 3000,
-            phase3damage = 6000, phase4damage = 12000;
+    private float phase1damage = 30000, phase2damage = 50000,
+            phase3damage = 100000, phase4damage = 160000;
 
     private Texture texture = new Texture("Images/L2_Boss_T-Pose_Queen.png");
 
@@ -68,12 +68,27 @@ public class BossTPoseQueen extends Boss {
 
     private float spin = 1;
 
+    /**
+     *
+     * @param Sequencer
+     * sequencer - The instance of the sequencer to update the location
+     * of entities who's main functionality is to add animation.
+     *
+     * BossTPoseQueen - The constructor of level2
+     */
     BossTPoseQueen(Sequencer Sequencer) {
         super();
         this.sequencer = Sequencer;
         bounds = new Rectangle(getX(), getY(), texture.getWidth(), texture.getHeight());
     }
 
+    /**
+     *
+     * @param delta
+     * delta - time since last frame
+     * act - Acts as the backbone, makes sure specific elements
+     * such as music, boss, etc. work as they should
+     */
     @Override
     public void act(float delta) {
         if (!spawned) {
@@ -89,12 +104,23 @@ public class BossTPoseQueen extends Boss {
         Gdx.app.log("Boss Damage", "" + damage);
     }
 
+    /**
+     *
+     * @param batch
+     * @param parentAlpha
+     * draw - draws the boss sprite on the screen
+     * batch - sprite batch, this draws the sprites
+     * parentAlpha - transparency of the object
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(texture, getX(), getY());
     }
 
-
+    /**
+     * phase - each phase of difficulty of the boss
+     * based on damage
+     */
     private void phase() {
         if (this.damage < this.phase1damage) {
             phase1();
@@ -116,16 +142,14 @@ public class BossTPoseQueen extends Boss {
             phase4();
         }
         else if(this.damage > this.phase4damage){
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             remove();
         }
     }
 
-
+    /**
+     * takeDamageFromProjectile - Allows the boss to take damage from the player
+     * when the boss's hit box overlaps the projectiles hit box
+     */
     private void takeDamageFromProjectile() {
         try {
             for (Actor actor : getStage().getActors()) {
@@ -143,10 +167,13 @@ public class BossTPoseQueen extends Boss {
                 }
             }
         } catch (NullPointerException e) {
-            Gdx.app.log("Enemy: ", "Something broke but I'm just gonna ignore it lol");
+            Gdx.app.log("Level2 Boss: ", "An objected was deleted before it could be checked.");
         }
     }
 
+    /**
+     * phase1 - first phase
+     */
     private void phase1() {
         try {
             if (rateCounter == 0) {
@@ -193,31 +220,37 @@ public class BossTPoseQueen extends Boss {
             }
 
         } catch (Exception e){
-
+            Gdx.app.log("Level2 Boss Phase1", "Size of actor container changed.");
         }
     }
 
+    /**
+     * phase2 - second phase
+     */
     private void phase2() {
         try {
             if (rateCounter == 0) {
                 // TODO: Play Firing Sound?
-                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX2 / (float) 1000, (float) -fireY2 / (float) 1000, false));
-                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX2 / (float) 1000, (float) fireY2 / (float) 1000, false));
+                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX2 / (float) 1000, (float) -fireY2 / (float) 1000, true));
+                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX2 / (float) 1000, (float) fireY2 / (float) 1000, true));
             }
 
                 if (basicSpawnX < 3000) {
                     if (basicSpawnX % 20 == 0) {
                         getStage().addActor(new BasicEnemy(new Texture("Images/T-Pose_Luigi.png"), 100, 10, 100, new Vector2(basicSpawnX, 1000)));
-                        getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, basicSpawnX, 1000, "Enemy", 0, 1, false));
+                        getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BallGreen.png"), (float) -300, basicSpawnX, 1000, "Enemy", 0, 1, false));
                     }
                     basicSpawnX += 1;
                     //Gdx.app.log("", String.valueOf(basicSpawnX));
                 }
         } catch (Exception e){
-
+            Gdx.app.log("Level2 Boss Phase2", "Size of actor container changed.");
         }
     }
 
+    /**
+     * phase3 - third phase
+     */
     private void phase3() {
         try {
             if (rateCounter == 0) {
@@ -225,23 +258,26 @@ public class BossTPoseQueen extends Boss {
                 getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX3 / (float) 1000, (float) fireY3 / (float) 1000, false));
             }
         } catch (Exception e) {
-
+            Gdx.app.log("Level2 Boss Phase3", "Size of actor container changed.");
         }
     }
 
+    /**
+     * phase4 - fourth phase
+     */
     private void phase4() {
         try {
             if (rateCounter == 0) {
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX1 / (float) 5000, (float) -fireY1 / (float) 5000, false));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX2 / (float) 5000, (float) -fireY2 / (float) 5000, false));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX3 / (float) 5000, (float) -fireY3 / (float) 5000, false));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX4 / (float) 5000, (float) -fireY4 / (float) 5000, false));
-                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX4 / (float) 1000, (float) fireY4 / (float) 1000, false));
-                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX4 / (float) 1000, (float) -fireY4 / (float) 1000, false));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX1 / (float) 1000, (float) fireY1 / (float) 5000, false));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX2 / (float) 1000, (float) fireY2 / (float) 5000, false));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX3 / (float) 1000, (float) -fireY3 / (float) 5000, false));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX4 / (float) 1000, (float) -fireY4 / (float) 5000, false));
+                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX4 / (float) 1000, (float) fireY4 / (float) 1000, true));
+                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX4 / (float) 1000, (float) -fireY4 / (float) 1000, true));
 
             }
         } catch (Exception e) {
-
+            Gdx.app.log("Level2 Boss Phase4", "Size of actor container changed.");
         }
     }
 }

@@ -20,12 +20,18 @@ public class Level2 extends Stage {
 
     private boolean bossSpawned = false;
     private boolean bossMusicPlayed = false;
+    private boolean change = false;
     private int backgroundHeight1 = 426;
     private int backgroundHeight2 = 3508;
     private double increment1 = 10;
     private double increment2 = 0.01;
 
-
+    /**
+     *
+     * @param game
+     * constructor
+     * game - instance of the game
+     */
     Level2(final WesternDentist game) {
         super(game.viewport);
 
@@ -62,7 +68,7 @@ public class Level2 extends Stage {
         boss.addAction(Actions.moveTo(200, 250, 6));
 
         sequencer.addActorToPhase(2, boss);
-        sequencer.addPhaseSpawnFrequency(2, 10);
+        sequencer.addPhaseSpawnFrequency(2, 70);
         sequencer.addPhaseSpawnPosition(2, new Vector2(300, 1000));
 
 
@@ -71,6 +77,12 @@ public class Level2 extends Stage {
         this.game = game;
     }
 
+    /**
+     *
+     * @param delta
+     * delta - time since last frame
+     * act - The back bone of the level
+     */
     @Override
     public void act(float delta) {
         backgroundScrolling(delta);
@@ -79,12 +91,20 @@ public class Level2 extends Stage {
         super.act(delta);
     }
 
+    /**
+     * draw - Draws all entities on the level
+     */
     @Override
     public void draw() {
-        sortActors();
+        //sortActors();
         super.draw();
     }
 
+    /**
+     * checkBoss - Checks if the boss has been spawned if so play,
+     * if not and needs to be spawned then spawn him, if dead then
+     * go to next level.
+     */
     private void checkBoss() {
         if (!bossSpawned) {
             try {
@@ -98,7 +118,7 @@ public class Level2 extends Stage {
                 }
             }
             catch (NullPointerException e) {
-
+                Gdx.app.log("Level2 Check Boss: ","An object was deleted before it could be checked.");
             }
         }else if (bossSpawned) {
             for (Actor actor: getActors()) {
@@ -106,11 +126,18 @@ public class Level2 extends Stage {
                     return;
                 }
             }
-            Level3 level3 = new Level3(game);
-            game.changeStage(level3);
+            if(!change) {
+                change = true;
+                Level3 level3 = new Level3(game);
+                game.changeStage(level3);
+            }
         }
     }
 
+    /**
+     * sortActors - Main functionality is to make the
+     * projectiles fire from under the player.
+     */
     private void sortActors() {
         for (Actor actor : this.getActors()) {
             int z = actor.getZIndex();
@@ -137,6 +164,11 @@ public class Level2 extends Stage {
         }
     }
 
+    /**
+     * backgroundScrolling - Adds functionality to make background move,
+     * can be set to scroll or in this case move back and forth.
+     * @param delta
+     */
     private void backgroundScrolling(float delta) {
         background.setY((float) (background.getY() - increment1 * delta));
         background2.rotateBy((float) increment2);
