@@ -55,7 +55,7 @@ public abstract class Enemy extends Actor {
             }
 
             for (int i = 0; i < powerups; ++i) {
-                getStage().addActor(new PowerPowerup(1000, 10, new Vector2(getX() + i, getY() + i)));
+                getStage().addActor(new PowerPowerup(1000, 1, new Vector2(getX() + i, getY() + i)));
             }
 
             for (Actor actor: getStage().getActors()) {

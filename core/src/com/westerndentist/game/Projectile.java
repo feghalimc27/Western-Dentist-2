@@ -35,12 +35,14 @@ public class Projectile extends Actor{
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        if (damage > 10) {
-            setColor((255 - damage)/255, (255 - damage)/255, 1, 1);
+        if (getName().equals("Player") && damage > 10) {
+            setColor((255 - damage)/255, (255 - damage)/255, 1, 0.8f);
+        }
+        else if (damage == 10 && getName().equals("Player")) {
+            setColor(1, 1, 1, 0.8f);
         }
         batch.setColor(getColor());
         batch.draw(texture, getX(), getY(), texture.getWidth() / 2, texture.getHeight() / 2);
-
     }
 
     @Override

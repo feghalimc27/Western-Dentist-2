@@ -57,6 +57,7 @@ public class Player extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         batch.setColor(getColor());
         batch.draw(texture, getX(), getY());
+        batch.setColor(1, 1, 1, 1);
     }
 
     @Override
@@ -67,6 +68,7 @@ public class Player extends Actor {
 
     @Override
     public void act(float delta) {
+        aura();
         move(delta);
         applyMovement(delta);
         fire(delta);
@@ -77,6 +79,24 @@ public class Player extends Actor {
         checkCollision();
         if (health <= 0) {
             game.restartStage();
+        }
+    }
+
+    private void aura() {
+        try {
+            boolean aura = false;
+            for (Actor actor: getStage().getActors()) {
+                if (actor.getName().equals("Aura")) {
+                    aura = true;
+                    break;
+                }
+            }
+            if (!aura) {
+                getStage().addActor(new Aura(this));
+            }
+        }
+        catch (NullPointerException e) {
+
         }
     }
 
@@ -95,7 +115,7 @@ public class Player extends Actor {
         }
 
         if (power > 0) {
-            power -= (power / 10) * delta;
+            power -= (power / 35) * delta;
         }
         if (power < 0) {
             power = 0;
@@ -176,8 +196,8 @@ public class Player extends Actor {
                     getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() - 20, getY() + 10 - 4, "Player", 10 + power / 100));
                     getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() - 30, getY() + 10 - 6, "Player", 10 + power / 100));
                     getStage().addActor(new Projectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() + 30, getY() + 10 - 6, "Player", 10 + power / 100));
-                    getStage().addActor(new NonVerticalProjectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() + 40, getY() + 10 - 8, "Player", -1, 1, false, false));
-                    getStage().addActor(new NonVerticalProjectile(new Texture("images/WesternDentist_PlayerProjectile.png"), 800, getX() - 40, getY() + 10 - 8, "Player", 1, 1, false, false));
+                    getStage().addActor(new NonVerticalProjectile(new Texture("images/WesternDentist_PlayerBurst.png"), 800, getX() + 40, getY() + 10 - 8, "Player", -1, 1, false, false));
+                    getStage().addActor(new NonVerticalProjectile(new Texture("images/WesternDentist_PlayerBurst.png"), 800, getX() - 40, getY() + 10 - 8, "Player", 1, 1, false, false));
                 }
                 rateCounter += fireRate * delta * 10;
                 modPower(delta);
