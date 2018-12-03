@@ -124,7 +124,7 @@ public class Level4 extends Stage {
 
     @Override
     public void draw() {
-        sortActors();
+        //sortActors();
         super.draw();
     }
 
@@ -151,11 +151,11 @@ public class Level4 extends Stage {
 
                     for (int i = 0; i < getActors().size; ++i) {
                         try {
-                            if (BossLevel4.class.isInstance(getActors().items[i]) && phase < 4) {
+                            if (getActors().items[i].getName().equals("BOSS4") && phase < 4) {
                                 phase = ((BossLevel4)getActors().items[i]).getPhase();
                                 break;
                             }
-                            else if (BossLevel4.class.isInstance(getActors().items[i]) && phase < 4) {
+                            else if (getActors().items[i].getName().equals("BOSS4")) {
                                 died = false;
                             }
                         }

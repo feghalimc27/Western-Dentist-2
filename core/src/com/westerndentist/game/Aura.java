@@ -1,0 +1,107 @@
+package com.westerndentist.game;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+
+public class Aura extends Actor {
+
+    private Texture texture = new Texture("Images/WesternDentist_Aura.png");
+    private float cooldown = 0;
+    private float time = 0;
+    private float degrees = 20;
+    private boolean rising = true;
+    private boolean active = false;
+    private Player player;
+
+    private Rectangle bounds;
+
+    Aura(Player player) {
+        setName("Aura");
+        setX(player.getX());
+        setY(player.getY());
+        bounds = new Rectangle(getX(), getY(), texture.getWidth(), texture.getHeight());
+        this.player = player;
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if (active) {
+            block();
+        }
+        if (!active && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && cooldown == 0) {
+            active = true;
+            time = 5;
+        }
+
+        if (time > 0 && active) {
+            time -= delta;
+        }
+
+        if (time < 0) {
+            time = 0;
+            cooldown = 10;
+            active = false;
+        }
+
+        if (degrees > 10 && rising) {
+            degrees += 20 * delta;
+            if (degrees >= 160) {
+                rising = false;
+            }
+        }
+        else if (degrees < 170 && !rising) {
+            degrees -= 60 * delta;
+            if (degrees <= 20) {
+                rising = true;
+            }
+        }
+
+        if (cooldown > 0) {
+            cooldown -= delta;
+        }
+        else if (cooldown < 0) {
+            cooldown = 0;
+        }
+
+        setX(player.getX() - texture.getWidth() / 2.6f);
+        setY(player.getY() - texture.getHeight() / 3);
+        bounds.set(getX(), getY(), texture.getWidth(), texture.getHeight());
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        if (active) {
+            batch.setColor(0, 1, 1, 1);
+        }
+        else if (!active && cooldown > 0) {
+            batch.setColor(MathUtils.sinDeg(degrees), 0, 0,  MathUtils.sinDeg(degrees));
+        }
+        else {
+            batch.setColor(Color.WHITE);
+        }
+        batch.draw(texture, getX(), getY());
+        batch.setColor(Color.WHITE);
+    }
+
+    private void block() {
+        try {
+            for (Actor actor: getStage().getActors()) {
+                if (Projectile.class.isInstance(actor) && !(actor.getName().equals("Player"))) {
+                    if (((Projectile)actor).getBounds().overlaps(bounds)) {
+                        actor.remove();
+                    }
+                }
+            }
+        }
+        catch (NullPointerException e) {
+
+        }
+    }
+}

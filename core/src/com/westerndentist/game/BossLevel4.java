@@ -11,8 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class BossLevel4 extends Boss {
 
-    private float phase1damage = 25000, phase2damage = 50000,
-                  phase3damage = 100000, phase4damage = 200000;
+    private float phase1damage = 17500, phase2damage = 35000,
+                  phase3damage = 70000, phase4damage = 140000;
 
     private Texture texture = new Texture("Images/l4BossSprite.png");
 
@@ -199,7 +199,7 @@ public class BossLevel4 extends Boss {
 
         if (rateCounter1 == 0) {
             try {
-                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurstL4P1.png"), 120, getX() + texture.getWidth() / 2, getY() + texture.getHeight() / 2, "Enemy", proj1xFactor / 1000, proj1yFactor / 1000, false, false));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurstL4P1.png"), 110, getX() + texture.getWidth() / 2, getY() + texture.getHeight() / 2, "Enemy", proj1xFactor / 1000, proj1yFactor / 1000, false, false));
             } catch (NullPointerException e) {
                 Gdx.app.log("Boss Level 4", "Enemy not found");
             }
@@ -279,19 +279,19 @@ public class BossLevel4 extends Boss {
                 }
             }
 
-            for (int i = 0; i < 6; ++i) {
+            for (int i = 0; i < 3; ++i) {
                 getStage().addActor(new PositionProjectile(new Texture("Images/WesternDentist_BossBurstL4P3.png"), 100, "Enemy", 500 + rng.nextFloat(), 550 + rng.nextFloat(), playerPos, 30 + i));
                 getStage().addActor(new PositionProjectile(new Texture("Images/WesternDentist_BossBurstL4P3.png"), 100, "Enemy", 50 + rng.nextFloat(), 550 + rng.nextFloat(), playerPos, 30 + i));
                 getStage().addActor(new PositionProjectile(new Texture("Images/WesternDentist_BossBurstL4P3.png"), 100, "Enemy", 50 + rng.nextFloat(), 50 + rng.nextFloat(), playerPos, 30 + i));
                 getStage().addActor(new PositionProjectile(new Texture("Images/WesternDentist_BossBurstL4P3.png"), 100, "Enemy", 500 + rng.nextFloat(), 50 + rng.nextFloat(), playerPos, 30 + i));
             }
-            for (int i = 0; i < 6; ++i) {
+            for (int i = 0; i < 3; ++i) {
                 getStage().addActor(new PositionProjectile(new Texture("Images/WesternDentist_BossBurstL4P3.png"), 100, "Enemy", 500 + rng.nextFloat(), 550 + rng.nextFloat(), playerPos, 30 + i));
                 getStage().addActor(new PositionProjectile(new Texture("Images/WesternDentist_BossBurstL4P3.png"), 100, "Enemy", 50 + rng.nextFloat(), 550 + rng.nextFloat(), playerPos, 30 + i));
                 getStage().addActor(new PositionProjectile(new Texture("Images/WesternDentist_BossBurstL4P3.png"), 100, "Enemy", 50 + rng.nextFloat(), 50 + rng.nextFloat(), playerPos, 30 + i));
                 getStage().addActor(new PositionProjectile(new Texture("Images/WesternDentist_BossBurstL4P3.png"), 100, "Enemy", 500 + rng.nextFloat(), 50 + rng.nextFloat(), playerPos, 30 + i));
             }
-            for (int i = 0; i < 6; ++i) {
+            for (int i = 0; i < 3; ++i) {
                 getStage().addActor(new PositionProjectile(new Texture("Images/WesternDentist_BossBurstL4P3.png"), 100, "Enemy", 500 + rng.nextFloat(), 550 + rng.nextFloat(), playerPos, 30 + i));
                 getStage().addActor(new PositionProjectile(new Texture("Images/WesternDentist_BossBurstL4P3.png"), 100, "Enemy", 50 + rng.nextFloat(), 550 + rng.nextFloat(), playerPos, 30 + i));
                 getStage().addActor(new PositionProjectile(new Texture("Images/WesternDentist_BossBurstL4P3.png"), 100, "Enemy", 50 + rng.nextFloat(), 50 + rng.nextFloat(), playerPos, 30 + i));
