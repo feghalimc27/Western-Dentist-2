@@ -35,12 +35,9 @@ public class L3Boss extends Boss
     private int fireY4 = 1000;
     private int XScale4 = 0;
     private int YScale4 = 0;
-    private Boolean phaseChange = true;
     private int phase = 1;
     private int prevPhase = 1;
     private float score = 10000000;
-
-    private boolean checkLeft = true, checkRight = true, checkTop = true, checkBottom = true;
 
     /**
      * Empty Constructor
@@ -49,7 +46,7 @@ public class L3Boss extends Boss
         setPosition(0, 0);
         setBounds(0, 0, texture.getWidth(), texture.getHeight());
         setName("Mr. Muskrat");
-        health = 30000;
+        health = 60000;
         // TODO: Boss Spawn Sound?
     }
 
@@ -61,7 +58,7 @@ public class L3Boss extends Boss
         setPosition(position.x, position.y);
         setBounds(position.x, position.y, texture.getWidth(), texture.getHeight());
         setName("Mr. Muskrat");
-        health = 20000;
+        health = 60000;
     }
 
     /**
@@ -74,7 +71,7 @@ public class L3Boss extends Boss
         bounds.set(x, y, texture.getWidth()/2, texture.getHeight()/2);
         bounds.setCenter(x + texture.getWidth() / 4, y - texture.getHeight() / 4);
         setName("Mr. Muskrat");
-        health = 20000;
+        health = 60000;
     }
 
     /**
@@ -108,14 +105,14 @@ public class L3Boss extends Boss
         applyMovement(delta);
         if(getY() <= 350)
         {
-            if(health>15000)
-                firePhase1(delta);
-            else if (health>10000)
-                firePhase2(delta);
-            else if (health>5000)
-                firePhase3(delta);
+            if(health>50000)
+                firePhase1();
+            else if (health>30000)
+                firePhase2();
+            else if (health>15000)
+                firePhase3();
             else
-                firePhase4(delta);
+                firePhase4();
         }
         updateBounds();
         checkCollision();
@@ -138,6 +135,7 @@ public class L3Boss extends Boss
     /**
      * When This object is destroyed, add an appropriate score to the player
      */
+    /*
     @Override
     protected void giveScore() {
         for (Actor actor: getStage().getActors()) {
@@ -146,7 +144,7 @@ public class L3Boss extends Boss
                 break;
             }
         }
-    }
+    }*/
 
     /**
      * Set the internal movement vector
@@ -173,9 +171,8 @@ public class L3Boss extends Boss
 
     /**
      * Logic for the first phase projectile firing
-     * @param delta time since the last frame
      */
-    private void firePhase1(float delta) {
+    private void firePhase1() {
         prevPhase = phase;
         phase = 1;
         if (prevPhase != phase)
@@ -195,10 +192,10 @@ public class L3Boss extends Boss
         }
 
         if (rateCounter == 0) {
-            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX1/(float)1000, (float)fireY1/(float)1000, true));
-            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX2/(float)1000, (float)fireY2/(float)1000, true));
-            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX3/(float)1000, (float)fireY3/(float)1000, true));
-            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX4/(float)1000, (float)fireY4/(float)1000, true));
+            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX1/(float)1000, (float)fireY1/(float)1000));
+            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX2/(float)1000, (float)fireY2/(float)1000));
+            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX3/(float)1000, (float)fireY3/(float)1000));
+            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX4/(float)1000, (float)fireY4/(float)1000));
             fireX1 += XScale1;
             fireY1 += YScale1;
             fireX2 += XScale2;
@@ -231,9 +228,8 @@ public class L3Boss extends Boss
 
     /**
      * Logic for phase 2 projectile firing
-     * @param delta time since last frame
      */
-    private void firePhase2(float delta)
+    private void firePhase2()
     {
         prevPhase = phase;
         phase = 2;
@@ -258,10 +254,10 @@ public class L3Boss extends Boss
         }
 
         if (rateCounter == 0) {
-            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX1/(float)1000, (float)fireY1/(float)1000, true));
-            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX2/(float)1000, (float)fireY2/(float)1000, true));
-            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX3/(float)1000, (float)fireY3/(float)1000, true));
-            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX4/(float)1000, (float)fireY4/(float)1000, true));
+            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX1/(float)1000, (float)fireY1/(float)1000));
+            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX2/(float)1000, (float)fireY2/(float)1000));
+            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX3/(float)1000, (float)fireY3/(float)1000));
+            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX4/(float)1000, (float)fireY4/(float)1000));
 
             fireX1 += XScale1;
             fireY1 += YScale1;
@@ -304,9 +300,8 @@ public class L3Boss extends Boss
 
     /**
      * logic for phase 3 projectile firing
-     * @param delta time since the last fame
      */
-    private void firePhase3(float delta)
+    private void firePhase3()
     {
         prevPhase = phase;
         phase = 3;
@@ -333,44 +328,44 @@ public class L3Boss extends Boss
         if (rateCounter == 0) {
             if ((Math.random() * (1000 - 0)) > 500)
             {
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) fireX1 / (float) 1000, (float) fireY1 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) fireX2 / (float) 1000, (float) fireY2 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) fireX3 / (float) 1000, (float) fireY3 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) fireX4 / (float) 1000, (float) fireY4 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 500 / (float) 1000, (float) 500 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -500 / (float) 1000, (float) 500 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 500 / (float) 1000, (float) -500 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -500 / (float) 1000, (float) -500 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 250 / (float) 1000, (float) 750 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -250 / (float) 1000, (float) 750 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 250 / (float) 1000, (float) -750 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -250 / (float) 1000, (float) -750 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 750 / (float) 1000, (float) 250 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -750 / (float) 1000, (float) 250 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 750 / (float) 1000, (float) -250 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -750 / (float) 1000, (float) -250 / (float) 1000, true));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) fireX1 / (float) 1000, (float) fireY1 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) fireX2 / (float) 1000, (float) fireY2 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) fireX3 / (float) 1000, (float) fireY3 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) fireX4 / (float) 1000, (float) fireY4 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 500 / (float) 1000, (float) 500 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -500 / (float) 1000, (float) 500 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 500 / (float) 1000, (float) -500 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -500 / (float) 1000, (float) -500 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 250 / (float) 1000, (float) 750 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -250 / (float) 1000, (float) 750 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 250 / (float) 1000, (float) -750 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -250 / (float) 1000, (float) -750 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 750 / (float) 1000, (float) 250 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -750 / (float) 1000, (float) 250 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 750 / (float) 1000, (float) -250 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -750 / (float) 1000, (float) -250 / (float) 1000));
             }
             else
             {
                 if (Math.random()*1000 > 500)
-                    getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) (fireX1-100) / (float) 1000, (float) (fireY1+100) / (float) 1000, true));
+                    getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) (fireX1-100) / (float) 1000, (float) (fireY1+100) / (float) 1000));
                 else
-                    getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) (fireX1+100) / (float) 1000, (float) (fireY1-100) / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) fireX2 / (float) 1000, (float) fireY2 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) fireX3 / (float) 1000, (float) fireY3 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) fireX4 / (float) 1000, (float) fireY4 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 500 / (float) 1000, (float) 500 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -500 / (float) 1000, (float) 500 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 500 / (float) 1000, (float) -500 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -500 / (float) 1000, (float) -500 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 250 / (float) 1000, (float) 750 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -250 / (float) 1000, (float) 750 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 250 / (float) 1000, (float) -750 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -250 / (float) 1000, (float) -750 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 750 / (float) 1000, (float) 250 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -750 / (float) 1000, (float) 250 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 750 / (float) 1000, (float) -250 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -750 / (float) 1000, (float) -250 / (float) 1000, true));
+                    getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) (fireX1+100) / (float) 1000, (float) (fireY1-100) / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) fireX2 / (float) 1000, (float) fireY2 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) fireX3 / (float) 1000, (float) fireY3 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) fireX4 / (float) 1000, (float) fireY4 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 500 / (float) 1000, (float) 500 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -500 / (float) 1000, (float) 500 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 500 / (float) 1000, (float) -500 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -500 / (float) 1000, (float) -500 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 250 / (float) 1000, (float) 750 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -250 / (float) 1000, (float) 750 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 250 / (float) 1000, (float) -750 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -250 / (float) 1000, (float) -750 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 750 / (float) 1000, (float) 250 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -750 / (float) 1000, (float) 250 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) 750 / (float) 1000, (float) -250 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2 - 10), (float) (getY() + texture.getHeight() / 2 - 10), "Muskrat Missile", (float) -750 / (float) 1000, (float) -250 / (float) 1000));
             }
             rateCounter += 2*fireRate;
         }
@@ -385,9 +380,8 @@ public class L3Boss extends Boss
 
     /**
      * phase 4 projectile firing logic
-     * @param delta time since the last frame
      */
-    private void firePhase4(float delta)
+    private void firePhase4()
     {
         prevPhase = phase;
         phase = 4;
@@ -412,10 +406,10 @@ public class L3Boss extends Boss
         }
 
         if (rateCounter == 0) {
-            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX1/(float)1000, (float)fireY1/(float)1000, true));
-            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX2/(float)1000, (float)fireY2/(float)1000, true));
-            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX3/(float)1000, (float)fireY3/(float)1000, true));
-            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX4/(float)1000, (float)fireY4/(float)1000, true));
+            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX1/(float)1000, (float)fireY1/(float)1000));
+            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX2/(float)1000, (float)fireY2/(float)1000));
+            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX3/(float)1000, (float)fireY3/(float)1000));
+            getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float)-300, (float)(getX() + texture.getWidth()/2 - 10), (float)(getY() + texture.getHeight()/2 - 10), "Muskrat Missile", (float)fireX4/(float)1000, (float)fireY4/(float)1000));
             fireX1 = (int) (Math.random()*1000);
             fireY1 = 1000 - fireX1;
             fireX2 = -1 * ((int) (Math.random()*1000));
@@ -473,19 +467,6 @@ public class L3Boss extends Boss
                 }
             }
         }
-
-        // Check side checks
-        checkRight = (getX() + 30 < 520);
-        checkLeft = (getX() - 20 > 20);
-        checkBottom = (getY() - 20 > 20);
-        checkTop = (getY() + 30 < getStage().getViewport().getScreenHeight() - 20);
     }
 
-    /**
-     * getter for the bounds of this object
-     * @return return the private bounds parameter
-     */
-    public Rectangle getBounds() {
-        return bounds;
-    }
 }

@@ -14,12 +14,7 @@ public class NonVerticalProjectile extends Projectile {
 
     private float xFactor, yFactor, firstX, firstY;
     private float angle;
-    private float modFactor = 2;
     private boolean curve, dir;
-
-    private Vector2 origin;
-
-    private boolean risingX = true, risingY = true;
 
     /**
      * Constructor
@@ -43,10 +38,6 @@ public class NonVerticalProjectile extends Projectile {
         firstY = yFactor;
 
         angle = getAngle(xFactor, yFactor);
-
-        if (curve) {
-            origin = new Vector2(x, y);
-        }
 
         this.curve = curve;
         this.dir = dir;

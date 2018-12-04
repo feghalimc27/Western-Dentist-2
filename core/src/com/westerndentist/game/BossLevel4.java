@@ -77,7 +77,7 @@ public class BossLevel4 extends Boss {
         takeDamageFromProjectile();
         changePhase();
         phase(delta);
-        spawnPower(delta);
+        spawnPower();
     }
 
     /**
@@ -189,9 +189,8 @@ public class BossLevel4 extends Boss {
 
     /**
      * Handles spawning powerups on a timer, spawns them every 30 seconds
-     * @param delta
      */
-    private void spawnPower(float delta) {
+    private void spawnPower() {
         if (!spawningPower) {
             spawningPower = true;
             Timer timer = new Timer();
@@ -233,7 +232,7 @@ public class BossLevel4 extends Boss {
             case 4:
                 phase1(delta);
                 phase2(delta);
-                phase4(delta);
+                phase4();
                 break;
             default:
                 break;
@@ -382,9 +381,8 @@ public class BossLevel4 extends Boss {
 
     /**
      * Manages phase 4
-     * @param delta time since the last frame in seconds
      */
-    private void phase4(float delta) {
+    private void phase4() {
         if (phase4active) {
             phase4active = false;
             getStage().addActor(new Boss4Phase4());

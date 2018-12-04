@@ -13,8 +13,6 @@ public class SprayEnemy extends Enemy {
 
     private float rateCounter = 0;
     private float moveCooldown = 0;
-    private float speed = 100;
-    private float spawnAngle = 0;
 
     private boolean canMove = true;
 

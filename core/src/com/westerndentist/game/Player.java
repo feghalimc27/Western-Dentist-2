@@ -16,9 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.TimeUtils;
-
-import java.awt.*;
 
 /**
  * Player class
@@ -106,7 +103,7 @@ public class Player extends Actor {
      */
     @Override
     public void act(float delta) {
-        move(delta);
+        move();
         applyMovement(delta);
         fire(delta);
         decayIframes(delta);
@@ -122,11 +119,13 @@ public class Player extends Actor {
             sequence.addAction(Actions.run(new Runnable() {
                 @Override
                 public void run() {
-                    ((Level4)game.currentStage).restart();
+                    if (game.currentStage instanceof  Level4) {
+                        ((Level4)game.currentStage).restart();
+                    }
                     game.restartStage();
                 }
             }));
-            Image background = new Image(new Texture("images/pausemenu/background.png"));
+            Image background = new Image(new Texture("images/background.png"));
             Table table = new Table();
             table.setSize(560, 600);
             table.center();
@@ -156,7 +155,7 @@ public class Player extends Actor {
      * Add aura to stage
      */
     public void addAura() {
-        aura = new Aura(this, game);
+        aura = new Aura(this);
         getStage().addActor(aura);
     }
 
@@ -207,9 +206,8 @@ public class Player extends Actor {
 
     /**
      * Handles player movement
-     * @param delta time since the last frame in seconds
      */
-    private void move(float delta) {
+    private void move() {
         if (Gdx.input.isKeyPressed(Input.Keys.W) && checkTop) {
             movement.y += speed;
         }
@@ -316,7 +314,7 @@ public class Player extends Actor {
             if (Projectile.class.isInstance(actor) && iframes == 0) {
                 if (bounds.overlaps(((Projectile) actor).getBounds())) {
                     if (actor.getName() == "Enemy" || actor.getName() == "Muskrat Missile") {
-                        hitSound.play(game.soundEffectVolumeActual);
+                        hitSound.play(WesternDentist.soundEffectVolumeActual);
                         health -= 1;
                         ((Projectile) actor).destroy();
                         iframes = 100;
@@ -326,7 +324,7 @@ public class Player extends Actor {
 
             if (Enemy.class.isInstance(actor) && iframes == 0) {
                 if (bounds.overlaps(((Enemy) actor).getBounds())) {
-                    hitSound.play(game.soundEffectVolumeActual);
+                    hitSound.play(WesternDentist.soundEffectVolumeActual);
                     health -= 1;
                     iframes = 100;
                 }

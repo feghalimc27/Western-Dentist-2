@@ -80,6 +80,7 @@ public class BossHikeMaze extends Boss
     {
         if (health <= 0)
         {
+            health = 1;
             giveScore();
             remove();
         }
@@ -121,8 +122,8 @@ public class BossHikeMaze extends Boss
         greenSin += delta * 16;
         try
         {
-            Projectile blueFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_BallBlue.png"), 100, getX(), getY()+60, "Enemy", (float)(-2 * Math.sin(-blueSin)),  -2, true, false);
-            Projectile greenFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_BallGreen.png"), 100, getX()+200, getY()+60, "Enemy", (float)(-2 * Math.sin(greenSin)), -2, true, false);
+            Projectile blueFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_BallBlue.png"), 100, getX()+55, getY()+100, "Enemy", (float)(-2 * Math.sin(-blueSin)),  -2, true, false);
+            Projectile greenFire = new NonVerticalProjectile(new Texture("Images/WesternDentist_BallGreen.png"), 100, getX()+155, getY()+100, "Enemy", (float)(-2 * Math.sin(greenSin)), -2, true, false);
 
             getStage().addActor(blueFire);
             getStage().addActor(greenFire);

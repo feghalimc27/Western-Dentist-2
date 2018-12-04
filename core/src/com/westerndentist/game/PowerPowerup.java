@@ -40,7 +40,6 @@ public class PowerPowerup extends Powerup{
         super(boss);
         this.lifetime = lifetime;
         this.value = value;
-        this.boss = boss;
 
         setPosition(position.x, position.y);
         bounds = new Rectangle(getX(), getY(), texture.getWidth(), texture.getHeight());

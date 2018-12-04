@@ -18,22 +18,20 @@ public class Aura extends Actor {
     private Texture texture = new Texture("Images/WesternDentist_Aura.png");
     private Sound auraActivated = Gdx.audio.newSound(Gdx.files.internal("sounds/auraActivated.mp3"));
     private Sound auraDeactivated = Gdx.audio.newSound(Gdx.files.internal("sounds/auraDeactivated.mp3"));
+    private Sound auraReady = Gdx.audio.newSound(Gdx.files.internal("sounds/auraReady.mp3"));
     private float cooldown = 0;
     private float time = 0;
     private float degrees = 20;
     private boolean rising = true;
     private boolean active = false;
     private Player player;
-    private WesternDentist game;
     private Rectangle bounds;
 
     /**
      * Constructor
      * @param player Handles a reference to the player
-     * @param game Handles a reference to the game
      */
-    Aura(Player player, WesternDentist game) {
-        this.game = game;
+    Aura(Player player) {
         setName("Aura");
         setX(player.getX());
         setY(player.getY());
@@ -52,7 +50,7 @@ public class Aura extends Actor {
             block();
         }
         if (!active && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && cooldown == 0) {
-            auraActivated.play(game.soundEffectVolumeActual);
+            auraActivated.play(WesternDentist.soundEffectVolumeActual);
             active = true;
             time = 5;
         }
@@ -62,7 +60,7 @@ public class Aura extends Actor {
         }
 
         if (time < 0) {
-            auraDeactivated.play(game.soundEffectVolumeActual);
+            auraDeactivated.play(WesternDentist.soundEffectVolumeActual);
             time = 0;
             cooldown = 10;
             active = false;
@@ -85,6 +83,7 @@ public class Aura extends Actor {
             cooldown -= delta;
         }
         else if (cooldown < 0) {
+            auraReady.play(WesternDentist.soundEffectVolumeActual);
             cooldown = 0;
         }
 

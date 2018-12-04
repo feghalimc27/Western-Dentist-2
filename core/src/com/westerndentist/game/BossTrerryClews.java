@@ -84,6 +84,7 @@ public class BossTrerryClews extends Boss{
     {
         if (health <= 0)
         {
+            health = 1;
             giveScore();
             remove();
         }
@@ -131,9 +132,9 @@ public class BossTrerryClews extends Boss{
             if (rateCounter == 0)
             {
 
-                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 100, getX() + 105, getY() + 35, "Enemy", (float) Math.sin(initX1), (float) Math.sin(initY1), false, false));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 110, getX() + 55, getY() + 135, "Enemy", (float) Math.sin(initX1), (float) Math.sin(initY1), false, false));
 
-                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 100, getX() + 190, getY() + 60, "Enemy", (float) Math.sin(initX2), (float) Math.sin(initY2), false, false));
+                getStage().addActor(new NonVerticalProjectile(new Texture("Images/WesternDentist_BossBurst.png"), 125, getX() + 155, getY() + 135, "Enemy", (float) Math.sin(initX2), (float) Math.sin(initY2), false, false));
 
 
                 rateCounter += inCounter;

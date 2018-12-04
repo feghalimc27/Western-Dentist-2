@@ -16,8 +16,6 @@ public class Level1 extends Stage
 
     private boolean bossSpawned = false;
 
-    private boolean bossMusicPlayed = false;
-
     private Image background = new Image(new Texture("Images/WesternDentist_Background.png")),
             background2 = new Image(new Texture("Images/WesternDentist_Background2.png"));
 
@@ -100,7 +98,7 @@ public class Level1 extends Stage
         sequencer.addPhaseSpawnPosition(2, new Vector2(560, 800));
 
         sequencer.addActorToPhase(3, hikeMaze);
-        sequencer.addPhaseSpawnFrequency(3, 90);
+        sequencer.addPhaseSpawnFrequency(3, 20);
         sequencer.addPhaseSpawnPosition(3, new Vector2(0, 700));
 
         sequencer.addActorToPhase(4, trerryClews);
@@ -142,7 +140,6 @@ public class Level1 extends Stage
                     {
                         bossSpawned = true;
                         game.playMusic(true);
-                        bossMusicPlayed = true;
                     }
                 }
             }
@@ -154,43 +151,15 @@ public class Level1 extends Stage
 
         if(trerryClews.health <= 0)
         {
-            trerryClews.health = 1;
             game.player.remove();
+            trerryClews.health = 1;
+            trerryClews.giveScore();
             trerryClews.remove();
             bossSpawned = false;
             Level2 level2 = new Level2(game);
             game.changeStage(level2);
         }
 
-    }
-
-    /**
-     * This function will sort the actors by the Z axis (un
-     */
-    private void sortActors() {
-        for (Actor actor : this.getActors()) {
-            int z = actor.getZIndex();
-            if (Image.class.isInstance(actor) && actor.getName() == "UI_FRAME") {
-                if (actor.getZIndex() != 300000) {
-                    actor.setZIndex(300000);
-                }
-            }
-            else if (Image.class.isInstance(actor) && actor.getName() == "BACKGROUND") {
-                actor.setZIndex(0);
-            }
-            else if (Image.class.isInstance(actor)) {
-                actor.setZIndex(0);
-            }
-            else if (Player.class.isInstance(actor)) {
-                actor.setZIndex(3000);
-            }
-            else if (z > 3000) {
-                actor.setZIndex(z - 3000);
-            }
-            else {
-                actor.setZIndex(1);
-            }
-        }
     }
 
     /**

@@ -12,14 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class PauseMenu extends Stage {
-    private WesternDentist game;
     private Table table;
 
     PauseMenu(final WesternDentist game) {
         super(game.viewport);
-        this.game = game;
-        final Sound changeSelection = Gdx.audio.newSound(Gdx.files.internal("sounds/mainmenu/changeselect.mp3"));
-        Image background = new Image(new Texture("images/pausemenu/background.png"));
+        final Sound changeSelection = Gdx.audio.newSound(Gdx.files.internal("sounds/changeselect.mp3"));
+        Image background = new Image(new Texture("images/background.png"));
         addActor(background);
         table = new Table();
         table.setFillParent(true);
@@ -36,7 +34,7 @@ public class PauseMenu extends Stage {
             @Override
             public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if (fromActor != restartLevelButton && fromActor != restartLevelButton.getLabel()) {
-                    changeSelection.play(game.soundEffectVolumeActual);
+                    changeSelection.play(WesternDentist.soundEffectVolumeActual);
                 }
             }
         });
@@ -45,13 +43,14 @@ public class PauseMenu extends Stage {
         quitToMainMenuButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                game.player.setScore(-1);
                 game.changeStage(new MainMenu(game));
                 return true;
             }
             @Override
             public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if (fromActor != quitToMainMenuButton && fromActor != quitToMainMenuButton.getLabel()) {
-                    changeSelection.play(game.soundEffectVolumeActual);
+                    changeSelection.play(WesternDentist.soundEffectVolumeActual);
                 }
             }
         });
@@ -66,7 +65,7 @@ public class PauseMenu extends Stage {
             @Override
             public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if (fromActor != quitToDesktopButton && fromActor != quitToDesktopButton.getLabel()) {
-                    changeSelection.play(game.soundEffectVolumeActual);
+                    changeSelection.play(WesternDentist.soundEffectVolumeActual);
                 }
             }
         });

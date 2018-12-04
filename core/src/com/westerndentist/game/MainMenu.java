@@ -11,16 +11,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class MainMenu extends Stage {
-    private WesternDentist game;
     private Table tableLeft;
     private Table tableRight;
 
     MainMenu(final WesternDentist game) {
         super(game.viewport);
-        this.game = game;
-        Image background = new Image(new Texture("images/mainmenu/background.jpg"));
+        Image background = new Image(new Texture("images/background.jpg"));
         addActor(background);
-        final Sound changeSelection = Gdx.audio.newSound(Gdx.files.internal("sounds/mainmenu/changeselect.mp3"));
+        final Sound changeSelection = Gdx.audio.newSound(Gdx.files.internal("sounds/changeselect.mp3"));
         tableLeft = new Table();
         tableLeft.setSize(400, 600);
         tableLeft.left().bottom();
@@ -42,7 +40,7 @@ public class MainMenu extends Stage {
             @Override
             public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if (fromActor != startButton && fromActor != startButton.getLabel()) {
-                    changeSelection.play(game.soundEffectVolumeActual);
+                    changeSelection.play(WesternDentist.soundEffectVolumeActual);
                 }
             }
         });
@@ -57,7 +55,7 @@ public class MainMenu extends Stage {
             @Override
             public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if (fromActor != optionsButton && fromActor != optionsButton.getLabel()) {
-                    changeSelection.play(game.soundEffectVolumeActual);
+                    changeSelection.play(WesternDentist.soundEffectVolumeActual);
                 }
             }
         });
@@ -72,7 +70,7 @@ public class MainMenu extends Stage {
             @Override
             public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if (fromActor != quitButton && fromActor != quitButton.getLabel()) {
-                    changeSelection.play(game.soundEffectVolumeActual);
+                    changeSelection.play(WesternDentist.soundEffectVolumeActual);
                 }
             }
         });
@@ -89,7 +87,7 @@ public class MainMenu extends Stage {
             public void changed (ChangeEvent event, Actor actor) {
                 game.masterVolume = masterVolumeSlider.getValue();
                 masterVolumeValueLabel.setText(String.valueOf((int)(game.masterVolume * 100)) + "%");
-                game.music.setVolume(game.musicID, game.musicVolumeActual);
+                game.music.setVolume(game.musicID, WesternDentist.musicVolumeActual);
             }
         });
         final Label musicVolumeLabel = new Label("Music Volume", game.labelStyle);
@@ -100,7 +98,7 @@ public class MainMenu extends Stage {
             public void changed (ChangeEvent event, Actor actor) {
                 game.musicVolume = musicVolumeSlider.getValue();
                 musicVolumeValueLabel.setText(String.valueOf((int)(game.musicVolume * 100)) + "%");
-                game.music.setVolume(game.musicID, game.musicVolumeActual);
+                game.music.setVolume(game.musicID, WesternDentist.musicVolumeActual);
             }
         });
         final Label soundEffectVolumeLabel = new Label("Sound Effect Volume", game.labelStyle);

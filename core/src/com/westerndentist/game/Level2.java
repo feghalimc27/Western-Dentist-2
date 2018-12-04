@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class Level2 extends Stage {
 
@@ -19,10 +18,7 @@ public class Level2 extends Stage {
             background2 = new Image(new Texture("Images/WesternDentist_L2_Layer2_Background.png"));
 
     private boolean bossSpawned = false;
-    private boolean bossMusicPlayed = false;
     private boolean change = false;
-    private int backgroundHeight1 = 426;
-    private int backgroundHeight2 = 3508;
     private double increment1 = 10;
     private double increment2 = 0.01;
 
@@ -41,8 +37,8 @@ public class Level2 extends Stage {
         background.setPosition(0, 0);
         background2.setPosition(0, 0);
         background2.setSize(stageWidth, stageHeight);
-        addActor(background);
         addActor(background2);
+        addActor(background);
 
         addActor(game.player);
         game.player.addAura();
@@ -65,7 +61,7 @@ public class Level2 extends Stage {
             sequencer.addPhaseSpawnPosition(0, new Vector2(0, 700 + i));
         }
 
-        BossTPoseQueen boss = new BossTPoseQueen(sequencer);
+        BossTPoseQueen boss = new BossTPoseQueen();
         boss.addAction(Actions.moveTo(200, 250, 6));
 
         sequencer.addActorToPhase(2, boss);
@@ -114,7 +110,6 @@ public class Level2 extends Stage {
                     if (actor instanceof BossTPoseQueen) {
                         bossSpawned = true;
                         game.playMusic(true);
-                        bossMusicPlayed = true;
                     }
                 }
             }
@@ -132,36 +127,6 @@ public class Level2 extends Stage {
                 game.player.remove();
                 Level3 level3 = new Level3(game);
                 game.changeStage(level3);
-            }
-        }
-    }
-
-    /**
-     * sortActors - Main functionality is to make the
-     * projectiles fire from under the player.
-     */
-    private void sortActors() {
-        for (Actor actor : this.getActors()) {
-            int z = actor.getZIndex();
-            if (Image.class.isInstance(actor) && actor.getName() == "UI_FRAME") {
-                if (actor.getZIndex() != 300000) {
-                    actor.setZIndex(300000);
-                }
-            }
-            else if (Image.class.isInstance(actor) && actor.getName() == "BACKGROUND") {
-                actor.setZIndex(0);
-            }
-            else if (Image.class.isInstance(actor)) {
-                actor.setZIndex(0);
-            }
-            else if (Player.class.isInstance(actor)) {
-                actor.setZIndex(3000);
-            }
-            else if (z > 3000) {
-                actor.setZIndex(z - 3000);
-            }
-            else {
-                actor.setZIndex(1);
             }
         }
     }

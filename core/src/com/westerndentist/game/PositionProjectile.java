@@ -1,7 +1,6 @@
 package com.westerndentist.game;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -12,8 +11,6 @@ public class PositionProjectile extends Projectile {
     private float xFactor, yFactor;
     private float delay;
     private float timer = 0;
-
-    private Vector2 playerPos;
 
     /**
      * Constructor
@@ -29,9 +26,6 @@ public class PositionProjectile extends Projectile {
         super(texture, speed, x, y,tag);
 
         this.delay = delay;
-        this.playerPos = playerPos;
-
-        float hyp = Vector2.dst(x, y, playerPos.x, playerPos.y);
 
         xFactor = x - playerPos.x;
         yFactor = y - playerPos.y;

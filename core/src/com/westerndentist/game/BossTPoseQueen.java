@@ -3,12 +3,9 @@ package com.westerndentist.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class BossTPoseQueen extends Boss {
 
@@ -17,25 +14,9 @@ public class BossTPoseQueen extends Boss {
 
     private Texture texture = new Texture("Images/L2_Boss_T-Pose_Queen.png");
 
-    private int phase = 1;
-    private float spinFactor = 1;
 
-
-    private float proj1xFactor = 1000, proj1yFactor = 0;
-
-    private float phase2Counter = 0;
-    private float phase3Counter = 0;
-    private float phase3Cooldown = 5000;
-
-    private float rateCounter1 = 0;
-    private float fireRate1 = 10;
-
-    private double rotate = -1;
-    private double rotate2 = 1;
-
-    private float speed = -50;
     private float basicSpawnX = 0;
-    private float fireRate = 10;
+    private float fireRate = 15;
     private int rateCounter = 0;
 
 
@@ -46,39 +27,29 @@ public class BossTPoseQueen extends Boss {
 
     private int fireX2 = 0;
     private int fireY2 = 900;
-    private int XScale2 = 100;
-    private int YScale2 = 100;
+    private int XScale2 = 110;
+    private int YScale2 = 110;
 
     private int fireX3 = 0;
     private int fireY3 = 800;
-    private int XScale3 = 100;
-    private int YScale3 = 100;
+    private int XScale3 = 120;
+    private int YScale3 = 120;
 
     private int fireX4 = 0;
     private int fireY4 = 700;
-    private int XScale4 = 100;
-    private int YScale4 = 100;
+    private int XScale4 = 130;
+    private int YScale4 = 130;
 
-
-    private Sequencer sequencer;
 
     private float damage = 0;
 
     private boolean spawned = false;
 
-    private float spin = 1;
-
     /**
-     *
-     * @param Sequencer
-     * sequencer - The instance of the sequencer to update the location
-     * of entities who's main functionality is to add animation.
-     *
      * BossTPoseQueen - The constructor of level2
      */
-    BossTPoseQueen(Sequencer Sequencer) {
+    BossTPoseQueen() {
         super();
-        this.sequencer = Sequencer;
         bounds = new Rectangle(getX(), getY(), texture.getWidth(), texture.getHeight());
     }
 
@@ -142,6 +113,7 @@ public class BossTPoseQueen extends Boss {
             phase4();
         }
         else if(this.damage > this.phase4damage){
+            giveScore();
             remove();
         }
     }
@@ -178,8 +150,8 @@ public class BossTPoseQueen extends Boss {
         try {
             if (rateCounter == 0) {
                 // TODO: Play Firing Sound?
-                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX1 / (float) 1000, (float) -fireY1 / (float) 1000, false));
-                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX1 / (float) 1000, (float) fireY1 / (float) 1000, false));
+                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -150, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX1 / (float) 1000, (float) -fireY1 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -150, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX1 / (float) 1000, (float) fireY1 / (float) 1000));
 
                 fireX1 += XScale1;
                 fireY1 += YScale1;
@@ -231,14 +203,14 @@ public class BossTPoseQueen extends Boss {
         try {
             if (rateCounter == 0) {
                 // TODO: Play Firing Sound?
-                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX2 / (float) 1000, (float) -fireY2 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX2 / (float) 1000, (float) fireY2 / (float) 1000, true));
+                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -150, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX2 / (float) 1000, (float) -fireY2 / (float) 1000));
+                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -150, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX2 / (float) 1000, (float) fireY2 / (float) 1000));
             }
 
                 if (basicSpawnX < 3000) {
                     if (basicSpawnX % 20 == 0) {
                         getStage().addActor(new BasicEnemy(new Texture("Images/T-Pose_Luigi.png"), 100, 10, 100, new Vector2(basicSpawnX, 1000)));
-                        getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BallGreen.png"), (float) -300, basicSpawnX, 1000, "Enemy", 0, 1, false));
+                        getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BallGreen.png"), (float) -300, basicSpawnX, 1000, "Enemy", 0, 1));
                     }
                     basicSpawnX += 1;
                     //Gdx.app.log("", String.valueOf(basicSpawnX));
@@ -254,8 +226,8 @@ public class BossTPoseQueen extends Boss {
     private void phase3() {
         try {
             if (rateCounter == 0) {
-                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX3 / (float) 1000, (float) -fireY3 / (float) 1000, false));
-                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX3 / (float) 1000, (float) fireY3 / (float) 1000, false));
+                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -150, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX3 / (float) 1000, (float) -fireY3 / (float) 750));
+                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -150, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX3 / (float) 750, (float) fireY3 / (float) 1000));
             }
         } catch (Exception e) {
             Gdx.app.log("Level2 Boss Phase3", "Size of actor container changed.");
@@ -268,12 +240,8 @@ public class BossTPoseQueen extends Boss {
     private void phase4() {
         try {
             if (rateCounter == 0) {
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX1 / (float) 1000, (float) fireY1 / (float) 5000, false));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX2 / (float) 1000, (float) fireY2 / (float) 5000, false));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX3 / (float) 1000, (float) -fireY3 / (float) 5000, false));
-                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX4 / (float) 1000, (float) -fireY4 / (float) 5000, false));
-                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX4 / (float) 1000, (float) fireY4 / (float) 1000, true));
-                getStage().addActor(new LinearProjectile(new Texture("images/WesternDentist_BossBurst.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX4 / (float) 1000, (float) -fireY4 / (float) 1000, true));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) fireX1 / (float) 2500, (float) fireY1 / (float) 2500));
+                getStage().addActor(new LinearProjectile(new Texture("images/L3_Projectile.png"), (float) -300, (float) (getX() + texture.getWidth() / 2), (float) (getY() + texture.getHeight() / 2 - 10), "Enemy", (float) -fireX4 / (float) 2500, (float) -fireY4 / (float) 2500));
 
             }
         } catch (Exception e) {

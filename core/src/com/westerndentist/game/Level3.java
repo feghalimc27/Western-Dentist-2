@@ -69,8 +69,8 @@ public class Level3 extends Stage {
      */
     @Override
     public void act(float delta) {
+        backgroundScrolling(delta);
         if (!win) {
-            backgroundScrolling(delta);
             if (!bossTime)
                 spawnEnemies();
             if (bossTime && noBoss)
@@ -118,42 +118,12 @@ public class Level3 extends Stage {
     }
 
     /**
-     * Sets Z index for all objects on screen
-     */
-    private void sortActors() {
-        for (Actor actor : this.getActors()) {
-            int z = actor.getZIndex();
-            if (Image.class.isInstance(actor) && actor.getName() == "UI_FRAME") {
-                if (actor.getZIndex() != 300000) {
-                    actor.setZIndex(300000);
-                }
-            }
-            else if (Image.class.isInstance(actor) && actor.getName() == "BACKGROUND") {
-                actor.setZIndex(0);
-            }
-            else if (Player.class.isInstance(actor)) {
-                actor.setZIndex(3000);
-            }
-            else if (L3Boss.class.isInstance(actor))
-            {
-                actor.setZIndex(3000);
-            }
-            else if (z > 3000) {
-                actor.setZIndex(z - 3000);
-            }
-            else {
-                actor.setZIndex(1);
-            }
-        }
-    }
-
-    /**
      * Randomly spawns one of two enemies on the screen with a chance of no spawn
      */
     private void spawnEnemies() {
         double decider = Math.random() * (1000 - 0);
 
-        if (decider > 960) {
+        if (decider > 980) {
             Gdx.app.log("Level 3", "Spawned Enemy");
             double enemyType = Math.random() * 1000;
             if (enemyType < 250)
@@ -169,7 +139,7 @@ public class Level3 extends Stage {
     private void spawnBoss()
     {
         Gdx.app.log("Level 3", "Mr. Muskrat has Arrived");
-        addActor(new L3Boss(getViewport().getScreenWidth()/2 - 180, 600));
+        addActor(new L3Boss(220, 600));
         noBoss = false;
     }
 

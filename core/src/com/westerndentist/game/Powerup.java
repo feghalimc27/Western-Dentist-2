@@ -17,7 +17,6 @@ public abstract class Powerup extends Actor {
 
     private float xMov = 1;
     private float yMov = -1;
-    protected boolean boss = false;
 
     private RandomXS128 rng = new RandomXS128();
     protected Rectangle bounds = new Rectangle();

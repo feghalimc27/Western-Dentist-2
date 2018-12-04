@@ -1,6 +1,7 @@
 package com.westerndentist.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -27,6 +28,7 @@ public abstract class Enemy extends Actor {
     protected Rectangle bounds = new Rectangle();
 
     private RandomXS128 rng = new RandomXS128();
+    private Sound enemyDeath = Gdx.audio.newSound(Gdx.files.internal("sounds/enemydeath.mp3"));
 
     /**
      * Constructor
@@ -66,6 +68,7 @@ public abstract class Enemy extends Actor {
      */
     private void killOnDead() {
         if (health <= 0) {
+            enemyDeath.play(WesternDentist.soundEffectVolumeActual);
             int powerups = (int)(6 * rng.nextFloat()) + 1;
             int health = (int)(12 * rng.nextFloat());
             if (health == 3) {

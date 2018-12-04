@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.concurrent.TimeUnit;
@@ -22,8 +23,8 @@ public class WesternDentist extends Game {
     public float masterVolume = 1.0f;
     public float musicVolume = 1.0f;
     public float soundEffectVolume = 1.0f;
-    public float musicVolumeActual = masterVolume*musicVolume;
-    public float soundEffectVolumeActual = masterVolume*soundEffectVolume;
+    public static float musicVolumeActual;
+    public static float soundEffectVolumeActual;
     public BitmapFont font;
     public TextButton.TextButtonStyle textButtonStyle;
     public Slider.SliderStyle sliderStyle;
@@ -43,7 +44,6 @@ public class WesternDentist extends Game {
     private Sound level3;
     private Sound level4;
     private Sound bossWarning;
-    private Sound bossDeath;
     private Sound level1Boss;
     private Sound level2Boss;
     private Sound level3Boss;
@@ -58,16 +58,16 @@ public class WesternDentist extends Game {
     private long level3Time;
     private long level4Time;
     public static boolean changing = false;
+    private float volumeFade;
 
 	@Override
 	public void create () {
-        theme = Gdx.audio.newSound(Gdx.files.internal("sounds/mainmenu/theme.mp3"));
+        theme = Gdx.audio.newSound(Gdx.files.internal("sounds/theme.mp3"));
         level1 = Gdx.audio.newSound(Gdx.files.internal("sounds/level1.mp3"));
         level2 = Gdx.audio.newSound(Gdx.files.internal("sounds/level2.mp3"));
         level3 = Gdx.audio.newSound(Gdx.files.internal("sounds/level3.mp3"));
         level4 = Gdx.audio.newSound(Gdx.files.internal("sounds/level4.mp3"));
         bossWarning = Gdx.audio.newSound(Gdx.files.internal("sounds/bosswarning.mp3"));
-        bossDeath = Gdx.audio.newSound(Gdx.files.internal("sounds/bossdeath.mp3"));
         level1Boss = Gdx.audio.newSound(Gdx.files.internal("sounds/level1Boss.mp3"));
         level2Boss = Gdx.audio.newSound(Gdx.files.internal("sounds/level2Boss.mp3"));
         level3Boss = Gdx.audio.newSound(Gdx.files.internal("sounds/level3Boss.mp3"));
@@ -75,13 +75,13 @@ public class WesternDentist extends Game {
         font = new BitmapFont(Gdx.files.internal("fonts/touhoufont.fnt"), Gdx.files.internal("fonts/touhoufont.png"), false);
         textButtonStyle = new TextButton.TextButtonStyle(
                 null,
-                new TextureRegionDrawable(new TextureRegion(new Texture("images/mainmenu/buttonDown.png"))),
+                new TextureRegionDrawable(new TextureRegion(new Texture("images/buttonDown.png"))),
                 null,
                 font);
-        textButtonStyle.over = new TextureRegionDrawable(new TextureRegion(new Texture("images/mainmenu/buttonOver.png")));
+        textButtonStyle.over = new TextureRegionDrawable(new TextureRegion(new Texture("images/buttonOver.png")));
         sliderStyle = new Slider.SliderStyle(
-                new TextureRegionDrawable(new TextureRegion(new Texture("images/mainmenu/sliderBackground.png"))),
-                new TextureRegionDrawable(new TextureRegion(new Texture("images/mainmenu/sliderKnob.png")))
+                new TextureRegionDrawable(new TextureRegion(new Texture("images/sliderBackground.png"))),
+                new TextureRegionDrawable(new TextureRegion(new Texture("images/sliderKnob.png")))
         );
         labelStyle = new Label.LabelStyle(font, null);
 	    viewport = new FitViewport(800, 600);
@@ -90,6 +90,8 @@ public class WesternDentist extends Game {
         userInterface = new UserInterface(this);
         pauseMenu = new PauseMenu(this);
         Gdx.input.setInputProcessor(currentStage);
+        musicVolumeActual = masterVolume*musicVolume;
+        soundEffectVolumeActual = masterVolume*soundEffectVolume;
 	}
 
 	@Override
@@ -155,16 +157,29 @@ public class WesternDentist extends Game {
             Label levelTimeLabel = null;
             long minutes;
             long seconds;
-            if (music != null) {
-                music.stop();
-            }
-            if (!(currentStage instanceof SplashScreen)) {
+            if (!(currentStage instanceof SplashScreen) && player.getScore() > -1) {
+                if (!(currentStage instanceof MainMenu)) {
+                    volumeFade = musicVolumeActual;
+                    final Timer timer = new Timer();
+                    timer.scheduleTask(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            volumeFade -= 0.0025 * musicVolumeActual;
+                            System.out.println(volumeFade);
+                            music.setVolume(musicID, volumeFade);
+                            if (volumeFade <= 0) {
+                                music.stop();
+                                timer.stop();
+                            }
+                        }
+                    }, 0, 0.01f);
+                    timer.start();
+                }
                 if (currentStage instanceof Level1 || currentStage instanceof Level2 || currentStage instanceof Level3) {
-                    bossDeath.play(soundEffectVolumeActual);
                     table = new Table();
                     table.setSize(560, 600);
                     table.center();
-                    background = new Image(new Texture("images/pausemenu/background.png"));
+                    background = new Image(new Texture("images/background.png"));
                     currentStage.addActor(background);
                     if (currentStage instanceof Level1) {
                         level1Score = player.getScore();
@@ -197,11 +212,10 @@ public class WesternDentist extends Game {
                     table.add(levelTimeLabel);
                     currentStage.addActor(table);
                 } else if (currentStage instanceof Level4) {
-                    bossDeath.play(soundEffectVolumeActual);
                     table = new Table();
                     table.setSize(560, 600);
                     table.center();
-                    background = new Image(new Texture("images/pausemenu/background.png"));
+                    background = new Image(new Texture("images/background.png"));
                     currentStage.addActor(background);
                     level4Score = player.getScore();
                     level4Time = TimeUtils.timeSinceMillis(startTime);
@@ -223,7 +237,7 @@ public class WesternDentist extends Game {
                     minutes = TimeUnit.MILLISECONDS.toMinutes(level4Time);
                     seconds = TimeUnit.MILLISECONDS.toSeconds(level4Time) - TimeUnit.MINUTES.toSeconds(minutes);
                     Label level4TimeLabel = new Label("Level 4 Time: " + String.format("%01d\"%02d\'", minutes, seconds), labelStyle);
-                    levelScoreLabel = new Label("Total Score: " + String.format("%09d", level1Time + level2Time + level3Time + level4Time), labelStyle);
+                    levelScoreLabel = new Label("Total Score: " + String.format("%09d", level1Score + level2Score + level3Score + level4Score), labelStyle);
                     long totalTime = level1Time + level2Time + level3Time + level4Time;
                     minutes = TimeUnit.MILLISECONDS.toMinutes(totalTime);
                     seconds = TimeUnit.MILLISECONDS.toSeconds(totalTime) - TimeUnit.MINUTES.toSeconds(minutes);
@@ -262,7 +276,11 @@ public class WesternDentist extends Game {
                 hiScore = 0;
                 SequenceAction sequence = Actions.sequence();
                 if (!(currentStage instanceof MainMenu)) {
-                    sequence.addAction(Actions.delay(10f));
+                    if (!(currentStage instanceof Level4)) {
+                        sequence.addAction(Actions.delay(7.5f));
+                    } else {
+                        sequence.addAction(Actions.delay(15f));
+                    }
                 }
                 sequence.addAction(Actions.fadeOut(1));
                 sequence.addAction(Actions.run(new Runnable() {
@@ -327,19 +345,7 @@ public class WesternDentist extends Game {
     }
 
     public void playMusic(boolean bossBattle) {
-	    if (music != null) {
-            music.stop();
-        }
 	    if (bossBattle) {
-            if (currentStage instanceof Level1) {
-                music = level1Boss;
-            } else if (currentStage instanceof Level2) {
-                music = level2Boss;
-            } else if (currentStage instanceof Level3) {
-                music = level3Boss;
-            } else if (currentStage instanceof Level4) {
-                music = level4Boss;
-            }
             final Image warningBG = new Image(new Texture("images/warning_background.png"));
             final Image warningFG = new Image(new Texture("images/warning_foreground.png"));
             warningBG.setPosition(-971, 150);
@@ -347,20 +353,33 @@ public class WesternDentist extends Game {
             warningFG.setPosition(0, 229);
             warningFG.addAction(Actions.moveTo(-971, 229, 8f));
             SequenceAction sequence = Actions.sequence();
-            sequence.addAction(Actions.delay(4f));
+            sequence.addAction(Actions.delay(3.1f));
             sequence.addAction(Actions.run(new Runnable() {
                 @Override
                 public void run() {
+                    music.stop();
+                    if (currentStage instanceof Level1) {
+                        music = level1Boss;
+                    } else if (currentStage instanceof Level2) {
+                        music = level2Boss;
+                    } else if (currentStage instanceof Level3) {
+                        music = level3Boss;
+                    } else if (currentStage instanceof Level4) {
+                        music = level4Boss;
+                    }
                     musicID = music.loop(musicVolumeActual);
                     warningBG.remove();
                     warningFG.remove();
                 }
             }));
-            userInterface.addAction(sequence);
-            userInterface.addActor(warningBG);
-            userInterface.addActor(warningFG);
+            currentStage.addAction(sequence);
+            currentStage.addActor(warningBG);
+            currentStage.addActor(warningFG);
             bossWarning.play(soundEffectVolumeActual);
         } else {
+            if (music != null) {
+                music.stop();
+            }
             if (currentStage instanceof MainMenu) {
                 music = theme;
             } else if (currentStage instanceof Level1) {

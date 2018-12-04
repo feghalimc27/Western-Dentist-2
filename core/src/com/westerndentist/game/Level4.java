@@ -2,16 +2,10 @@ package com.westerndentist.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.HdpiUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-
-import java.sql.Time;
-import java.util.ArrayList;
 
 /**
  * Class for level 4
@@ -158,7 +152,6 @@ public class Level4 extends Stage {
      */
     private void bossObserverDead(boolean force) {
         class Observer implements Runnable {
-            boolean died = true;
             boolean interrupted = false;
             int phase = 0;
             BossLevel4 boss = null;
@@ -180,7 +173,6 @@ public class Level4 extends Stage {
                 }
 
                 while (!interrupted && bossThread) {
-                    died = true;
 
                     for (int i = 0; i < getActors().size; ++i) {
                         try {
@@ -190,7 +182,6 @@ public class Level4 extends Stage {
                                 break;
                             }
                             else if (getActors().items[i].getName().equals("BOSS4")) {
-                                died = false;
                             }
                         }
                         catch (NullPointerException t) {
@@ -234,6 +225,7 @@ public class Level4 extends Stage {
                     }
 
                     else if (boss.getPhase() > 4) {
+                        boss.giveScore();
                         boss.remove();
                         Gdx.app.log("Boss Observer Thread 2", "Removed boss");
                         break;
@@ -353,35 +345,6 @@ public class Level4 extends Stage {
     private void endLevel() {
         game.player.remove();
         game.changeStage(new MainMenu(game));
-    }
-
-    /**
-     * Sorts actors in view (deprecated)
-     */
-    private void sortActors() {
-        for (int i = 0; i < getActors().size; ++i) {
-            int z = getActors().items[i].getZIndex();
-            if (Image.class.isInstance(getActors().items[i]) && getActors().items[i].getName() == "UI_FRAME") {
-                if (getActors().items[i].getZIndex() != 300000) {
-                    getActors().items[i].setZIndex(300000);
-                }
-            }
-            else if (Image.class.isInstance(getActors().items[i]) && getActors().items[i].getName() == "BACKGROUND") {
-                getActors().items[i].setZIndex(0);
-            }
-            else if (Image.class.isInstance(getActors().items[i])) {
-                getActors().items[i].setZIndex(0);
-            }
-            else if (Player.class.isInstance(getActors().items[i])) {
-                getActors().items[i].setZIndex(3000);
-            }
-            else if (z > 3000) {
-                getActors().items[i].setZIndex(z - 3000);
-            }
-            else {
-                getActors().items[i].setZIndex(1);
-            }
-        }
     }
 
     /**

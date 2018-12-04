@@ -1,5 +1,7 @@
 package com.westerndentist.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
@@ -16,6 +18,7 @@ public abstract class Boss extends Actor {
     protected Rectangle bounds;
 
     private float score = 10000000;
+    private Sound bossDeath = Gdx.audio.newSound(Gdx.files.internal("sounds/bossdeath.mp3"));
 
 
     /**
@@ -50,6 +53,7 @@ public abstract class Boss extends Actor {
      * Grants the player score on death
      */
     protected void giveScore() {
+        bossDeath.play(WesternDentist.soundEffectVolumeActual);
         for (Actor actor: getStage().getActors()) {
             if (Player.class.isInstance(actor)) {
                 ((Player)actor).addScore(score);
@@ -65,11 +69,4 @@ public abstract class Boss extends Actor {
         bounds.setPosition(getX(), getY());
     }
 
-    /**
-     * Returns the bounds for collision detection
-     * @return Rectangle Bounds
-     */
-    public Rectangle getBounds() {
-        return bounds;
-    }
 }
