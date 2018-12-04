@@ -41,8 +41,8 @@ public class Level2 extends Stage {
         background.setPosition(0, 0);
         background2.setPosition(0, 0);
         background2.setSize(stageWidth, stageHeight);
-        addActor(background);
         addActor(background2);
+        addActor(background);
 
         addActor(game.player);
         game.player.addAura();
