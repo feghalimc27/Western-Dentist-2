@@ -10,10 +10,17 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+/**
+ * MainMenu stage class, loaded in immediately after the splash screen and after game completion, allows player to play, change settings, or quit
+ */
 public class MainMenu extends Stage {
     private Table tableLeft;
     private Table tableRight;
 
+    /**
+     * Constructor for MainMenu, handles creation and placement of all on-screen assets
+     * @param game  game, contains assets and methods
+     */
     MainMenu(final WesternDentist game) {
         super(game.viewport);
         Image background = new Image(new Texture("images/background.jpg"));

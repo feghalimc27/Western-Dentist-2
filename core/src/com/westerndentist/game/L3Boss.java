@@ -454,7 +454,6 @@ public class L3Boss extends Boss
                         Gdx.app.log("Collided with", actor.getName());
                         health -= ((Projectile) actor).getDamage();
                         ((Projectile) actor).destroy();
-                        System.out.println("Health: " + health);
                         // TODO: Damage Sound?
                     }
                 }

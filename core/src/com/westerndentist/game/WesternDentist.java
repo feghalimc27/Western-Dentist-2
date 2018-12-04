@@ -19,6 +19,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Game class, handles all game logic for selecting, rendering, changing, and restarting stages. Loads main assets.
+ */
 public class WesternDentist extends Game {
     public float masterVolume = 1.0f;
     public float musicVolume = 1.0f;
@@ -60,6 +63,9 @@ public class WesternDentist extends Game {
     public static boolean changing = false;
     private float volumeFade;
 
+    /**
+     * Implementation of abstract create() method, acts as game's "constructor", ran before anything else
+     */
 	@Override
 	public void create () {
         theme = Gdx.audio.newSound(Gdx.files.internal("sounds/theme.mp3"));
@@ -94,6 +100,9 @@ public class WesternDentist extends Game {
         soundEffectVolumeActual = masterVolume*soundEffectVolume;
 	}
 
+    /**
+     * Override of Game render method, handles drawing and acting each stage every frame, then passes off to super.render() to finish rendering
+     */
 	@Override
 	public void render () {
         if (!(currentStage instanceof SplashScreen) && !(currentStage instanceof MainMenu) && Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) && !changing) {
@@ -134,6 +143,11 @@ public class WesternDentist extends Game {
 		super.render();
 	}
 
+    /**
+     * Override of Game resize method, called whenever the window size changes
+     * @param width     new width of window
+     * @param height    new height of window
+     */
 	@Override
     public void resize (int width, int height) {
         currentStage.getViewport().update(width, height, true);
@@ -142,6 +156,10 @@ public class WesternDentist extends Game {
         super.resize(width, height);
     }
 
+    /**
+     * changeStage method, handles changing one stage to another. Has special cases for levels changing to other levels, to display a special level end screen
+     * @param newStage  new stage to change to
+     */
     public void changeStage(final Stage newStage) {
 	    if (!changing) {
             changing = true;
@@ -165,7 +183,6 @@ public class WesternDentist extends Game {
                         @Override
                         public void run() {
                             volumeFade -= 0.0025 * musicVolumeActual;
-                            System.out.println(volumeFade);
                             music.setVolume(musicID, volumeFade);
                             if (volumeFade <= 0) {
                                 music.stop();
@@ -317,6 +334,9 @@ public class WesternDentist extends Game {
         }
     }
 
+    /**
+     * restartStage method, allows for the current stage (1, 2, 3, or 4) to be manually restarted, or called when player dies
+     */
     public void restartStage() {
 	    paused = false;
         pauseMenu.clear();
@@ -344,6 +364,10 @@ public class WesternDentist extends Game {
         playMusic(false);
     }
 
+    /**
+     * playMusic method, handles playing music based on the current stage, and allows for stages to initiate a boss fight with appropriate music and warning screen
+     * @param bossBattle    flag to determine if a boss battle is to begin
+     */
     public void playMusic(boolean bossBattle) {
 	    if (bossBattle) {
             final Image warningBG = new Image(new Texture("images/warning_background.png"));

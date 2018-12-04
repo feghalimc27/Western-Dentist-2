@@ -6,6 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+/**
+ * UserInterface stage class, which is drawn on top of the current playable stage to display stats and other information
+ */
 public class UserInterface extends Stage {
     private WesternDentist game;
     private Label hiScoreLabel;
@@ -14,6 +17,10 @@ public class UserInterface extends Stage {
     private Label powerLabel;
     private Label fpsLabel;
 
+    /**
+     * UserInterface constructor, handles creation and placement of all on-screen assets
+     * @param game  game, contains assets and methods
+     */
     UserInterface(final WesternDentist game) {
         super(game.viewport);
         this.game = game;
@@ -36,6 +43,10 @@ public class UserInterface extends Stage {
         addActor(fpsLabel);
     }
 
+    /**
+     * Override of Stage act method, which calls super.act(), then performs the update of every stat label to it's current value (every frame)
+     * @param deltaTime
+     */
     @Override
     public void act(float deltaTime) {
         super.act(deltaTime);

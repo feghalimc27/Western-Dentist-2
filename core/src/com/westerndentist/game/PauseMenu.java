@@ -11,9 +11,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+/**
+ * PauseMenu class class, which is activated and drawn on-top of the entire game when the player pauses the game, displaying several options
+ */
 public class PauseMenu extends Stage {
     private Table table;
 
+    /**
+     * PauseMenu constructor, handles creation and placement of all on-screen assets
+     * @param game  game, contains assets and methods
+     */
     PauseMenu(final WesternDentist game) {
         super(game.viewport);
         final Sound changeSelection = Gdx.audio.newSound(Gdx.files.internal("sounds/changeselect.mp3"));

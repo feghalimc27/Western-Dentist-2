@@ -8,9 +8,16 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
+/**
+ * SplashScreen stage class, first stage that loads which plays a jingle and displays a fake company name
+ */
 public class SplashScreen extends Stage {
     private Sound intro;
 
+    /**
+     * Constructor for SplashScreen, handles creation of sequence of actions for splash screen
+     * @param game  game, containing assets and methods
+     */
     SplashScreen(final WesternDentist game) {
         super(game.viewport);
         Image splash = new Image(new Texture("images/JEGA.png"));
